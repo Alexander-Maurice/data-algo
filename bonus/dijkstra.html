@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Dijkstra</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../bonus/bonus.html">Difference array</a>
+        <a href="../bonus/tries.html">Tries</a>
+        <a href="../bonus/bit_manipulation.html">Bit manipulation</a>
+        <a href="../bonus/intervals.html">Intervals</a>
+        <a href="../bonus/modular_arithmetic.html">Modular arithmetic</a>
+        <a href="../bonus/dijkstra.html">Dijkstra</a>
+
+    </div>
+
+    <div class="container">
+        <h1>
+            Dijkstra's
+        </h1>
+        <hr>
+        <p class="content">
+            В этом курсе мы уже рассмотрели множество задач с графами. В этих задачах мы обычно имели дело с
+            невзвешенными графами. Когда мы использовали BFS для поиска «кратчайшего» пути, мы находили путь с
+            наименьшим количеством ребер.
+        </p>
+
+        <p class="content">
+            Взвешенный граф — это граф, в котором ребрам присвоено некоторое значение (вес). В качестве примера возьмите
+            следующий график.
+        </p>
+
+        <img src="../bonus/bonus_imgs/weighted.png" alt="">
+
+        <p class="content">
+            Если бы мы начали с узла <span>0</span> и хотели найти кратчайший путь к узлу <span>4</span>, каким был бы
+            ответ? Есть 3 разных пути:
+        </p>
+
+        <ol>
+            <li><span>0 -> 1 -> 2 -> 4</span></li>
+            <li><span>0 -> 3 -> 4</span></li>
+            <li><span>0 -> 4</span></li>
+        </ol>
+
+
+        <p class="content">
+            Путь 3 имеет наименьшее количество ребер, но является ли он «самым коротким» путем? Мы определяем вес пути
+            как сумму весов ребер. Вес каждого пути равен:
+        </p>
+
+        <ol>
+            <li>6</li>
+            <li>19</li>
+            <li>10</li>
+        </ol>
+
+        <p class="content">
+            Как видите, путь 1 (имеющий наибольшее количество ребер) имеет наименьший вес. Обычно, когда мы говорим о
+            «кратчайших» путях на взвешенных графах, нас интересуют веса путей.
+        </p>
+
+        <p class="important">
+            Как и во многих задачах с графами, за проблемой, скорее всего, стоит история, которую вам нужно будет
+            распознать. Например, каждый узел — это город, каждое ребро — это шоссе, за проезд по которому нужно
+            платить, и вы хотите найти путь из одного города в другой с наименьшей ценой.
+        </p>
+
+        <p class="content">
+            Мы узнали, что BFS — отличный алгоритм для поиска кратчайших путей, но BFS работает только с невзвешенными
+            графами. Невзвешенные графы можно рассматривать как взвешенные графы, у которых все веса равны 1. Взвешенные
+            графы сложны, потому что когда у пути меньше ребер, это не обязательно означает, что он имеет меньший вес.
+            Мы не можем применить привычную нам BFS к взвешенным графам.
+        </p>
+
+        <hr>
+
+        <h4>
+            Dijkstra's algorithm
+        </h4>
+
+        <p class="content">
+            Существует множество алгоритмов, которые можно использовать для поиска кратчайших путей во взвешенных
+            графах. Пожалуй, самым известным, эффективным и простым в реализации является алгоритм Дейкстры.
+        </p>
+
+        <p class="content">
+            Алгоритм Дейкстры фокусируется на одном исходном узле и находит кратчайшее расстояние до любого другого узла
+            графа от источника.
+        </p>
+
+
+        <p class="content">
+            Идея алгоритма Дейкстры заключается в использовании минимальной кучи для хранения узлов, подобно тому, как
+            мы использовали стеки в DFS и очереди в BFS. Для каждого узла мы также будем отслеживать вес пути,
+            используемого для достижения узла из источника. Минимальная куча будет оценивать каждый элемент по этому
+            весу. На каждой итерации мы извлекаем узел, извлекая его из минимальной кучи, что дает нам узел с путем
+            минимального веса.
+        </p>
+
+        <p class="content">
+            Мы также сохраняем минимальное расстояние от источника для каждого узла. Если наши узлы пронумерованы от
+            <span>0</span>
+            до <span>n — 1</span>, для этого удобно использовать массив <span>distances</span> длиной <span>n</span>.
+            Первоначально все значения в этом
+            массиве будут иметь большое значение (например, бесконечность), за исключением источника, который будет
+            иметь значение <span>0</span>.
+        </p>
+
+        <p class="content">
+            На каждом <span>node</span> мы перебираем соседей. Рассмотрим текущее расстояние от источника (которое мы
+            храним в каждом
+            узле в куче) как <span>curr_dist</span>. Для данного соседа <span>nei</span> считайте вес ребра <span>node
+                -> nei</span> как <span>weight</span>. Переход к этому
+            соседу приведет к тому, что вес пути будет равен <span>dist = curr_dist + Weight</span>. Есть две
+            возможности:
+        </p>
+
+        <ol>
+            <li><span>dist >= distances[nei]</span>. В этом случае мы уже нашли путь с меньшим расстоянием ранее, и
+                поэтому переход к <span>nei</span> по текущему пути бессмысленен.</li>
+            <li><span>dist < distances[nei]</span>. Переход к <span>nei</span> по текущему пути — это кратчайший путь,
+                        который мы до
+                        сих пор видели до <span>nei</span>. Нам следует обновить <span>distances[nei] = dist</span> и
+                        поместить <span>(dist, nei)</span> в
+                        кучу.</li>
+        </ol>
+
+        <hr>
+
+        <h4>
+            Implementation
+        </h4>
+
+        <p class="content">
+            Следующий аннотированный псевдокод реализует алгоритм Дейкстры.
+        </p>
+
+        <div class="code">
+            // array of length n with large values <br>
+            distances = [infinity] * n <br>
+            distances[source] = 0 <br> <br>
+
+            // min heap <br>
+            heap = [(0, source)] <br><br>
+
+            while (heap not empty) {
+            <p class="raw1">curr_dist, node = heap.pop()</p>
+            <p class="raw1">if (curr_dist > distances[node]) {</p>
+            <p class="raw2">// optimization step: ignore current path if we found a better one</p>
+            <p class="raw2">continue;</p>
+            <p class="raw1">}</p>
+            <br>
+            <p class="raw1">for (nei, weight: [edges from node]) {</p>
+            <p class="raw2">dist = currDist + weight</p>
+
+            <p class="raw2">// add neighbor to heap if it creates a shorter path</p>
+            <p class="raw2">if (dist < distances[nei]) {</p>
+                    <p class="raw3">distances[nei] = dist</p>
+                    <p class="raw3">heap.push((dist, nei))</p>
+                    <p class="raw2"> }</p>
+                    <p class="raw1">}</p>
+                    }
+        </div>
+
+        <p class="content">
+            Как и в итеративной DFS со стеком или BFS с очередью, мы храним узлы для обхода в куче. Мы используем
+            <span>distances</span>, чтобы отслеживать кратчайшее расстояние до каждого узла, который мы нашли на данный
+            момент, и
+            постоянно пытаемся улучшить каждый узел.
+        </p>
+
+        <hr>
+
+        <p class="important">
+            <a href="https://leetcode.com/problems/network-delay-time/">Example: 743. Network Delay Time</a>
+            <br>
+            <br>
+            Вам дана сеть из <span>n</span> узлов, помеченных от <span>1</span> до <span>n</span>. Вам также
+            предоставляется <span>times</span>, список времени в пути в
+            виде направленных ребер. Каждый элемент в times имеет формат <span>[u, v, w]</span>, что указывает на то,
+            что сигналу
+            требуется время <span>w</span>, чтобы пройти от <span>u</span> до <span>v</span>.
+            <br>
+            <br>
+            Вам также дано целое число <span>k</span>. Мы отправим сигнал из узла <span>k</span>. Возвращает минимальное
+            время, необходимое
+            каждому узлу для получения сигнала. Если все узлы не могут получить сигнал, верните <span>-1</span>.
+        </p>
+
+        <p class="content">
+            Здесь у нас есть граф, заданный как массив ребер, где каждое ребро имеет дополнительное целое число,
+            представляющее вес ребра. Мы можем создать структуру данных <span>graph</span>, как мы это делали на
+            протяжении всего
+            курса, где каждое ребро также имеет вес, связанный с соседом.
+        </p>
+
+        <p class="content">
+            Ответ на задачу можно найти, найдя кратчайший путь от <span>k</span> до любого другого узла и затем взяв
+            максимальное из
+            этих значений времени. Алгоритм Дейкстры идеально подходит для поиска кратчайшего пути от <span>k</span> ко
+            всем
+            остальным узлам. Мы можем просто запустить Дейкстру по <span>k</span>, а затем вернуть максимальное значение
+            <span>distances</span>.
+            Если максимальное значение <span>distances</span> является начальным большим значением (например,
+            бесконечностью), это
+            указывает на то, что узел недоступен из источника, и поэтому мы должны вернуть <span>-1</span>.
+        </p>
+
+        <p class="important">
+            Примечание: узлы помечены как 1-индексированные. Когда мы строим граф, мы вычитаем 1 из каждого узла, чтобы
+            сделать их нулевыми.
+        </p>
+
+
+        <div class="code">
+            def networkDelayTime(times: List[List[int]], n: int, k: int) -> int:
+            <p class="raw1">graph = defaultdict(list)</p>
+            <p class="raw1">for x, y, z in times:</p>
+            <p class="raw2">graph[x - 1].append([y - 1, z])</p>
+            <br>
+            <p class="raw1">distances = [inf] * n</p>
+            <p class="raw1">distances[k - 1] = 0</p>
+            <p class="raw1">heap = [(0, k - 1)]</p>
+            <p class="raw1">while heap:</p>
+            <p class="raw2">curr_dist, node = heappop(heap)</p>
+            <p class="raw2">if curr_dist > distances[node]:</p>
+            <p class="raw3">continue</p>
+            <br>
+            <p class="raw2">for nei, weight in graph[node]:</p>
+            <p class="raw3">dist = curr_dist + weight</p>
+            <p class="raw3">if dist < distances[nei]:</p>
+                    <p class="raw4">distances[nei] = dist</p>
+                    <p class="raw4">heappush(heap, (dist, nei))</p>
+                    <br>
+                    <p class="raw1">ans = max(distances)</p>
+                    <p class="raw1">return ans if ans < inf else -1</p>
+        </div>
+
+
+
+        <hr>
+
+        <h4>
+            Complexity
+        </h4>
+
+        <p class="content">
+            Временная сложность алгоритма Дейкстры зависит от того, как реализована ваша куча. Однако в целом это можно
+            записать так:
+        </p>
+
+        <p class="content">
+            O((V+E)⋅logV)
+        </p>
+
+        <p class="content">
+            Где
+            E — количество ребер и
+            V — количество вершин/узлов в данном графе. Операции с кучей стоят до
+            О (logV). Есть
+            O(V) операции pop и
+            O(E) push-операции
+        </p>
+
+        <p class="content">
+            Пространственная сложность
+            O(V) для кучи и <span>distances</span>.
+        </p>
+
+        <p class="content">
+            Обратите внимание, что эти сложности не учитывают создание графа, а только запуск Дейкстры.
+        </p>
+
+        <hr>
+
+        <h4>
+            Be careful!
+        </h4>
+
+        <p class="content">
+            Дейкстру следует использовать только на графах без циклов отрицательного веса. Если есть циклы с
+            отрицательным весом, алгоритм может работать не так, как ожидалось. В качестве примера возьмем следующий
+            граф:
+        </p>
+
+        <img src="../bonus/bonus_imgs/negative.png" alt="">
+
+        <p class="content">
+            Если вы попытаетесь запустить Дейкстру на этом графе с <span>0</span> в качестве источника, код никогда не
+            завершится!
+            Это потому, что существует цикл с отрицательным весом: цикл <span>0 -> 1 -> 2</span> имеет вес
+            <span>-495</span>. Когда мы впервые
+            достигнем узла <span>2</span>, у нас будет <span>curr_dist = -497</span>. Таким образом, мы снова посетим
+            <span>0</span> и обновим <span>distance[0] =
+                -495</span>. В следующий раз, когда мы посетим <span>2</span>, у нас будет <span>curr_dist =
+                -992</span>.
+            Каждый раз, когда мы проходим цикл,
+            расстояние пути уменьшается, и код никогда не перестанет работать.
+        </p>
+
+        <hr>
+    </div>
+</body>
+
+</html>

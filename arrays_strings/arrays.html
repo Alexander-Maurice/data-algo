@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Arrays</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../arrays_strings/arrays.html" class="arrays_strings">Arrays and strings</a>
+        <a href="../arrays_strings/two_pointers.html" class="two_pointers">Two pointers</a>
+        <a href="../arrays_strings/sliding_window.html" class="sliding_window">Sliding window</a>
+        <a href="../arrays_strings/prefix_sum.html" class="prefix_sum">Prefix sum</a>
+        <a href="../arrays_strings/common_patterns.html" class="common_patterns">More common patterns</a>
+
+    </div>
+
+
+    <div class="container">
+        <h1>Arrays and strings</h1>
+        <p class="content">
+            С точки зрения алгоритмических задач массивы (1D) и строки очень похожи: они оба представляют
+            собой упорядоченную группу элементов. Большинство алгоритмических задач включают в себя либо массив, либо
+            строку как часть входных данных,
+            поэтому важно хорошо освоить основные операции и изучить наиболее распространенные шаблоны.
+        </p>
+
+        <p class="content">
+            «Массив» может означать что-то разное в разных языках. Например, Python в основном использует «списки»
+            вместо массивов, что очень мягко. Инициализация выполняется так же просто, как <span>arr = []</span>, и вам
+            не нужно
+            беспокоиться о типе данных, которые вы храните в списке, или о размере списка. Другие языки, такие как C++,
+            требуют указания размера и типа данных массива во время инициализации, но также поддерживают списки
+            (например, <span>std::vector</span> в C++).
+        </p>
+
+        <p class="important">
+            Технически размер массива изменить нельзя. А динамического массива, по-другому списка, можно.
+            В контексте проблем алгоритмов, когда люди обычно говорят о массивах, они имеют в виду динамические массивы.
+            На протяжении всего курса мы будем говорить о динамических массивах/списках, но будем использовать просто
+            слово «массив».
+
+
+        </p>
+
+        <p class="content">
+            Аналогично, строки реализуются по-разному в разных языках. В Python и Java они неизменяемы. В C++ они
+            изменяемы.
+            Важно знать детали массивов и строк языка, который вы планируете использовать на собеседованиях.
+            У нас нет времени рассматривать все различные реализации для каждого языка, поэтому, пожалуйста, изучите их
+            для выбранного вами языка, если вы еще не знакомы.
+
+        </p>
+
+        <p class="important">
+            Изменяемый: тип данных, который можно изменить. Неизменяемый: тип данных, который нельзя изменить. Если вы
+            хотите изменить что-то неизменяемое, вам придется воссоздать все это целиком.
+        </p>
+
+        <p class="content">
+            Почему нас должно волновать, что что-то изменчиво или неизменно? Если у вас есть изменяемый массив <span>arr
+                =
+                ["a", "b", "c"]</span> и неизменяемая строка <span>s = "abc"</span>,
+            но вы хотите вместо этого сделать <span>"abd"</span>, вы можете легко сделать <span>arr[2] = "d"</span>, но
+            вы не можете
+            сделать <span>s[2] = "d"</span>.
+            Таким образом, если вам нужна строка <span>s = «abd»</span>, вам придется создать ее полностью с нуля.
+            С такой маленькой строкой это не имеет большого значения.
+            Но иногда вы имеете дело со строками длиной 100 000 символов, поэтому создавать новые версии только для
+            изменения одного символа очень дорого
+            (O(n), где n — размер строки).
+
+        </p>
+
+        <p class="content">
+            Как упоминалось ранее, большинство алгоритмических задач связаны с массивом или строкой. Это чрезвычайно
+            универсальные структуры данных,
+            и невозможно перечислить все соответствующие методы решения проблем в одной статье.
+            В следующих нескольких статьях мы рассмотрим наиболее распространенные методы.
+            Но сначала давайте кратко рассмотрим сложность операций с массивами и строками.
+        </p>
+
+        <img src="../arrays_strings/arrays_strings_imgs/1_1.png" alt="">
+
+        <p class="important">
+            Добавление в конец списка исполняется за O(1).
+        </p>
+    </div>
+
+</body>
+
+</html>

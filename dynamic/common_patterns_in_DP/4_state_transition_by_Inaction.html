@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>State Transition by Inaction</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../../dynamic/dynamic_programming.html" class="dynamic_programming">Dynamic Programming</a>
+        <a href="../../dynamic/framework_for_dp.html" class="framework_for_dp">Framework for DP</a>
+        <a href="../../dynamic/1d_problems.html" class="1d_problems">1D Problems</a>
+        <a href="../../dynamic/multi_dimensional_problems.html" class="multi_dimensional_problems">Multi-dimensional
+            Problems</a>
+        <a href="../../dynamic/matrix_dp.html" class="matrix_dp">Matrix DP</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Longest Common Subsequence</a>
+        <a href="#ex2">#2 Best Time to Buy and Sell Stock IV </a>
+        <a href="#ex3">#3 Maximum Value of K Coins From Piles </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            State Transition by Inaction
+        </h1>
+        <hr>
+
+        <p class="content">
+            This is a small pattern that occasionally shows up in DP problems. Here, "doing nothing" refers to two
+            different states having the same value. We're calling it "doing nothing" because often the way we arrive at
+            a new state with the same value as the previous state is by "doing nothing" (we'll look at some examples
+            soon). Of course, a decision making process needs to coexist with this pattern, because if we just had all
+            states having the same value, the problem wouldn't really make sense (
+            dp(i) = dp(i - 1)
+            ?
+            dp(i) = dp(i - 1)?) It is just that if we are trying to maximize or minimize a score for example, sometimes
+            the best option is to "do nothing", which leads to two states having the same value. The actual recurrence
+            relation would look something like
+            dp(i, j) = max(dp(i - 1, j), ...)
+            dp(i, j) = max(dp(i - 1, j), ...).
+        </p>
+
+        <p class="content">
+            Usually when we "do nothing", it is by moving to the next element in some input array (which we usually use
+            i
+            i as a state variable for). As mentioned above, this will be part of a decision making process due to some
+            restriction in the problem. For example, think back to House Robber: we could choose to rob or not rob each
+            house we were at. Sometimes, not robbing the house is the best decision (because we aren't allowed to rob
+            adjacent houses), then
+            dp(i) = dp(i - 1)
+            dp(i) = dp(i - 1).
+        </p>
+
+        <p class="content">
+            In the next article, we'll use the framework to solve a problem with this pattern.
+        </p>
+
+        <hr>
+
+
+
+    </div>
+
+</body>
+
+</html>

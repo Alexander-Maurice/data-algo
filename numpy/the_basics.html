@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <title>The Basics</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../numpy/numpy.html">Introduction</a>
+            <a href="../numpy/numpy_quickstart.html">Quickstart</a>
+            <a href="../numpy/from_ground_up.html">From the Ground up</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../numpy/numpy_quickstart.html">Быстрый старт</a>
+        <a href="../numpy/the_basics.html">Начало</a>
+        <a href="../numpy/shape_manipulation.html">Манипуляция над формой</a>
+        <a href="../numpy/copies_views.html">Копии и представления</a>
+        <a href="../numpy/less_basic.html">Более сложные концепции</a>
+        <a href="../numpy/advanced_indexing_and_index_tricks.html">Продвинутое индексирование и трюки</a>
+        <a href="../numpy/tricks_and_tips.html">Советы и трюки</a>
+    </div>
+
+    <div class="w">
+        <div class="stick__navigation">
+            <a href="#welcome">Добро пожаловать!</a>
+
+
+
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>The Basics</h1>
+        <hr>
+        <p class="content">
+            Основным объектом NumPy является однородный многомерный массив. Это таблица элементов (обычно чисел) одного
+            типа, индексированных кортежем неотрицательных целых чисел. В NumPy измерения называются осями.
+        </p>
+
+        <p class="content">
+            Например, массив координат точки в трехмерном пространстве <span>[1, 2, 1]</span> имеет одну ось. Эта ось
+            содержит 3
+            элемента, поэтому мы говорим, что ее длина равна 3. В примере, показанном ниже, массив имеет 2 оси. Первая
+            ось имеет длину 2, вторая ось имеет длину 3.
+        </p>
+
+        <div class="code">
+            [[1., 0., 0.], <br>
+            [0., 1., 2.]]
+        </div>
+
+        <p class="content">
+            Класс массива NumPy называется <span>ndarray</span>. Он также известен как псевдоним <span>array</span>.
+            Обратите внимание, что
+            <span>numpy.array</span> — это не то же самое, что класс <span>array.array</span> стандартной библиотеки
+            Python, который обрабатывает
+            только одномерные массивы и предлагает меньшую функциональность. Наиболее важными атрибутами объекта
+            <span>ndarray</span>
+            являются:
+        </p>
+
+        <div class="ol">
+            <li><b>ndarray.ndim</b> - количество осей (размерностей) массива.</li>
+            <li><b>ndarray.shape</b> - размеры массива. Это кортеж целых чисел, указывающий размер массива в каждом
+                измерении. Для матрицы с n строками и m столбцами <span>shape</span> будет <span>(n,m)</span>. Таким
+                образом, длина кортежа <span>shape</span>
+                равна числу осей <span>ndim</span>.
+            </li>
+            <li><b>ndarray.size</b> - общее количество элементов массива. Это равно произведению элементов
+                <span>shape</span>.
+            </li>
+            <li><b>ndarray.dtype</b> - объект, описывающий тип элементов массива. Можно создавать или указывать dtype,
+                используя стандартные типы Python. Кроме того, NumPy предоставляет собственные типы. numpy.int32,
+                numpy.int16 и numpy.float64 — вот некоторые примеры.</li>
+            <li><b>ndarray.itemsize</b> - размер в байтах каждого элемента массива. Например, массив элементов типа
+                <span>float64</span> имеет размер элемента 8 (=64/8), а один из элементов типа <span>complex32</span>
+                имеет размер элемента 4
+                (=32/8). Он эквивалентен <span>ndarray.dtype.itemsize</span>.
+            </li>
+            <li><b>ndarray.data</b> - буфер, содержащий фактические элементы массива. Обычно нам не нужно использовать
+                этот атрибут, поскольку мы будем получать доступ к элементам массива с помощью средств индексирования.
+            </li>
+
+
+        </div>
+
+
+        <!-- Пример -->
+        <h2>
+            Пример
+        </h2>
+
+        <div class="code">
+            >>> import numpy as np <br>
+            >>> a = np.arange(15).reshape(3, 5) <br>
+            >>> a <br>
+            array([[ 0, 1, 2, 3, 4], <br>
+            [ 5, 6, 7, 8, 9], <br>
+            [10, 11, 12, 13, 14]]) <br>
+            >>> a.shape <br>
+            (3, 5) <br>
+            >>> a.ndim <br>
+            2 <br>
+            >>> a.dtype.name <br>
+            'int64' <br>
+            >>> a.itemsize <br>
+            8 <br>
+            >>> a.size <br>
+            15 <br>
+            >>> type(a) <br>
+            class 'numpy.ndarray' <br>
+            >>> b = np.array([6, 7, 8]) <br>
+            >>> b <br>
+            array([6, 7, 8]) <br>
+            >>> type(b) <br>
+            class 'numpy.ndarray'
+
+        </div>
+
+        <!-- Создание массива -->
+        <h2>Создание массива</h2>
+        <p class="content">Существует несколько способов создания массивов.</p>
+
+        <p class="content">
+            Например, вы можете создать массив из обычного списка или кортежа Python, используя функцию
+            <span>array</span>. Тип результирующего массива выводится из типа элементов последовательности.
+        </p>
+
+        <div class="code">
+            >>> import numpy as np <br>
+            >>> a = np.array([2, 3, 4]) <br>
+            >>> a <br>
+            array([2, 3, 4]) <br>
+            >>> a.dtype <br>
+            dtype('int64') <br>
+            >>> b = np.array([1.2, 3.5, 5.1]) <br>
+            >>> b.dtype <br>
+            dtype('float64')
+
+        </div>
+
+        <p class="content">
+            Частая ошибка заключается в вызове <span>array</span> с несколькими аргументами вместо предоставления одной
+            последовательности в качестве аргумента.
+        </p>
+
+        <div class="code">
+            a = np.array(1, 2, 3, 4) # WRONG <br>
+            Traceback (most recent call last): <br>
+            ... <br>
+            TypeError: array() takes from 1 to 2 positional arguments but 4 were given <br>
+            >>> a = np.array([1, 2, 3, 4]) # RIGHT <br>
+        </div>
+
+        <p class="content">
+            <span>array</span> преобразует последовательности последовательностей в двумерные массивы,
+            последовательности
+            последовательностей в трехмерные массивы и так далее.
+        </p>
+
+        <div class="code">
+            >>> b = np.array([(1.5, 2, 3), (4, 5, 6)]) <br>
+            >>> b <br>
+            array([[1.5, 2. , 3. ], <br>
+            [4. , 5. , 6. ]])
+        </div>
+
+        <p class="content">
+            Тип массива также можно явно указать во время создания:
+        </p>
+
+        <div class="code">
+            >>> c = np.array([[1, 2], [3, 4]], dtype=complex) <br>
+            >>> c <br>
+            array([[1.+0.j, 2.+0.j], <br>
+            [3.+0.j, 4.+0.j]])
+        </div>
+
+
+        <p class="content">
+            Зачастую элементы массива изначально неизвестны, но известен его размер. Следовательно, NumPy предлагает
+            несколько функций для создания массивов с исходным содержимым-заполнителем. Это сводит к минимуму
+            необходимость выращивания массивов — дорогостоящей операции.
+        </p>
+
+        <p class="content">
+            Функция <span>zeros</span> создает массив, полный нулей, функция <span>ones</span> создает массив, полный
+            единиц, а функция <span>empty</span>
+            создает массив, начальное содержимое которого является случайным и зависит от состояния памяти. По умолчанию
+            тип создаваемого массива — <span>float64</span>, но его можно указать с помощью аргумента ключевого слова
+            <span>dtype</span>.
+        </p>
+
+        <div class="code">
+            >>> np.zeros((3, 4)) <br>
+            array([[0., 0., 0., 0.], <br>
+            [0., 0., 0., 0.], <br>
+            [0., 0., 0., 0.]]) <br>
+            >>> np.ones((2, 3, 4), dtype=np.int16) <br>
+            array([[[1, 1, 1, 1], <br>
+            [1, 1, 1, 1], <br>
+            [1, 1, 1, 1]], <br> <br>
+
+            [[1, 1, 1, 1], <br>
+            [1, 1, 1, 1], <br>
+            [1, 1, 1, 1]]], dtype=int16) <br>
+            >>> np.empty((2, 3)) <br>
+            array([[3.73603959e-262, 6.02658058e-154, 6.55490914e-260], # may vary <br>
+            [5.30498948e-313, 3.14673309e-307, 1.00000000e+000]])
+        </div>
+
+        <p class="content">
+            Для создания последовательностей чисел NumPy предоставляет функцию <span>arange</span>, которая аналогична
+            встроенному
+            <span>range</span> Python, но возвращает массив.
+        </p>
+
+        <div class="code">
+            >>> np.arange(10, 30, 5) <br>
+            array([10, 15, 20, 25]) <br>
+            >>> np.arange(0, 2, 0.3) # it accepts float arguments <br>
+            array([0. , 0.3, 0.6, 0.9, 1.2, 1.5, 1.8])
+        </div>
+
+        <p class="content">
+            Когда <span>arange</span> используется с аргументами с плавающей запятой, обычно невозможно предсказать
+            количество
+            полученных элементов из-за конечной точности с плавающей запятой. По этой причине обычно лучше использовать
+            функцию <span>linspace</span>, которая получает в качестве аргумента желаемое количество элементов, а не
+            шаг:
+        </p>
+
+        <div class="code">
+            from numpy import pi <br>
+            >>> np.linspace(0, 2, 9) # 9 numbers from 0 to 2 <br>
+            array([0. , 0.25, 0.5 , 0.75, 1. , 1.25, 1.5 , 1.75, 2. ]) <br>
+            >>> x = np.linspace(0, 2 * pi, 100) # useful to evaluate function at lots of points <br>
+            >>> f = np.sin(x)
+        </div>
+
+
+        <!-- Печать массивов -->
+        <h2>Печать массивов</h2>
+
+
+
+
+    </div>
+
+
+
+
+</body>
+
+</html>

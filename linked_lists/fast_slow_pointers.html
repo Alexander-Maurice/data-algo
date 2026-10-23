@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Fast and slow pointers</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../linked_lists/linked_lists.html" class="linked_lists">Linked Lists</a>
+        <a href="../linked_lists/fast_slow_pointers.html" class="fast_slow_pointers">Fast and slow pointers</a>
+        <a href="../linked_lists/reversing_linked_lists.html" class="reversing_linked_lists">Reversing of linked lists</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#pseudo">Псевдокод</a>
+        <a href="#ex1">#1 Верните значение узла в середине</a>
+        <a href="#ex2">#2 Linked List Cycle</a>
+        <a href="#ex3">#3 K-й узел с конца</a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Fast and slow pointers
+        </h1>
+        <hr>
+
+        <p class="content">
+            Быстрые и медленные указатели — это реализация метода двух указателей, который мы изучили в главе о массивах
+            и строках. Идея состоит в том, чтобы иметь два указателя, которые не перемещаются рядом. Это может означать,
+            что они движутся с разной «скоростью» во время итерации, начинают итерацию из разных мест или имеют любую
+            другую абстрактную разницу.
+        </p>
+
+        <p class="content">
+            Когда указатели перемещаются с разной скоростью, обычно «быстрый» указатель перемещает два узла за итерацию,
+            тогда как «медленный» указатель перемещает один узел за итерацию (хотя это не всегда так). Вот некоторый
+            псевдокод:
+        </p>
+
+        <div class="code" id="pseudo">
+            // head is the head node of a linked list
+            function fn(head):
+            <p class="raw1">slow = head</p>
+            <p class="raw1">fast = head</p>
+
+            <p class="raw1">while fast and fast.next:</p>
+            <p class="raw2">Do something here</p>
+            <p class="raw2">slow = slow.next</p>
+            <p class="raw2">fast = fast.next.next</p>
+        </div>
+
+        <p class="important">
+            Причина, по которой нам нужно условие while для проверки <span>fast.next</span>, заключается в том, что если
+            <span>fast</span>
+            находится в конечном узле, тогда <span>fast.next</span> имеет значение null, и попытка доступа к
+            <span>fast.next.next</span> приведет
+            к ошибке (вы бы сделали <span>null.next</span>).
+        </p>
+
+        <p class="content">
+            Давайте рассмотрим несколько примеров, где могут пригодиться быстрые и медленные указатели.
+        </p>
+
+        <hr>
+
+        <p class="important" id="ex1">
+            Пример 1. Учитывая заголовок связанного списка с нечетным количеством узлов, верните значение узла в
+            середине.
+            <br>
+            <br>
+            Например, если задан связанный список, представляющий <span>1 -> 2 -> 3 -> 4 -> 5</span>, верните
+            <span>3</span>.
+        </p>
+
+        <p class="content">
+            Как упоминалось в предыдущей статье, самый простой способ решить эту проблему — просто преобразовать
+            связанный список в массив, пройдя по нему, а затем просто вернув число в середине.
+        </p>
+
+        <div class="code">
+            function fn(head):
+            <p class="raw1">array = int[]</p>
+            <p class="raw1">while head:</p>
+            <p class="raw2">array.push(head.val)</p>
+            <p class="raw2">head = head.next</p>
+            <br>
+            <p class="raw1">return array[array.length // 2]</p>
+        </div>
+
+        <p class="content">
+            По сути, это «обман» и никогда не будет считаться приемлемым решением на собеседовании. Возможно, вы поняли,
+            что сложность этой проблемы связана с тем, что мы не знаем длины связанного списка. Единственное, что мы
+            могли бы сделать, — это один раз пройтись по связанному списку с помощью фиктивного указателя, чтобы найти
+            длину, а затем снова выполнить итерацию от головы, как только мы узнаем длину, чтобы найти середину.
+        </p>
+
+        <div class="code">
+            def get_middle(head):
+            <p class="raw1">length = 0</p>
+            <p class="raw1">dummy = head</p>
+            <p class="raw1">while dummy:</p>
+            <p class="raw2">length += 1</p>
+            <p class="raw2">dummy = dummy.next</p>
+            <br>
+            <p class="raw1">for _ in range(length // 2):</p>
+            <p class="raw2">head = head.next</p>
+            <br>
+            <p class="raw1">return head.val</p>
+        </div>
+
+        <p class="content">
+            Самое элегантное решение — использование техники быстрого и медленного указателя. Если у нас один указатель
+            движется в два раза быстрее другого, то к тому времени, как он достигнет конца, медленный указатель пройдет
+            половину пути, поскольку он движется с половиной скорости.
+        </p>
+
+        <details>
+            <summary>Нажмите для детального объяснения</summary>
+            <p class="content">
+                Помните, что <span>slow</span> и <span>fast</span> совершенно независимы друг от друга.
+            </p>
+
+            <p class="content">
+                На каждой итерации цикла while мы продвигаем <span>fast</span> вперед на два шага, поэтому это займет
+                n / 2
+                итерации, чтобы достичь конца. В каждой итерации <span>slow</span> перемещается на один шаг вперед,
+                поэтому
+                после
+                n / 2
+                итераций, <span>slow</span> будет в середине, а это именно то, что нам нужно.
+            </p>
+
+            <p class="content">
+                Не забывайте, что при использовании <span>fast.next.next</span> вы также должны убедиться, что
+                <span>fast.next</span> не имеет
+                значения null, чтобы избежать ошибок.
+            </p>
+        </details>
+
+        <div class="code">
+            def get_middle(head):
+            <p class="raw1">slow = head</p>
+            <p class="raw1">fast = head</p>
+            <p class="raw1">while fast and fast.next:</p>
+            <p class="raw2">slow = slow.next</p>
+            <p class="raw2">fast = fast.next.next</p>
+            <br>
+            <p class="raw1">return slow.val</p>
+        </div>
+
+        <p class="content">
+            Указатели используют
+            O(1) пространства, и если существуют
+            n узлов в связанном списке, временная сложность равна
+            O(n) для обходов.
+        </p>
+
+        <hr>
+
+        <p class="important" id="ex2">
+            <a href="https://leetcode.com/problems/linked-list-cycle/">Example 2: 141. Linked List Cycle</a>
+            <br>
+            <br>
+            Дан <span>head</span> связанного списка, определите, есть ли в связанном списке цикл.
+            <br>
+            <br>
+            В связанном списке существует цикл, если в списке есть некоторый узел, к которому можно снова добраться,
+            непрерывно следуя по <span>next</span> указателю.
+        </p>
+
+        <p class="content">
+            Если связанный список имеет цикл, вы можете представить себе некоторую группу узлов, образующую круг, и
+            обход никогда не заканчивается, поскольку он движется по этому кругу бесконечно. Один из способов попытаться
+            решить эту проблему — просто перебрать список сколь угодно большое количество итераций. Если цикла нет, то в
+            конечном итоге мы достигнем конца списка. Если цикл существует, то мы никогда не достигнем конца и после
+            огромного количества итераций можем прийти к выводу, что цикл, вероятно, существует.
+        </p>
+
+        <p class="content">
+            Проблема этого подхода в том, что он не является общим решением. Что, если цикла нет, но узлов просто
+            больше, чем предел итерации? Если мы увеличим количество итераций, мы всегда можем утверждать, что можем
+            передать более длинный связанный список. Если мы сделаем ограничение слишком большим, это станет
+            непрактичным, и мы будем хардкодить, что является ужасной практикой.
+        </p>
+
+        <p class="content">
+            Лучшим подходом является использование быстрого и медленного указателя. Представьте себе прямую гоночную
+            трассу (например, ту, что используется в спринте на 100 метров). Если соревнуются два бегуна с существенно
+            разными скоростями, то более медленный никогда не догонит более быстрого. Более быстрый бегун, завершающий
+            забег, подобен быстрому указателю, достигшему конца связанного списка.
+        </p>
+
+        <p class="content">
+            Но что, если вместо этого бегуны бегут по круговой гоночной трассе и им нужно пробежать много кругов? В этом
+            случае более быстрый бегун в конечном итоге обгонит (круг) более медленного бегуна.
+        </p>
+
+        <p class="content">
+            Мы можем применить эту логику — перемещать быстрый указатель в два раза быстрее, чем медленный. Если они
+            когда-нибудь встретятся (кроме самого начала), то мы знаем, что должен существовать цикл. Если быстрый
+            указатель достигает конца связанного списка, значит, цикла нет.
+        </p>
+
+        <p class="important">
+            Почему указатели всегда будут встречаться, а быстрый указатель не будет просто «пропускать» медленный
+            указатель в цикле? Если после первого цикла цикла быстрый указатель отстает на одну позицию, то указатели
+            встретятся на следующей итерации. Если быстрый указатель отстает на две позиции, то на следующей итерации он
+            будет отставать на одну позицию. Этот шаблон продолжается - после одного цикла быстрый указатель
+            перемещается ровно на один шаг ближе к медленному указателю на каждой итерации, поэтому он не может
+            "пропустить" его.
+        </p>
+
+        <img src="../linked_lists/linked_lists_imgs/11_1.png" alt="">
+
+        <div class="code">
+            def hasCycle(head: Optional[ListNode]) -> bool:
+            <p class="raw1">slow = head</p>
+            <p class="raw1">fast = head</p>
+            <p class="raw1">while fast and fast.next:</p>
+            <p class="raw2">slow = slow.next</p>
+            <p class="raw2">fast = fast.next.next</p>
+            <p class="raw2">if slow == fast:</p>
+            <p class="raw3">return True</p>
+            <br>
+            <p class="raw1">return False</p>
+        </div>
+
+        <p class="content">
+            Этот подход дает нам временную сложность
+            O(n) и пространственная сложность
+            O(1), где <span>n</span> — количество узлов в связанном списке. Обратите внимание, что эту проблему также
+            можно решить с
+            помощью хеширования, хотя для этого потребуется
+            O(n) пространство.
+        </p>
+
+        <p class="content">
+            Решение для хеширования: если вы постоянно выполняете итерацию, используя указатель <span>next</span>, есть
+            две
+            возможности:
+        </p>
+
+        <ol>
+            <li>Если в связанном списке нет цикла, вы в конечном итоге достигнете <span>null</span> и завершите работу.
+            </li>
+            <li>Если в связанном списке есть цикл, вы в конечном итоге посетите узел дважды. Мы можем использовать
+                набор, чтобы обнаружить это.</li>
+        </ol>
+
+        <div class="code">
+            def hasCycle(head: Optional[ListNode]) -> bool:
+            <p class="raw1">seen = set()</p>
+            <p class="raw1">while head:</p>
+            <p class="raw2">if head in seen:</p>
+            <p class="raw3">return True</p>
+            <p class="raw2">seen.add(head)</p>
+            <p class="raw2">head = head.next</p>
+            <p class="raw1">return False</p>
+        </div>
+
+        <p class="content">
+            Это решение добавлено для полноты картины — первое лучше, поскольку занимает меньше места.
+        </p>
+
+        <hr>
+
+        <p class="important" id="ex3">
+            Пример 3. Учитывая заголовок связанного списка и целое число <span>k</span>, верните
+            k-й узел с конца. <br>
+            <br>
+            Например, учитывая связный список, который представляет <span>1 -> 2 -> 3 -> 4 -> 5</span> и <span>k =
+                2</span>, верните узел со
+            значением <span>4</span>, так как это второй узел с конца.
+        </p>
+
+        <p class="content">
+            Эта проблема очень похожа на первый пример. Опять же, мы могли бы просто преобразовать список в массив или
+            выполнить итерацию один раз, чтобы найти длину, а затем повторить итерацию, как только мы узнаем длину, но
+            есть более элегантное решение.
+        </p>
+
+        <p class="content">
+            Если мы разделим два указателя на расстояние <span>k</span>, а затем переместим их с одинаковой скоростью,
+            они всегда
+            будут находиться на расстоянии <span>k</span> друг от друга. Когда быстрый указатель (тот, что дальше
+            впереди) достигает
+            конца, тогда медленный указатель должен находиться в нужном узле, поскольку он отстает на <span>k</span>
+            узлов.
+        </p>
+
+        <div class="code">
+            def find_node(head, k):
+            <p class="raw1">slow = head</p>
+            <p class="raw1">fast = head</p>
+            <p class="raw1">for _ in range(k):</p>
+            <p class="raw2">fast = fast.next</p>
+            <br>
+            <p class="raw1">while fast:</p>
+            <p class="raw2">slow = slow.next</p>
+            <p class="raw2">fast = fast.next</p>
+            <br>
+            <p class="raw1">return slow</p>
+        </div>
+
+        <p class="content">
+            По тем же причинам, что и в первом примере, временная сложность этого алгоритма равна
+            O(n) и пространственная сложность равна
+            О(1), где
+            n — количество узлов в связанном списке.
+        </p>
+
+        <hr>
+
+    </div>
+
+
+</body>
+
+</html>

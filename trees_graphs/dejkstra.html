@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Introduction to big O</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="trees_graphs.html" class="binary_trees">Binary trees</a>
+        <a href="binary_trees_dfs.html" class="binary_trees_dfs">Binary trees DFS</a>
+        <a href="binary_trees_bfs.html" class="binary_trees_bfs">Binary trees BFS</a>
+        <a href="binary_search_trees.html" class="binary_search_trees">Binary search trees</a>
+        <a href="graphs.html" class="graphs">Graphs</a>
+        <a href="graphs_dfs.html" class="graphs_dfs">Graphs DFS</a>
+        <a href="graphs_bfs.html" class="graphs_bfs">Graphs BFS</a>
+        <a href="implicit_graphs.html" class="implicit_graphs">Implicit graphs</a>
+        <a href="premium_graphs.html" class="premium_graphs">Premium graphs</a>
+        <a href="disjoint_set/1_disjoint_set.html" class="disjoint_set">Disjoint set</a>
+        <a href="dejkstra.html" class="dejkstra">Dejkstra</a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Алгоритм Дейкстры простыми словами
+        </h1>
+        <hr>
+
+        <!-- <p class="important">
+            Если вы уже понимаете большую «О», можете пропустить эту статью.
+        </p> -->
+
+        <p class="content">
+            Представь, что ты муравей, который стоит в одной точке лабиринта и хочет быстрее всего добраться до другой точки. Алгоритм Дейкстры помогает найти самый короткий путь.
+        </p>
+
+        <p class="content">
+            Вот как он работает, как игра:
+        </p>
+
+        <p class="content">
+            <ul>
+                <li><b>У каждой точки есть число </b>— сколько шагов от начала до неё. Вначале у начала — 0, у всех остальных — «очень много» (бесконечность).</li>
+                <li><b>Смотрим на соседей</b> из текущей точки. Если идти через текущую точку к соседу короче, чем было записано — запоминаем новый путь.
+</li>
+                <li><b>Отмечаем точку «посещённой»</b> и больше её не трогаем.</li>
+                <li><b>Переходим в следующую точку</b> с самым маленьким расстоянием, которую ещё не посетили.</li>
+                <li>Повторяем, пока не дойдём до цели (или не обойдём все точки).</li>
+            </ul>
+        </p>
+
+        <hr>
+
+        <h3>Простой пример на Python</h3>
+
+        <p class="content">
+            Представь карту: точки соединены дорогами (рёбрами) с разной длиной.
+        </p>
+
+        <div class="code">
+            import heapq
+            <br>
+            def deikstra(graph, start, end):
+            <p class="raw2"># расстояние до каждой точки: сначала бесконечность</p>    
+            <p class="raw2">distances = {point: float('inf') for point in graph}</p>    
+            <p class="raw2">distances[start] = 0  # до старта 0 шагов</p>    
+            <br>    
+            <p class="raw2"># очередь, где (расстояние, точка)</p>    
+            <p class="raw2">queue = [(0, start)]</p>    
+            <br>    
+            <p class="raw2">while queue:</p>    
+            <p class="raw3">current_dist, current = heapq.heappop(queue)  # берём точку с самым маленьким расстоянием</p>        
+            <br>        
+            <p class="raw3">if current == end:  # дошли до цели</p>        
+            <p class="raw4">return current_dist</p>            
+            <br>        
+            <p class="raw3">if current_dist > distances[current]:</p>        
+            <p class="raw5">continue  # устаревшая запись, пропускаем</p>            
+            <br>        
+            <p class="raw3"># смотрим всех соседей</p>        
+            <p class="raw3">for neighbor, weight in graph[current].items():</p>        
+            <p class="raw4">distance = current_dist + weight</p>            
+            <p class="raw4">if distance < distances[neighbor]:  # нашли путь короче?</p>            
+            <p class="raw5">distances[neighbor] = distance</p>                
+            <p class="raw5">heapq.heappush(queue, (distance, neighbor))</p>                
+            <br>    
+            <p class="raw2">return distances[end]</p>    
+            <br>
+            <p class="raw2"># Карта: точка -> {сосед: вес}</p>    
+            <p class="raw2">graph = {</p>    
+            <p class="raw3">'A': {'B': 1, 'C': 4},</p>        
+            <p class="raw3">'B': {'A': 1, 'C': 2, 'D': 5},</p>        
+            <p class="raw3">'C': {'A': 4, 'B': 2, 'D': 1},</p>        
+            <p class="raw3">'D': {'B': 5, 'C': 1}</p>        
+            <p class="raw2">}</p>    
+            <br>
+            <p class="raw2"># Кратчайший путь от A до D</p>    
+            <p class="raw2">print(deikstra(graph, 'A', 'D'))  # выведет 4 (A->B->C->D: 1+2+1=4)</p>    
+        </div>
+
+        <h3>Объяснение для ребёнка:</h3>
+
+        <p class="content">
+            <ul>
+                <li><span>heapq</span> — это как волшебная очередь, которая всегда даёт самую близкую необработанную точку.
+</li>
+                <li><span>float('inf')</span> — так мы говорим: «до сюда путь бесконечно длинный, пока не нашли».</li>
+                <li>Алгоритм шаг за шагом улучшает известные расстояния, пока не найдёт самый короткий путь.
+</li>
+            </ul>
+        </p>
+
+        <p class="content">
+            Этот алгоритм повсюду: в навигаторах, в компьютерных играх для поиска пути, в интернете для передачи данных по самым быстрым маршрутам.
+        </p>
+        
+
+        <hr>
+    </div>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Fundamentals of Sorting</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../../dynamic/dynamic_programming.html" class="dynamic_programming">Dynamic Programming</a>
+        <a href="../../dynamic/framework_for_dp.html" class="framework_for_dp">Framework for DP</a>
+        <a href="../../dynamic/1d_problems.html" class="1d_problems">1D Problems</a>
+        <a href="../../dynamic/multi_dimensional_problems.html" class="multi_dimensional_problems">Multi-dimensional
+            Problems</a>
+        <a href="../../dynamic/matrix_dp.html" class="matrix_dp">Matrix DP</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Longest Common Subsequence</a>
+        <a href="#ex2">#2 Best Time to Buy and Sell Stock IV </a>
+        <a href="#ex3">#3 Maximum Value of K Coins From Piles </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Fundamentals of Sorting
+        </h1>
+        <hr>
+
+        <p class="content">
+            The fundamental problem of sorting is all about ordering a collection of items. How you order these items is
+            entirely based on the method of comparison. Suppose you needed to sort a pile of books. If you are working
+            on a home library, you might organize it by the author’s last name. But if you need to quickly transport the
+            books, it might make sense to initially organize them based on the size of the book. Both of these problems
+            are sorting problems, but a key takeaway is that sorting problems are necessarily tied to a method of
+            comparison. Different methods of comparison may lead to different results. At the most basic level, sorting
+            algorithms are all about rearranging elements in a collection based on a common characteristic of those
+            elements.
+        </p>
+        <p class="content">
+            In computer science, we have formal definitions of sorting with respect to ordering relations.
+        </p>
+
+        <p class="content">
+        <pre>
+                An ordering relation has two key properties: 1. Given two elements a and b, exactly one of the following must be true: 
+𝑎
+<
+𝑏
+a<b, 
+𝑎
+=
+𝑏
+a=b, or 
+𝑎
+>
+𝑏
+a>b ( Law of Trichotomy ) 2. If 
+
+a < b and 
+
+b < c, then 
+
+a < c ( Law of Transitivity )</pre>
+        </p>
+        <p class="content">
+            A sort is formally defined as a rearrangement of a sequence of elements that puts all elements into a
+            non-decreasing order based on the ordering relation.
+        </p>
+        <p class="content">
+            Suppose you were given a list of strings
+            [“hello”, “world”, “we”, “are”, “learning, “sorting”]
+            [“hello”, “world”, “we”, “are”, “learning, “sorting”]. One way to define an ordering relation might be based
+            on the length of the string. One valid sort based on this ordering relation is
+            [“we”, “are”, “hello”, “world”, “sorting”, “learning”]
+            [“we”, “are”, “hello”, “world”, “sorting”, “learning”]. For every pair of adjacent elements in the list, the
+            length of the preceding string is always less than or equal to the length of the following string. Another
+            ordering relation we could define is the number of vowels in the string. That would lead to the following
+            sort:
+            [“we”, “world”, “are”, “hello”, “sorting”, “learning”]
+            [“we”, “world”, “are”, “hello”, “sorting”, “learning”].
+        </p>
+        <p class="content">
+            The ordering relation practically is defined as a method of comparison in programming languages. Most
+            programming languages allow you to pass in custom functions for comparison whenever you want to sort a
+            sequence of elements. In Java, for example, these are comparators. In Python, you can pass a comparison
+            function as the key to the sort method.
+        </p>
+
+        <div class="code">
+            def sort_by_length(self, lst: List[str]) -> None: <br>
+            <p class="raw1">"""Sorts a list of strings by the length of each string"""</p>
+            <p class="raw1">lst.sort(key=lambda x: len(x)) # Note we can also do lst.sort(key=len)</p>
+        </div>
+
+        <p class="content">
+            An important concept in sorting is inversions. An inversion in a sequence is defined as a pair of elements
+            that are out of order with respect to the ordering relation. To understand this idea better, let's consider
+            our earlier string example, where the ordering relation was defined by the length of the string:
+        </p>
+        <p class="content">
+            [“are”, “we”, “sorting”, “hello”, “world”, “learning”]
+        </p>
+        <p class="content">
+            Clearly, the above list is not sorted according to the lengths of strings, but what if you had to define a
+            metric for how “out of sort” it was? Inversions provide a way to define that. In the above unsorted list, we
+            have the following inversions:
+        </p>
+        <p class="content">
+            (“are”, “we”),
+            (“sorting”, “hello”)
+            (“sorting”, “hello”), and
+            (“sorting”, “world”)
+            (“sorting”, “world”)
+        </p>
+        <p class="content">
+            The more inversions present, the more out of order the list is. In fact, the concept of inversions
+            introduces an alternative definition of sorting: Given a sequence of elements with n inversions, a sorting
+            algorithm is a sequence of operations that reduces inversions to 0.
+        </p>
+        <p class="content">
+            The next important concept in sorting that we will refer back to is the stability of sorting algorithms. The
+            key feature of a stable sorting algorithm is that it will preserve the order of equal elements. In our
+            earlier string example with the string length ordering comparison, our original sequence was
+        </p>
+        <p class="content">
+            [“hello”, “world”, “we”, “are”, “learning, “sorting”]
+        </p>
+        <p class="content">
+            There are two valid sorts for this sequence:
+        </p>
+
+        <ol>
+            <li>
+                [“we”, “are”, “hello”, “world”, “sorting”, “learning”]
+            </li>
+            <li>
+                [“we”, “are”, “world”, “hello”, “sorting”, “learning”]
+            </li>
+        </ol>
+
+        <p class="content">
+            We consider (1) to be a stable sort since the equal elements “hello” and “world” are kept in the same
+            relative order as the original sequence.
+        </p>
+
+        <hr>
+
+
+
+
+    </div>
+
+</body>
+
+</html>

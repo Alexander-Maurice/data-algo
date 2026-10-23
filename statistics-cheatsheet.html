@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Шпаргалка по статистике</title>
+<style>
+  :root {
+    --bg: #f6f7fb;
+    --panel: #ffffff;
+    --text: #1f2430;
+    --muted: #6b7280;
+    --accent: #3b5bdb;
+    --accent-soft: #edf1ff;
+    --border: #e3e6ef;
+    --code-bg: #23272f;
+    --code-text: #e6e8ee;
+    --formula-bg: #fff8e6;
+    --formula-border: #f0d98c;
+    --tag-bg: #eef2f7;
+    --radius: 12px;
+    --sidebar-w: 300px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  /* ===== Шапка ===== */
+  header.topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px 22px;
+  }
+  .topbar .logo { font-weight: 800; font-size: 18px; white-space: nowrap; }
+  .topbar .logo span { color: var(--accent); }
+  #search {
+    flex: 1; max-width: 460px;
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 14px;
+    outline: none;
+    background: var(--bg);
+  }
+  #search:focus { border-color: var(--accent); background: #fff; }
+  #menuBtn {
+    display: none;
+    border: 1px solid var(--border);
+    background: #fff; border-radius: 8px;
+    font-size: 18px; padding: 4px 12px; cursor: pointer;
+  }
+  /* ===== Каркас ===== */
+  .layout { display: flex; align-items: flex-start; }
+  aside.sidebar {
+    width: var(--sidebar-w);
+    flex: 0 0 var(--sidebar-w);
+    position: sticky; top: 58px;
+    height: calc(100vh - 58px);
+    overflow-y: auto;
+    padding: 18px 14px 60px;
+    border-right: 1px solid var(--border);
+    background: var(--panel);
+  }
+  .nav-section { margin-bottom: 16px; }
+  .nav-section > .nav-title {
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .06em; color: var(--muted);
+    margin: 0 0 6px 10px;
+  }
+  .nav-section a {
+    display: block;
+    padding: 5px 10px;
+    margin: 1px 0;
+    border-radius: 8px;
+    font-size: 13.5px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-section a:hover { background: var(--accent-soft); color: var(--accent); }
+  .nav-section a.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+  main.content {
+    flex: 1;
+    max-width: 900px;
+    padding: 28px 34px 120px;
+    margin: 0 auto;
+  }
+  /* ===== Разделы и карточки ===== */
+  h1.section {
+    font-size: 24px;
+    margin: 42px 0 6px;
+    padding-top: 10px;
+  }
+  h1.section:first-child { margin-top: 0; }
+  .section-lead { color: var(--muted); margin: 0 0 20px; font-size: 15px; }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin: 0 0 22px;
+    box-shadow: 0 1px 3px rgba(20, 25, 40, .05);
+  }
+  .card h2 {
+    margin: 0 0 12px;
+    font-size: 19px;
+  }
+  .card h2 .num {
+    color: var(--accent);
+    font-weight: 700;
+    margin-right: 8px;
+  }
+  .block-label {
+    display: inline-block;
+    font-size: 11.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .05em;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border-radius: 6px;
+    padding: 2px 9px;
+    margin: 14px 0 6px;
+  }
+  .card p { margin: 6px 0; font-size: 14.5px; }
+  .card ul { margin: 6px 0; padding-left: 22px; font-size: 14.5px; }
+  .card li { margin: 3px 0; }
+  .formula {
+    background: var(--formula-bg);
+    border: 1px solid var(--formula-border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 15.5px;
+    margin: 6px 0;
+    overflow-x: auto;
+  }
+  .formula .f {
+    font-family: "Cambria Math", Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-size: 17px;
+    white-space: nowrap;
+  }
+  .formula small { color: var(--muted); display: block; margin-top: 4px; font-style: normal; }
+  pre {
+    background: var(--code-bg);
+    color: var(--code-text);
+    border-radius: 10px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.55;
+    margin: 6px 0 2px;
+  }
+  pre code { font-family: "SF Mono", Menlo, Consolas, "Courier New", monospace; }
+  .kw { color: #7aa2f7; } .st { color: #9ece6a; } .cm { color: #7d8590; font-style: italic; }
+  .fn { color: #e0af68; } .nu { color: #ff9e64; }
+  table.mini {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 8px 0;
+    font-size: 14px;
+  }
+  table.mini th, table.mini td {
+    border: 1px solid var(--border);
+    padding: 7px 10px;
+    text-align: left;
+  }
+  table.mini th { background: var(--tag-bg); }
+  .note {
+    background: #eef7ee;
+    border-left: 4px solid #51a35b;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 14px;
+    margin: 8px 0;
+  }
+  .warn {
+    background: #fdeeee;
+    border-left: 4px solid #d05050;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 14px;
+    margin: 8px 0;
+  }
+  .hidden { display: none !important; }
+  #noResults { color: var(--muted); text-align: center; padding: 40px 0; display: none; }
+  footer { color: var(--muted); font-size: 13px; text-align: center; margin-top: 60px; }
+  @media (max-width: 900px) {
+    aside.sidebar {
+      position: fixed; left: 0; top: 58px; bottom: 0; z-index: 40;
+      transform: translateX(-100%);
+      transition: transform .25s ease;
+      box-shadow: 4px 0 20px rgba(0,0,0,.12);
+    }
+    aside.sidebar.open { transform: translateX(0); }
+    #menuBtn { display: block; }
+    main.content { padding: 22px 18px 100px; }
+  }
+  @media print {
+    aside.sidebar, header.topbar { display: none; }
+    main.content { max-width: none; }
+    .card { break-inside: avoid; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <button id="menuBtn" aria-label="Меню">☰</button>
+  <div class="logo">Σ <span>Шпаргалка по статистике</span></div>
+  <input id="search" type="search" placeholder="Поиск по темам… (например: p-value, дисперсия)">
+</header>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="nav-section">
+    <p class="nav-title">🧭 Быстрый выбор</p>
+    <a href="#s0-1">Какой тест выбрать?</a>
+  </div>
+  <div class="nav-section">
+    <p class="nav-title">1. Основы статистики</p>
+    <a href="#s1-1">Совокупность и выборка</a>
+    <a href="#s1-2">Переменные и их типы</a>
+    <a href="#s1-3">Распределения</a>
+    <a href="#s1-4">Среднее арифметическое</a>
+    <a href="#s1-5">Медиана и мода</a>
+    <a href="#s1-6">Квантили и процентили</a>
+    <a href="#s1-7">Дисперсия и отклонение</a>
+    <a href="#s1-8">Меры изменчивости</a>
+    <a href="#s1-9">Визуализация данных</a>
+  </div>
+  <div class="nav-section">
+    <p class="nav-title">2. Гипотезы: база</p>
+    <a href="#s2-1">Нормальное распределение</a>
+    <a href="#s2-2">Z-стандартизация</a>
+    <a href="#s2-3">Подсчёт вероятностей</a>
+    <a href="#s2-4">Центральная предельная теорема</a>
+    <a href="#s2-5">Стандартная ошибка среднего</a>
+    <a href="#s2-6">Статистические гипотезы</a>
+    <a href="#s2-7">P-value</a>
+  </div>
+  <div class="nav-section">
+    <p class="nav-title">3. Статистический вывод</p>
+    <a href="#s3-1">Ошибки I и II рода</a>
+    <a href="#s3-2">Доверительные интервалы</a>
+  </div>
+  <div class="nav-section">
+    <p class="nav-title">4. Сравнение средних (t-тест)</p>
+    <a href="#s4-1">T-тест и t-статистика</a>
+    <a href="#s4-2">T-распределение и ЦПТ</a>
+    <a href="#s4-3">P-value в t-тесте</a>
+    <a href="#s4-4">Нормальность и QQ-график</a>
+    <a href="#s4-5">Логарифмическая трансформация</a>
+    <a href="#s4-6">Равенство дисперсий</a>
+  </div>
+  <div class="nav-section">
+    <p class="nav-title">5. Дисперсионный анализ (ANOVA)</p>
+    <a href="#s5-1">Зачем нужен ANOVA</a>
+    <a href="#s5-2">Математика ANOVA</a>
+    <a href="#s5-3">ANOVA в Python</a>
+    <a href="#s5-4">Множественные сравнения</a>
+    <a href="#s5-5">Многофакторный ANOVA</a>
+  </div>
+  <div class="nav-section">
+    <p class="nav-title">6. Корреляция и регрессия</p>
+    <a href="#s6-1">Корреляция</a>
+    <a href="#s6-2">Нелинейность и выбросы</a>
+    <a href="#s6-3">Линейная регрессия</a>
+    <a href="#s6-4">Коэффициент детерминации</a>
+    <a href="#s6-5">Визуализация связей</a>
+  </div>
+  <div class="nav-section">
+    <p class="nav-title">7. Множественная регрессия</p>
+    <a href="#s7-1">Математика и смысл</a>
+    <a href="#s7-2">R² и информационные критерии</a>
+    <a href="#s7-3">Регрессия в Python</a>
+    <a href="#s7-4">Интерпретация и диагностика</a>
+    <a href="#s7-5">Задача предсказания</a>
+  </div>
+  <div class="nav-section">
+    <p class="nav-title">8. Bootstrap</p>
+    <a href="#s8-1">Bootstrap</a>
+  </div>
+  <div class="nav-section">
+    <p class="nav-title">9. Категориальные переменные</p>
+    <a href="#s9-1">Хи-квадрат: одна величина</a>
+    <a href="#s9-2">Таблицы сопряжённости</a>
+    <a href="#s9-3">Фиктивные переменные</a>
+  </div>
+</aside>
+
+<main class="content" id="content">
+
+<!-- ================= БЫСТРЫЙ ВЫБОР ТЕСТА ================= -->
+<h1 class="section">🧭 Какой тест выбрать?</h1>
+<p class="section-lead">Главная карта шпаргалки. Три вопроса — и вы знаете нужный метод: какой тип данных? сколько групп? зависимые они или независимые?</p>
+
+<div class="card" id="s0-1" data-title="какой тест выбрать блок-схема манн уитни вилкоксон краскел уоллис фишер">
+  <h2><span class="num">🧭</span>Блок-схема выбора статистического теста</h2>
+  <span class="block-label">Как пользоваться</span>
+  <p>Ответьте по порядку: <b>1)</b> переменная количественная или категориальная? <b>2)</b> сколько групп сравниваем? <b>3)</b> группы независимые (разные люди) или зависимые (одни и те же до/после)? <b>4)</b> данные примерно нормальные или нет? Найдите свою строку в таблице.</p>
+
+  <span class="block-label">Количественная переменная</span>
+  <table class="mini">
+    <tr><th>Задача</th><th>Условия</th><th>Тест</th><th>Python</th></tr>
+    <tr><td>Среднее vs заданное число</td><td>нормальность или n ≥ 30</td><td>Одновыборочный t-тест</td><td><code>ttest_1samp</code></td></tr>
+    <tr><td>То же</td><td>сильная ненормальность</td><td>Вилкоксон</td><td><code>wilcoxon(x - mu0)</code></td></tr>
+    <tr><td>2 независимые группы</td><td>нормальность или n ≥ 30</td><td>t-тест Уэлча <b>(дефолт!)</b></td><td><code>ttest_ind(a, b, equal_var=False)</code></td></tr>
+    <tr><td>То же</td><td>ненормальность / порядковые данные / выбросы</td><td>Манна–Уитни</td><td><code>mannwhitneyu(a, b)</code></td></tr>
+    <tr><td>2 зависимые группы (до/после)</td><td>разности нормальны</td><td>Парный t-тест</td><td><code>ttest_rel(before, after)</code></td></tr>
+    <tr><td>То же</td><td>разности не нормальны</td><td>Вилкоксон (парный)</td><td><code>wilcoxon(before, after)</code></td></tr>
+    <tr><td>3+ независимые группы</td><td>нормальность + равные дисперсии</td><td>Однофакторный ANOVA → Tukey HSD</td><td><code>f_oneway</code>, <code>pairwise_tukeyhsd</code></td></tr>
+    <tr><td>То же</td><td>ненормальность</td><td>Краскела–Уоллиса</td><td><code>kruskal(a, b, c)</code></td></tr>
+    <tr><td>Несколько факторов сразу</td><td>нормальность остатков</td><td>Многофакторный ANOVA</td><td><code>ols("y ~ A*B")</code> + <code>anova_lm</code></td></tr>
+    <tr><td>Связь двух переменных</td><td>линейная, без выбросов</td><td>Корреляция Пирсона</td><td><code>pearsonr(x, y)</code></td></tr>
+    <tr><td>То же</td><td>монотонная, но кривая / есть выбросы</td><td>Корреляция Спирмена</td><td><code>spearmanr(x, y)</code></td></tr>
+  </table>
+
+  <span class="block-label">Категориальная переменная</span>
+  <table class="mini">
+    <tr><th>Задача</th><th>Условия</th><th>Тест</th><th>Python</th></tr>
+    <tr><td>Частоты vs ожидаемые</td><td>ожидаемые частоты ≥ 5</td><td>Хи-квадрат (goodness of fit)</td><td><code>chisquare(obs, exp)</code></td></tr>
+    <tr><td>Связь двух категориальных</td><td>ожидаемые частоты ≥ 5</td><td>Хи-квадрат независимости</td><td><code>chi2_contingency(tab)</code></td></tr>
+    <tr><td>То же, таблица 2×2</td><td>маленькие частоты (&lt; 5)</td><td>Точный тест Фишера</td><td><code>fisher_exact(tab)</code></td></tr>
+  </table>
+
+  <span class="block-label">Когда ничего не подходит</span>
+  <table class="mini">
+    <tr><th>Ситуация</th><th>Решение</th><th>Python</th></tr>
+    <tr><td>Нужен ДИ для медианы, процентиля, сложной метрики</td><td>Bootstrap</td><td><code>stats.bootstrap</code></td></tr>
+    <tr><td>Много тестов подряд</td><td>Поправки: Holm / Бонферрони / FDR</td><td><code>multipletests(pvals, method=...)</code></td></tr>
+  </table>
+
+  <div class="note">💡 Правило большого пальца: сомневаетесь между t-тестом и его непараметрической заменой — при n ≥ 30 на группу берите t-тест Уэлча (ЦПТ на вашей стороне), при маленьких скошенных выборках — Манна–Уитни. И всегда сначала смотрите на график (раздел 1.9)!</div>
+</div>
+
+<!-- ================= РАЗДЕЛ 1 ================= -->
+<h1 class="section">1. Основные понятия статистики</h1>
+<p class="section-lead">С чего начинается любой анализ: откуда берутся данные, как их измерить и как быстро понять, что в них происходит.</p>
+
+<div class="card" id="s1-1" data-title="генеральная совокупность и выборка">
+  <h2><span class="num">1.1</span>Генеральная совокупность и выборка</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p><b>Генеральная совокупность</b> — все объекты, которые нас интересуют (например, все пользователи приложения). Измерить всех обычно невозможно: дорого, долго или данных просто нет. Поэтому мы берём <b>выборку</b> — небольшую часть — и по ней делаем выводы обо всех. Ключевое требование: выборка должна быть <b>репрезентативной</b>, то есть похожей на совокупность. Самый простой способ — случайный отбор, когда у каждого объекта одинаковый шанс попасть в выборку.</p>
+  <span class="block-label">Формула / обозначения</span>
+  <div class="formula">
+    <span class="f">N</span> — размер генеральной совокупности, <span class="f">n</span> — размер выборки (n ≪ N)
+    <small>Параметры совокупности обозначают греческими буквами (μ, σ), оценки по выборке — латинскими (x̄, s).</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="cm"># Случайная выборка из датафрейма</span>
+sample = df.<span class="fn">sample</span>(n=<span class="nu">200</span>, random_state=<span class="nu">42</span>)   <span class="cm"># random_state — чтобы результат повторялся</span>
+
+<span class="cm"># Стратифицированная выборка: сохраняем доли групп (например, пол)</span>
+sample = df.<span class="fn">groupby</span>(<span class="st">"gender"</span>, group_keys=<span class="kw">False</span>) \
+           .<span class="fn">apply</span>(<span class="kw">lambda</span> g: g.<span class="fn">sample</span>(frac=<span class="nu">0.1</span>, random_state=<span class="nu">42</span>))</code></pre>
+</div>
+
+<div class="card" id="s1-2" data-title="переменные и их типы">
+  <h2><span class="num">1.2</span>Переменные и их типы</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Тип переменной определяет, какие методы анализа законны. Среднее по полу или по цвету глаз считать бессмысленно — а по росту можно. Поэтому первым делом в любом анализе смотрим, какие у нас переменные.</p>
+  <table class="mini">
+    <tr><th>Тип</th><th>Пример</th><th>Что можно считать</th></tr>
+    <tr><td><b>Количественная непрерывная</b></td><td>рост, доход, время</td><td>среднее, дисперсия, корреляция</td></tr>
+    <tr><td><b>Количественная дискретная</b></td><td>число детей, клики</td><td>среднее, частоты</td></tr>
+    <tr><td><b>Категориальная номинальная</b></td><td>город, пол, бренд</td><td>частоты, мода, χ²</td></tr>
+    <tr><td><b>Категориальная порядковая</b></td><td>оценка 1–5, уровень образования</td><td>медиана, квантили, ранговые тесты</td></tr>
+  </table>
+  <span class="block-label">Python</span>
+  <pre><code>df.<span class="fn">dtypes</span>                      <span class="cm"># типы столбцов</span>
+df[<span class="st">"city"</span>] = df[<span class="st">"city"</span>].<span class="fn">astype</span>(<span class="st">"category"</span>)   <span class="cm"># пометить как категориальную</span>
+df[<span class="st">"rating"</span>] = pd.<span class="fn">Categorical</span>(df[<span class="st">"rating"</span>], ordered=<span class="kw">True</span>,
+                             categories=[<span class="nu">1</span>, <span class="nu">2</span>, <span class="nu">3</span>, <span class="nu">4</span>, <span class="nu">5</span>])
+df.<span class="fn">describe</span>(include=<span class="st">"all"</span>)      <span class="cm"># быстрый обзор всех переменных</span></code></pre>
+</div>
+
+<div class="card" id="s1-3" data-title="распределения переменных">
+  <h2><span class="num">1.3</span>Распределения переменных</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Распределение показывает, какие значения принимает переменная и как часто. Два набора данных с одинаковым средним могут выглядеть совершенно по-разному: у одного все значения около среднего, у другого — разброс от нуля до миллиона. Глядя на форму распределения, мы понимаем: есть ли выбросы, скошены ли данные, подходят ли «обычные» тесты.</p>
+  <span class="block-label">Формула / идея</span>
+  <div class="formula">
+    Плотность нормального распределения: <span class="f">f(x) = (1 / σ√(2π)) · e<sup>−(x−μ)² / 2σ²</sup></span>
+    <small>Частые формы: нормальная (колокол), скошенная вправо (длинный хвост больших значений — доходы), равномерная, бимодальная (два горба — два скрытых сегмента).</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="kw">import</span> seaborn <span class="kw">as</span> sns
+sns.<span class="fn">histplot</span>(df[<span class="st">"income"</span>], kde=<span class="kw">True</span>)     <span class="cm"># гистограмма + сглаженная кривая</span>
+df[<span class="st">"income"</span>].<span class="fn">skew</span>()                       <span class="cm"># асимметрия: &gt;0 хвост вправо</span>
+df[<span class="st">"income"</span>].<span class="fn">kurt</span>()                       <span class="cm"># эксцесс: тяжесть хвостов</span></code></pre>
+</div>
+
+<div class="card" id="s1-4" data-title="среднее арифметическое">
+  <h2><span class="num">1.4</span>Среднее арифметическое</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Это «центр масс» данных: если разложить все значения на весах, среднее — точка равновесия. Самая популярная сводка одной цифрой. Но у неё есть слабость: оно чувствительно к выбросам. Один миллиардер в комнате сделает «средний доход» огромным, хотя почти все останутся бедными.</p>
+  <span class="block-label">Формула</span>
+  <div class="formula">
+    <span class="f">x̄ = (x<sub>1</sub> + x<sub>2</sub> + … + x<sub>n</sub>) / n = (1/n)·Σx<sub>i</sub></span>
+    <small>Для генеральной совокупности пишут μ, для выборки — x̄.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="kw">import</span> numpy <span class="kw">as</span> np
+np.<span class="fn">mean</span>(x)                <span class="cm"># по массиву</span>
+df[<span class="st">"income"</span>].<span class="fn">mean</span>()       <span class="cm"># по столбцу</span>
+df.<span class="fn">groupby</span>(<span class="st">"city"</span>)[<span class="st">"income"</span>].<span class="fn">mean</span>()   <span class="cm"># среднее по группам</span></code></pre>
+</div>
+
+<div class="card" id="s1-5" data-title="другие меры центральной тенденции медиана мода">
+  <h2><span class="num">1.5</span>Другие меры центральной тенденции</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p><b>Медиана</b> — значение ровно посередине отсортированного ряда: половина наблюдений меньше, половина больше. Ей всё равно на выбросы, поэтому для доходов, цен и времени реакции медиана честнее среднего. <b>Мода</b> — самое частое значение; единственная мера центра, которая работает для категорий («самый популярный бренд»). Если среднее сильно больше медианы — распределение скошено вправо.</p>
+  <span class="block-label">Формула</span>
+  <div class="formula">
+    <span class="f">Me = x<sub>(n+1)/2</sub></span> при нечётном n; <span class="f">Me = (x<sub>n/2</sub> + x<sub>n/2+1</sub>)/2</span> при чётном
+    <small>x<sub>(k)</sub> — k-е значение в отсортированном ряду. Мода — argmax частоты.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="kw">from</span> scipy <span class="kw">import</span> stats
+np.<span class="fn">median</span>(x)                        <span class="cm"># медиана</span>
+stats.<span class="fn">mode</span>(x, keepdims=<span class="kw">True</span>)         <span class="cm"># мода (scipy)</span>
+df[<span class="st">"brand"</span>].<span class="fn">mode</span>()[<span class="nu">0</span>]               <span class="cm"># мода категориального столбца</span>
+df[<span class="st">"brand"</span>].<span class="fn">value_counts</span>().<span class="fn">idxmax</span>()  <span class="cm"># то же самое</span></code></pre>
+</div>
+
+<div class="card" id="s1-6" data-title="квантили процентили">
+  <h2><span class="num">1.6</span>Квантили и процентили</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Квантиль отвечает на вопрос «какое значение отсекает X% данных снизу». 90-й процентиль времени ответа сервера = время, быстрее которого работают 90% запросов. Медиана — это частный случай: 50-й процентиль. Квантили устойчивы к выбросам и идеальны для SLA, зарплатных вилок и анализа «хвостов».</p>
+  <span class="block-label">Формула</span>
+  <div class="formula">
+    <span class="f">Q(p)</span> — значение, для которого <span class="f">P(X ≤ Q(p)) = p</span>
+    <small>Q(0.25), Q(0.5), Q(0.75) — квартили; делят данные на 4 равные части.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code>np.<span class="fn">quantile</span>(x, [<span class="nu">0.25</span>, <span class="nu">0.5</span>, <span class="nu">0.75</span>, <span class="nu">0.9</span>])   <span class="cm"># сразу несколько</span>
+np.<span class="fn">percentile</span>(x, <span class="nu">95</span>)                    <span class="cm"># 95-й процентиль</span>
+df[<span class="st">"latency"</span>].<span class="fn">quantile</span>(<span class="nu">0.99</span>)            <span class="cm"># p99 — стандарт для SLA</span>
+df.<span class="fn">describe</span>()                            <span class="cm"># 25/50/75% уже внутри</span></code></pre>
+</div>
+
+<div class="card" id="s1-7" data-title="дисперсия и стандартное отклонение">
+  <h2><span class="num">1.7</span>Дисперсия и стандартное отклонение</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Среднее говорит, где центр данных, но молчит о разбросе. Дисперсия — средний квадрат отклонений от среднего: насколько типично значения «гуляют». Стандартное отклонение — корень из дисперсии; его удобнее читать, потому что оно в тех же единицах, что и данные (рубли, а не «рубли в квадрате»). Маленькое σ — все похожи, большое — разброс огромный.</p>
+  <span class="block-label">Формулы</span>
+  <div class="formula">
+    Выборочная дисперсия: <span class="f">s² = Σ(x<sub>i</sub> − x̄)² / (n − 1)</span><br>
+    Стандартное отклонение: <span class="f">s = √s²</span>
+    <small>Делим на n−1 (поправка Бесселя), чтобы оценка по выборке не занижала истинный разброс совокупности. Для нормального распределения ≈68% значений лежат в x̄ ± s, ≈95% — в x̄ ± 2s.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code>np.<span class="fn">var</span>(x, ddof=<span class="nu">1</span>)     <span class="cm"># ddof=1 → деление на n−1 (выборочная оценка)</span>
+np.<span class="fn">std</span>(x, ddof=<span class="nu">1</span>)
+df[<span class="st">"x"</span>].<span class="fn">var</span>()          <span class="cm"># в pandas ddof=1 уже по умолчанию</span>
+df[<span class="st">"x"</span>].<span class="fn">std</span>()</code></pre>
+</div>
+
+<div class="card" id="s1-8" data-title="другие меры изменчивости размах iqr коэффициент вариации">
+  <h2><span class="num">1.8</span>Другие меры изменчивости</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Дисперсия страдает от выбросов так же, как среднее. Поэтому есть запасные варианты: <b>размах</b> (max − min) — грубо, но быстро; <b>межквартильный размах (IQR)</b> — расстояние между 25-м и 75-м процентилями, показывает разброс «средней половины» данных и игнорирует хвосты (на нём построен боксплот); <b>коэффициент вариации</b> — σ в процентах от среднего, чтобы сравнивать разброс у величин разного масштаба.</p>
+  <span class="block-label">Формулы</span>
+  <div class="formula">
+    <span class="f">R = x<sub>max</sub> − x<sub>min</sub></span> &nbsp;&nbsp; <span class="f">IQR = Q<sub>3</sub> − Q<sub>1</sub></span> &nbsp;&nbsp; <span class="f">CV = s / x̄ · 100%</span>
+    <small>Выбросы по правилу Тьюки: всё, что за пределами [Q₁ − 1.5·IQR, Q₃ + 1.5·IQR].</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="kw">from</span> scipy <span class="kw">import</span> stats
+np.<span class="fn">ptp</span>(x)                 <span class="cm"># размах (max − min)</span>
+stats.<span class="fn">iqr</span>(x)              <span class="cm"># межквартильный размах</span>
+np.<span class="fn">std</span>(x, ddof=<span class="nu">1</span>) / np.<span class="fn">mean</span>(x) * <span class="nu">100</span>   <span class="cm"># CV в %</span></code></pre>
+</div>
+
+<div class="card" id="s1-9" data-title="методы визуализации переменных гистограмма боксплот">
+  <h2><span class="num">1.9</span>Методы визуализации переменных</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Цифры обманывают, картинки — редко. Одинаковые среднее и дисперсия могут скрывать совершенно разные данные (см. квартет Энскомба, раздел 6.5). Правило: прежде чем считать любой тест — посмотри на график.</p>
+  <table class="mini">
+    <tr><th>График</th><th>Когда использовать</th></tr>
+    <tr><td>Гистограмма / KDE</td><td>форма распределения одной количественной переменной</td></tr>
+    <tr><td>Боксплот</td><td>медиана, квартили, выбросы; сравнение групп</td></tr>
+    <tr><td>Скрипичный (violin)</td><td>боксплот + форма распределения одновременно</td></tr>
+    <tr><td>Столбчатая (bar/count)</td><td>частоты категориальной переменной</td></tr>
+    <tr><td>Диаграмма рассеяния</td><td>связь двух количественных переменных</td></tr>
+  </table>
+  <span class="block-label">Python</span>
+  <pre><code><span class="kw">import</span> seaborn <span class="kw">as</span> sns, matplotlib.pyplot <span class="kw">as</span> plt
+sns.<span class="fn">histplot</span>(df[<span class="st">"x"</span>], kde=<span class="kw">True</span>)
+sns.<span class="fn">boxplot</span>(x=<span class="st">"group"</span>, y=<span class="st">"value"</span>, data=df)     <span class="cm"># сравнение групп</span>
+sns.<span class="fn">violinplot</span>(x=<span class="st">"group"</span>, y=<span class="st">"value"</span>, data=df)
+sns.<span class="fn">countplot</span>(x=<span class="st">"city"</span>, data=df)               <span class="cm"># категориальная</span>
+sns.<span class="fn">scatterplot</span>(x=<span class="st">"height"</span>, y=<span class="st">"weight"</span>, data=df)
+plt.<span class="fn">show</span>()</code></pre>
+</div>
+
+<!-- ================= РАЗДЕЛ 2 ================= -->
+<h1 class="section">2. Проверка гипотез: база</h1>
+<p class="section-lead">Инструменты, на которых строятся все статистические тесты: нормальное распределение, ЦПТ и p-value.</p>
+
+<div class="card" id="s2-1" data-title="нормальное распределение">
+  <h2><span class="num">2.1</span>Нормальное распределение</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Это «колокол»: симметричное распределение, где значения собираются вокруг среднего, а сильные отклонения встречаются редко. Так ведут себя рост, ошибки измерений и — что важнее всего — <b>средние почти любых данных</b> (см. ЦПТ, 2.4). Почти все классические тесты либо предполагают нормальность, либо опираются на неё через ЦПТ. Полностью задаётся двумя числами: средним μ и разбросом σ.</p>
+  <span class="block-label">Формула</span>
+  <div class="formula">
+    <span class="f">f(x) = (1 / σ√(2π)) · e<sup>−(x−μ)² / 2σ²</sup></span>
+    <small>Правило «трёх сигм»: 68% значений в μ±σ, 95% — в μ±2σ, 99.7% — в μ±3σ. Стандартное нормальное: μ=0, σ=1.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="kw">from</span> scipy <span class="kw">import</span> stats
+norm = stats.<span class="fn">norm</span>(loc=<span class="nu">170</span>, scale=<span class="nu">10</span>)   <span class="cm"># N(170, 10²) — например, рост</span>
+norm.<span class="fn">pdf</span>(<span class="nu">180</span>)        <span class="cm"># плотность в точке</span>
+norm.<span class="fn">cdf</span>(<span class="nu">180</span>)        <span class="cm"># P(X ≤ 180)</span>
+norm.<span class="fn">ppf</span>(<span class="nu">0.975</span>)      <span class="cm"># обратная: какой x отсекает 97.5%</span>
+norm.<span class="fn">rvs</span>(<span class="nu">1000</span>, random_state=<span class="nu">42</span>)   <span class="cm"># сгенерировать 1000 значений</span></code></pre>
+</div>
+
+<div class="card" id="s2-2" data-title="z-стандартизация z-оценка">
+  <h2><span class="num">2.2</span>Z-стандартизация</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Z-оценка переводит любое значение на универсальную шкалу: «на сколько стандартных отклонений оно отличается от среднего». z = 2 значит «на два σ выше среднего» — редкость независимо от того, меряем мы рост, доход или баллы теста. Так можно сравнивать переменные с разными единицами и масштабом, а ещё искать выбросы (|z| &gt; 3 — подозрительно).</p>
+  <span class="block-label">Формула</span>
+  <div class="formula">
+    <span class="f">z = (x − μ) / σ</span>
+    <small>После стандартизации: среднее = 0, σ = 1. Для выборки используем x̄ и s.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="kw">from</span> scipy <span class="kw">import</span> stats
+z = stats.<span class="fn">zscore</span>(x)                       <span class="cm"># z-оценки массива</span>
+df[<span class="st">"z_income"</span>] = (df[<span class="st">"income"</span>] - df[<span class="st">"income"</span>].<span class="fn">mean</span>()) / df[<span class="st">"income"</span>].<span class="fn">std</span>()
+
+<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler   <span class="cm"># для ML-пайплайнов</span>
+X_scaled = StandardScaler().<span class="fn">fit_transform</span>(X)
+
+<span class="cm"># Поиск выбросов</span>
+outliers = df[np.<span class="fn">abs</span>(stats.<span class="fn">zscore</span>(df[<span class="st">"income"</span>])) &gt; <span class="nu">3</span>]</code></pre>
+</div>
+
+<div class="card" id="s2-3" data-title="считаем вероятности cdf ppf">
+  <h2><span class="num">2.3</span>Считаем вероятности</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Как только распределение известно, можно отвечать на вопросы вида «какова вероятность, что значение окажется больше X?» или «между какими границами лежат центральные 95%?». Это фундамент p-value и доверительных интервалов: оба — просто площади под кривой распределения.</p>
+  <span class="block-label">Формула / логика</span>
+  <div class="formula">
+    <span class="f">P(X ≤ x) = F(x)</span> — функция распределения (CDF)<br>
+    <span class="f">P(a ≤ X ≤ b) = F(b) − F(a)</span>
+    <small>Для нестандартного нормального сначала переводим в z, потом смотрим CDF стандартного.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="kw">from</span> scipy <span class="kw">import</span> stats
+<span class="cm"># Рост ~ N(170, 10²). Какова вероятность роста выше 185?</span>
+p = <span class="nu">1</span> - stats.<span class="fn">norm</span>(<span class="nu">170</span>, <span class="nu">10</span>).<span class="fn">cdf</span>(<span class="nu">185</span>)        <span class="cm"># ≈ 0.067</span>
+<span class="cm"># Или через z: (185−170)/10 = 1.5 → 1 − Φ(1.5)</span>
+p = <span class="nu">1</span> - stats.norm.<span class="fn">cdf</span>(<span class="nu">1.5</span>)
+
+<span class="cm"># Границы центральных 95%</span>
+lo, hi = stats.<span class="fn">norm</span>(<span class="nu">170</span>, <span class="nu">10</span>).<span class="fn">interval</span>(<span class="nu">0.95</span>)   <span class="cm"># ≈ (150.4, 189.6)</span></code></pre>
+</div>
+
+<div class="card" id="s2-4" data-title="центральная предельная теорема цпт">
+  <h2><span class="num">2.4</span>Центральная предельная теорема (ЦПТ)</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Главная «магия» статистики. Возьмите ЛЮБОЕ распределение — хоть скошенное, хоть двугорбое. Если много раз брать из него выборки и считать средние, эти средние распределятся нормально вокруг истинного среднего. Именно поэтому t-тесты и доверительные интервалы работают даже на «некрасивых» данных, если выборка достаточно большая (эвристика: n ≥ 30, чем сильнее скос — тем больше нужно).</p>
+  <span class="block-label">Формула</span>
+  <div class="formula">
+    <span class="f">x̄ ~ N(μ, σ²/n)</span> при больших n
+    <small>Среднее выборочных средних = μ, их разброс = σ/√n — тем уже, чем больше выборка.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="cm"># Демонстрация ЦПТ на скошенном (экспоненциальном) распределении</span>
+pop = stats.expon.<span class="fn">rvs</span>(size=<span class="nu">100_000</span>, random_state=<span class="nu">42</span>)
+means = [np.<span class="fn">mean</span>(np.random.<span class="fn">choice</span>(pop, <span class="nu">30</span>)) <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(<span class="nu">5000</span>)]
+sns.<span class="fn">histplot</span>(means, kde=<span class="kw">True</span>)   <span class="cm"># форма — почти идеальный "колокол"!</span></code></pre>
+</div>
+
+<div class="card" id="s2-5" data-title="стандартная ошибка среднего sem se">
+  <h2><span class="num">2.5</span>Стандартная ошибка среднего</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Стандартное отклонение σ измеряет разброс <b>данных</b>. Стандартная ошибка SE измеряет неточность <b>самой оценки среднего</b>: если повторить эксперимент, насколько сдвинется среднее? Чем больше выборка, тем точнее среднее — ошибка падает как 1/√n: чтобы сделать оценку вдвое точнее, данных нужно вчетверо больше. SE — рабочая лошадка всех тестов и доверительных интервалов.</p>
+  <span class="block-label">Формула</span>
+  <div class="formula">
+    <span class="f">SE = σ / √n</span> &nbsp;&nbsp; (на практике <span class="f">SE = s / √n</span>)
+    <small>Не путать: σ — про данные, SE — про точность среднего.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="kw">from</span> scipy <span class="kw">import</span> stats
+stats.<span class="fn">sem</span>(x)                        <span class="cm"># стандартная ошибка среднего</span>
+x.<span class="fn">std</span>(ddof=<span class="nu">1</span>) / np.<span class="fn">sqrt</span>(<span class="fn">len</span>(x))      <span class="cm"># то же вручную</span></code></pre>
+</div>
+
+<div class="card" id="s2-6" data-title="статистические гипотезы h0 h1">
+  <h2><span class="num">2.6</span>Статистические гипотезы: начало</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Любой тест — это спор с «скучным» объяснением. <b>H₀ (нулевая гипотеза)</b>: «ничего не происходит, различий нет, эффект — случайный шум». <b>H₁ (альтернативная)</b>: «эффект есть». Мы не доказываем H₁ напрямую — мы пытаемся <b>опровергнуть H₀</b>: считаем, насколько странно было бы увидеть наши данные, если бы H₀ была верна. Странно (p-value &lt; α) → отвергаем H₀.</p>
+  <span class="block-label">Формула / схема</span>
+  <div class="formula">
+    <span class="f">H₀: μ = μ₀</span> &nbsp;vs&nbsp; <span class="f">H₁: μ ≠ μ₀</span> (двусторонняя) или <span class="f">μ &gt; μ₀</span> (односторонняя)
+    <small>α (обычно 0.05) — порог значимости, выбираем ДО эксперимента.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="cm"># Шаблон любого теста в scipy:</span>
+stat, p = stats.<span class="fn">ttest_1samp</span>(x, popmean=<span class="nu">100</span>)
+<span class="kw">if</span> p &lt; <span class="nu">0.05</span>:
+    <span class="fn">print</span>(<span class="st">"Отвергаем H0: различие значимо"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="st">"Не отвергаем H0 (но это НЕ доказательство, что H0 верна!)"</span>)</code></pre>
+</div>
+
+<div class="card" id="s2-7" data-title="p-value что это такое и что это не такое">
+  <h2><span class="num">2.7</span>P-value: что это и чем оно НЕ является</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p><b>P-value</b> — вероятность получить такие же или ещё более экстремальные данные, <b>если H₀ верна</b>. Маленькое p значит: «при справедливом H₀ такое почти не случается — значит, H₀ под вопросом». Чего p-value НЕ говорит: это не вероятность того, что H₀ верна; не вероятность того, что эффект случаен; не размер эффекта. p = 0.001 при крошечном, бесполезном эффекте бывает на огромных выборках.</p>
+  <span class="block-label">Формула / интерпретация</span>
+  <div class="formula">
+    <span class="f">p = P(данные такие или экстремальнее | H₀)</span>
+    <small>p &lt; 0.05 → «статистически значимо». Всегда смотрите ещё и на размер эффекта!</small>
+  </div>
+  <div class="warn">⚠️ Частые ошибки: p = 0.06 — не «почти значимо, эффект есть», а «данных недостаточно». И p-hacking (подгонять анализ под p &lt; 0.05) — прямой путь к ложным открытиям.</div>
+  <span class="block-label">Python</span>
+  <pre><code>t, p = stats.<span class="fn">ttest_ind</span>(group_a, group_b)
+<span class="fn">print</span>(<span class="st">f"t = {t:.2f}, p = {p:.4f}"</span>)
+<span class="cm"># Размер эффекта (Cohen's d) — обязательно вместе с p-value:</span>
+d = (np.<span class="fn">mean</span>(a) - np.<span class="fn">mean</span>(b)) / np.<span class="fn">sqrt</span>((np.<span class="fn">var</span>(a, ddof=<span class="nu">1</span>) + np.<span class="fn">var</span>(b, ddof=<span class="nu">1</span>)) / <span class="nu">2</span>)</code></pre>
+</div>
+
+<!-- ================= РАЗДЕЛ 3 ================= -->
+<h1 class="section">3. Статистический вывод</h1>
+<p class="section-lead">Как мы ошибаемся, когда проверяем гипотезы, и как измерить неточность оценки интервалом, а не одним числом.</p>
+
+<div class="card" id="s3-1" data-title="ошибки первого и второго рода мощность">
+  <h2><span class="num">3.1</span>Ошибки I и II рода</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Решая «отвергать H₀ или нет», можно ошибиться двумя способами. <b>Ошибка I рода (α)</b> — ложная тревога: кричим «эффект есть!», а его нет. <b>Ошибка II рода (β)</b> — прозевали: эффект есть, а мы его не заметили. Снижая α (делая тест строже), мы растим β — как в суде: чем труднее осудить невиновного, тем больше виновных уйдёт. <b>Мощность теста = 1 − β</b> — шанс найти эффект, если он реально существует. Хотят ≥ 0.8.</p>
+  <table class="mini">
+    <tr><th></th><th>H₀ верна (эффекта нет)</th><th>H₀ неверна (эффект есть)</th></tr>
+    <tr><td><b>Отвергаем H₀</b></td><td>Ошибка I рода (α)</td><td>✅ Верно (мощность 1−β)</td></tr>
+    <tr><td><b>Не отвергаем H₀</b></td><td>✅ Верно</td><td>Ошибка II рода (β)</td></tr>
+  </table>
+  <span class="block-label">Python</span>
+  <pre><code><span class="kw">from</span> statsmodels.stats.power <span class="kw">import</span> TTestIndPower
+power = TTestIndPower()
+<span class="cm"># Сколько наблюдений нужно, чтобы найти эффект d=0.5 с мощностью 0.8?</span>
+n = power.<span class="fn">solve_power</span>(effect_size=<span class="nu">0.5</span>, alpha=<span class="nu">0.05</span>, power=<span class="nu">0.8</span>)   <span class="cm"># ≈ 64 на группу</span></code></pre>
+</div>
+
+<div class="card" id="s3-2" data-title="доверительные интервалы построить интерпретация связь с p-value">
+  <h2><span class="num">3.2</span>Доверительные интервалы</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Точечная оценка («среднее = 52.3») притворяется точной, хотя по выборке мы всегда ошибаемся. Доверительный интервал честно показывает диапазон: «среднее где-то от 48 до 57». Как построить: взять оценку и прибавить/отнять критическое значение из t-распределения, умноженное на стандартную ошибку. <b>Связь с p-value:</b> если 95%-интервал не включает нулевое значение (например, 0 для разности), то p &lt; 0.05 — это два взгляда на одну и ту же математику. Но интервал информативнее: виден и размер эффекта, и его неточность.</p>
+  <span class="block-label">Формула</span>
+  <div class="formula">
+    <span class="f">x̄ ± t<sub>α/2, n−1</sub> · (s / √n)</span>
+    <small>Для 95% и больших n t ≈ 1.96 ≈ 2.</small>
+  </div>
+  <div class="warn">⚠️ Тонкость интерпретации: НЕ «95% вероятности, что μ в этом конкретном интервале» (μ фиксировано, оно либо там, либо нет). Верно так: если повторять эксперимент много раз, 95% построенных так интервалов накроют истинное μ.</div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="kw">from</span> scipy <span class="kw">import</span> stats
+<span class="cm"># Вариант 1: готовая функция</span>
+ci = stats.t.<span class="fn">interval</span>(confidence=<span class="nu">0.95</span>, df=<span class="fn">len</span>(x)-<span class="nu">1</span>,
+                     loc=np.<span class="fn">mean</span>(x), scale=stats.<span class="fn">sem</span>(x))
+<span class="cm"># Вариант 2: вручную (понятно, что внутри)</span>
+t_crit = stats.t.<span class="fn">ppf</span>(<span class="nu">0.975</span>, df=<span class="fn">len</span>(x)-<span class="nu">1</span>)
+ci = (np.<span class="fn">mean</span>(x) - t_crit*stats.<span class="fn">sem</span>(x), np.<span class="fn">mean</span>(x) + t_crit*stats.<span class="fn">sem</span>(x))</code></pre>
+</div>
+
+<!-- ================= РАЗДЕЛ 4 ================= -->
+<h1 class="section">4. Сравнение средних значений (t-тест)</h1>
+<p class="section-lead">Самый частый вопрос аналитика: «Эти две группы правда отличаются, или это случайность?»</p>
+
+<div class="card" id="s4-1" data-title="t-тест t-статистика что и зачем">
+  <h2><span class="num">4.1</span>T-тест и t-статистика</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>У нас есть средние двух групп (конверсия в A и в B), и они различаются. Вопрос: это настоящая разница или шум? <b>T-статистика</b> измеряет разницу в единицах её же неточности: большое |t| — «разница огромная по сравнению с шумом, случайностью не объяснишь». Три вида теста: <b>одновыборочный</b> (среднее vs заданное число), <b>двухвыборочный</b> (две независимые группы), <b>парный</b> (одни и те же объекты до/после).</p>
+  <span class="block-label">Формулы</span>
+  <div class="formula">
+    Одна выборка: <span class="f">t = (x̄ − μ₀) / (s/√n)</span><br>
+    Две выборки: <span class="f">t = (x̄₁ − x̄₂) / √(s₁²/n₁ + s₂²/n₂)</span>
+    <small>Числитель — разница (сигнал), знаменатель — стандартная ошибка (шум). |t| большое → различие значимо.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="kw">from</span> scipy <span class="kw">import</span> stats
+stats.<span class="fn">ttest_1samp</span>(x, popmean=<span class="nu">100</span>)          <span class="cm"># одновыборочный</span>
+stats.<span class="fn">ttest_ind</span>(group_a, group_b)          <span class="cm"># две независимые группы</span>
+stats.<span class="fn">ttest_ind</span>(group_a, group_b, equal_var=<span class="kw">False</span>)  <span class="cm"># Welch — безопасный дефолт!</span>
+stats.<span class="fn">ttest_rel</span>(before, after)             <span class="cm"># парный: до/после</span></code></pre>
+</div>
+
+<div class="card" id="s4-2" data-title="t-распределение степени свободы цпт">
+  <h2><span class="num">4.2</span>T-распределение и ЦПТ</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>На маленьких выборках мы не знаем σ и оцениваем его по данным — это добавляет неопределённость. Поэтому вместо нормального распределения используем <b>t-распределение</b>: похожий колокол, но с «толстыми хвостами» (крайние значения вероятнее). Его форма зависит от <b>степеней свободы</b> (df = n − 1 для одной выборки): чем больше данных, тем он ближе к нормальному; при df ≥ 30 разница почти незаметна. Благодаря ЦПТ t-тест работает и на не-нормальных данных, если выборки достаточно большие.</p>
+  <span class="block-label">Формула / связь</span>
+  <div class="formula">
+    <span class="f">t ~ t(df)</span>, где <span class="f">df = n − 1</span>
+    <small>t(df→∞) = N(0,1). Толстые хвосты = «штраф» за то, что σ оценена по выборке.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code>x = np.<span class="fn">linspace</span>(-<span class="nu">4</span>, <span class="nu">4</span>, <span class="nu">500</span>)
+plt.<span class="fn">plot</span>(x, stats.t.<span class="fn">pdf</span>(x, df=<span class="nu">2</span>),  label=<span class="st">"t, df=2"</span>)
+plt.<span class="fn">plot</span>(x, stats.t.<span class="fn">pdf</span>(x, df=<span class="nu">10</span>), label=<span class="st">"t, df=10"</span>)
+plt.<span class="fn">plot</span>(x, stats.norm.<span class="fn">pdf</span>(x), <span class="st">"--"</span>, label=<span class="st">"N(0,1)"</span>)
+plt.<span class="fn">legend</span>(); plt.<span class="fn">show</span>()</code></pre>
+</div>
+
+<div class="card" id="s4-3" data-title="расчёт p-value в t-тесте">
+  <h2><span class="num">4.3</span>Расчёт p-value в t-тесте</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Получив t-статистику, смотрим: какова вероятность такого или большего |t|, если H₀ верна? Это площадь в хвостах t-распределения. При <b>двустороннем</b> тесте («отличается ли?») считаем оба хвоста, при <b>одностороннем</b> («больше ли?») — один; односторонний даёт p вдвое меньше, но применять его можно только если направление заявлено до эксперимента.</p>
+  <span class="block-label">Формула</span>
+  <div class="formula">
+    Двусторонний: <span class="f">p = 2 · P(T ≥ |t|)</span> = <span class="f">2 · (1 − F<sub>t</sub>(|t|))</span>
+    <small>F<sub>t</sub> — CDF t-распределения с нужными степенями свободы.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="cm"># Вручную из t-статистики:</span>
+p_two = <span class="nu">2</span> * (<span class="nu">1</span> - stats.t.<span class="fn">cdf</span>(<span class="fn">abs</span>(t_stat), df=df))
+
+<span class="cm"># Односторонний тест напрямую (scipy ≥ 1.6):</span>
+stats.<span class="fn">ttest_ind</span>(a, b, alternative=<span class="st">"greater"</span>)   <span class="cm"># H1: среднее a &gt; среднее b</span></code></pre>
+</div>
+
+<div class="card" id="s4-4" data-title="проверка нормальности данных qq-график шапиро">
+  <h2><span class="num">4.4</span>Проверка нормальности и QQ-график</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>T-тест на малых выборках предполагает нормальность данных, поэтому её проверяют. Формальный способ — <b>тест Шапиро–Уилка</b> (H₀: «данные нормальны»; p &lt; 0.05 → нормальность отвергнута). Но надёжнее смотреть глазами: <b>QQ-график</b> сравнивает квантили данных с квантилями идеального нормального распределения. Точки на прямой — нормальность; S-образная дуга — скошенность; «крючки» на концах — тяжёлые хвосты. Важно: на больших выборках тест Шапиро находит крошечные неважные отклонения, поэтому график информативнее.</p>
+  <span class="block-label">Python</span>
+  <pre><code><span class="kw">from</span> scipy <span class="kw">import</span> stats
+w, p = stats.<span class="fn">shapiro</span>(x)          <span class="cm"># p &lt; 0.05 → не нормально</span>
+stats.<span class="fn">normaltest</span>(x)              <span class="cm"># альтернатива (Д'Агостино)</span>
+
+<span class="cm"># QQ-график — главный инструмент:</span>
+stats.<span class="fn">probplot</span>(x, dist=<span class="st">"norm"</span>, plot=plt); plt.<span class="fn">show</span>()
+<span class="cm"># или: sm.qqplot(x, line="s")  из statsmodels</span></code></pre>
+  <div class="note">💡 Если нормальности нет: увеличьте выборку (спасёт ЦПТ), сделайте трансформацию (4.5), используйте тест Уэлча или непараметрику — <code>stats.mannwhitneyu(a, b)</code>.</div>
+</div>
+
+<div class="card" id="s4-5" data-title="логарифмическая трансформация логарифмирование">
+  <h2><span class="num">4.5</span>Логарифмическая трансформация</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Доходы, цены, время загрузки скошены вправо: длинный хвост больших значений ломает нормальность. Логарифм «сжимает» большие значения сильнее маленьких — и часто превращает скошенное распределение в симпатичный колокол. Бонус: коэффициенты модели на лог-шкале читаются как проценты. Нельзя применять к нулям и отрицательным — для нулей используют log(x+1).</p>
+  <span class="block-label">Формула</span>
+  <div class="formula">
+    <span class="f">x′ = ln(x)</span> или <span class="f">x′ = ln(x + 1)</span>
+    <small>Обратное преобразование: x = e<sup>x′</sup>. Работает, если множительные эффекты важнее аддитивных.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code>df[<span class="st">"log_income"</span>] = np.<span class="fn">log</span>(df[<span class="st">"income"</span>])       <span class="cm"># если нулей нет</span>
+df[<span class="st">"log_income"</span>] = np.<span class="fn">log1p</span>(df[<span class="st">"income"</span>])     <span class="cm"># log(1+x), безопасно для нулей</span>
+sns.<span class="fn">histplot</span>(df[<span class="st">"log_income"</span>], kde=<span class="kw">True</span>)      <span class="cm"># проверяем, стало ли симметричнее</span>
+stats.<span class="fn">ttest_ind</span>(np.<span class="fn">log1p</span>(a), np.<span class="fn">log1p</span>(b))     <span class="cm"># тест на лог-данных</span></code></pre>
+</div>
+
+<div class="card" id="s4-6" data-title="проверка равенства дисперсий левин уэлч">
+  <h2><span class="num">4.6</span>Проверка равенства дисперсий</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Классический t-тест предполагает, что разброс в обеих группах одинаковый (гомогенность дисперсий). Проверяют <b>тестом Левена</b> (H₀: «дисперсии равны»; p &lt; 0.05 → не равны). Современная практика проще: сразу используйте <b>t-тест Уэлча</b> (<code>equal_var=False</code>) — он корректен и при равных, и при неравных дисперсиях, а по мощности почти не проигрывает.</p>
+  <span class="block-label">Python</span>
+  <pre><code>stats.<span class="fn">levene</span>(a, b)                       <span class="cm"># тест Левена (устойчив к ненормальности)</span>
+stats.<span class="fn">bartlett</span>(a, b)                     <span class="cm"># альтернатива, но чувствителен к ненормальности</span>
+stats.<span class="fn">ttest_ind</span>(a, b, equal_var=<span class="kw">False</span>)   <span class="cm"># Welch — просто используйте его</span></code></pre>
+</div>
+
+<!-- ================= РАЗДЕЛ 5 ================= -->
+<h1 class="section">5. Дисперсионный анализ (ANOVA)</h1>
+<p class="section-lead">T-тест сравнивает две группы. ANOVA — три и больше, причём без раздувания ошибки I рода.</p>
+
+<div class="card" id="s5-1" data-title="anova зачем дисперсионный анализ">
+  <h2><span class="num">5.1</span>Зачем нужен ANOVA</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Нужно сравнить средние трёх+ групп (например, конверсию четырёх вариантов лендинга). Можно натыкать t-тестов на каждую пару, но с k группами это k(k−1)/2 тестов, и каждый даёт 5% шанс ложной тревоги — суммарная вероятность ошибки взлетает. ANOVA проверяет все группы <b>одним</b> тестом: H₀ — «все средние равны». Значимый результат говорит лишь «хотя бы одна группа отличается» — а какая именно, выясняют пост-хок тестами (5.4).</p>
+  <span class="block-label">Формула / идея</span>
+  <div class="formula">
+    <span class="f">H₀: μ₁ = μ₂ = … = μₖ</span>
+    <small>Логика: если группы одинаковы, разброс МЕЖДУ средними групп ≈ разбросу ВНУТРИ групп. Если между ≫ внутри — средние правда разные.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="kw">from</span> scipy <span class="kw">import</span> stats
+f, p = stats.<span class="fn">f_oneway</span>(group1, group2, group3, group4)</code></pre>
+</div>
+
+<div class="card" id="s5-2" data-title="математика anova f-статистика p-value">
+  <h2><span class="num">5.2</span>Математика ANOVA и p-value</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Общий разброс всех данных раскладывается на две части: разброс <b>между</b> группами (эффект фактора) и разброс <b>внутри</b> групп (случайный шум). <b>F-статистика</b> — их отношение. F около 1 → вся разница это шум, H₀ жива. F большая → эффект сильнее шума. P-value — площадь хвоста F-распределения правее наблюдаемого F.</p>
+  <span class="block-label">Формулы</span>
+  <div class="formula">
+    <span class="f">SS<sub>total</sub> = SS<sub>between</sub> + SS<sub>within</sub></span><br>
+    <span class="f">F = MS<sub>between</sub> / MS<sub>within</sub> = (SS<sub>between</sub>/(k−1)) / (SS<sub>within</sub>/(N−k))</span>
+    <small>k — число групп, N — всего наблюдений. Степени свободы: (k−1, N−k).</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="cm"># P-value из F вручную:</span>
+p = <span class="nu">1</span> - stats.f.<span class="fn">cdf</span>(f_stat, dfn=k-<span class="nu">1</span>, dfd=N-k)</code></pre>
+</div>
+
+<div class="card" id="s5-3" data-title="anova в python statsmodels">
+  <h2><span class="num">5.3</span>ANOVA в Python</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>На практике ANOVA почти всегда запускают через statsmodels: на вход — формула вида «показатель ~ группа», на выход — полная таблица с SS, df, F и p-value. Плюс такого подхода: та же формула потом легко расширяется до многофакторного случая (5.5).</p>
+  <span class="block-label">Python</span>
+  <pre><code><span class="kw">import</span> statsmodels.api <span class="kw">as</span> sm
+<span class="kw">from</span> statsmodels.formula.api <span class="kw">import</span> ols
+
+model = <span class="fn">ols</span>(<span class="st">"conversion ~ C(landing)"</span>, data=df).<span class="fn">fit</span>()
+table = sm.stats.<span class="fn">anova_lm</span>(model, typ=<span class="nu">2</span>)
+<span class="fn">print</span>(table)
+<span class="cm">#            sum_sq   df     F    PR(&gt;F)</span>
+<span class="cm"># C(landing)  ...     3    4.82   0.003   ← p-value фактора</span></code></pre>
+</div>
+
+<div class="card" id="s5-4" data-title="множественные сравнения поправки бонферрони тьюки">
+  <h2><span class="num">5.4</span>Множественные сравнения и поправки</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Проблема: 20 тестов при α=0.05 дают в среднем 1 ложное «открытие» просто по законам случая (это как «зелёная фасоль вызывает прыщи» из xkcd). Решения: <b>Бонферрони</b> — делим α на число тестов (просто, но очень строго, теряем мощность); <b>Холм</b> — то же, но умнее и мощнее; <b>Tukey HSD</b> — специально для попарных сравнений после ANOVA; <b>Бенджамини–Хохберг (FDR)</b> — контролирует долю ложных открытий, стандарт в A/B и биоинформатике.</p>
+  <span class="block-label">Формула</span>
+  <div class="formula">
+    Бонферрони: <span class="f">α′ = α / m</span>, где m — число тестов
+    <small>FWER (семейная ошибка) vs FDR (доля ложных среди найденных).</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="kw">from</span> statsmodels.stats.multicomp <span class="kw">import</span> pairwise_tukeyhsd
+<span class="kw">from</span> statsmodels.stats.multitest <span class="kw">import</span> multipletests
+
+<span class="cm"># Попарные сравнения после ANOVA:</span>
+<span class="fn">print</span>(<span class="fn">pairwise_tukeyhsd</span>(df[<span class="st">"conversion"</span>], df[<span class="st">"landing"</span>]))
+
+<span class="cm"># Поправка к готовому списку p-value:</span>
+reject, p_adj, _, _ = <span class="fn">multipletests</span>(pvals, alpha=<span class="nu">0.05</span>, method=<span class="st">"holm"</span>)
+<span class="cm"># method: "bonferroni", "holm", "fdr_bh"</span></code></pre>
+</div>
+
+<div class="card" id="s5-5" data-title="многофакторный двухфакторный anova взаимодействие">
+  <h2><span class="num">5.5</span>Многофакторный ANOVA</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Реальные эксперименты редко однофакторные: конверсия зависит и от лендинга, и от источника трафика. Двухфакторный ANOVA проверяет сразу три эффекта: главный эффект фактора A, главный эффект фактора B и их <b>взаимодействие</b> (A×B). Взаимодействие значимо, когда эффект одного фактора зависит от уровня другого — например, новый лендинг лучше старого для мобильных, но хуже для десктопа. Если взаимодействие значимо, главные эффекты по отдельности интерпретируют осторожно: они «усредняют» противоположные истории.</p>
+  <span class="block-label">Возможные результаты (двухфакторный)</span>
+  <table class="mini">
+    <tr><th>Что значимо</th><th>Вывод</th></tr>
+    <tr><td>Только A</td><td>влияет фактор A, B ни при чём</td></tr>
+    <tr><td>A и B, без A×B</td><td>оба фактора действуют независимо (эффекты складываются)</td></tr>
+    <tr><td>A×B значимо</td><td>факторы работают в связке — разбирайте комбинации уровней отдельно</td></tr>
+    <tr><td>Ничего</td><td>ни один фактор не влияет (или не хватило мощности)</td></tr>
+  </table>
+  <span class="block-label">Python</span>
+  <pre><code><span class="cm"># Два фактора + взаимодействие:</span>
+model = <span class="fn">ols</span>(<span class="st">"conversion ~ C(landing) * C(device)"</span>, data=df).<span class="fn">fit</span>()
+sm.stats.<span class="fn">anova_lm</span>(model, typ=<span class="nu">2</span>)
+<span class="cm"># В таблице будут строки: C(landing), C(device), C(landing):C(device)</span></code></pre>
+</div>
+
+<!-- ================= РАЗДЕЛ 6 ================= -->
+<h1 class="section">6. Корреляция и регрессия</h1>
+<p class="section-lead">Как измерить связь между двумя переменными и как описать её уравнением прямой.</p>
+
+<div class="card" id="s6-1" data-title="корреляция пирсон спирмен">
+  <h2><span class="num">6.1</span>Корреляция: математика и Python</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Корреляция — мера <b>линейной</b> связи между двумя переменными, число от −1 до +1. +1 — идеальная прямая вверх, −1 — вниз, 0 — линейной связи нет. Быстро отвечает на вопросы «растёт ли продажа с рекламным бюджетом?». Помните: <b>корреляция ≠ причинность</b> (мороженое коррелирует с утоплениями — виновата жара), и r = 0 не значит «связи нет» — она может быть нелинейной (см. 6.2). Если данные с выбросами или связь монотонная, но не линейная — берите ранговую корреляцию <b>Спирмена</b>.</p>
+  <span class="block-label">Формула</span>
+  <div class="formula">
+    <span class="f">r = Σ(x<sub>i</sub>−x̄)(y<sub>i</sub>−ȳ) / √(Σ(x<sub>i</sub>−x̄)² · Σ(y<sub>i</sub>−ȳ)²)</span>
+    <small>По сути — ковариация, нормированная на произведение стандартных отклонений: r = cov(x,y)/(sₓ·s_y).</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="kw">from</span> scipy <span class="kw">import</span> stats
+r, p = stats.<span class="fn">pearsonr</span>(x, y)       <span class="cm"># Пирсон + p-value</span>
+r, p = stats.<span class="fn">spearmanr</span>(x, y)      <span class="cm"># Спирмен (по рангам, устойчив к выбросам)</span>
+df.<span class="fn">corr</span>()                          <span class="cm"># матрица корреляций всех пар</span>
+sns.<span class="fn">heatmap</span>(df.<span class="fn">corr</span>(), annot=<span class="kw">True</span>, cmap=<span class="st">"coolwarm"</span>)</code></pre>
+</div>
+
+<div class="card" id="s6-2" data-title="нелинейность выбросы гетероскедастичность">
+  <h2><span class="num">6.2</span>Нелинейность, выбросы и гетероскедастичность</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Три типичные ловушки, которые делают корреляцию и регрессию ненадёжными:</p>
+  <ul>
+    <li><b>Нелинейность</b> — связь дуговидная (например, «стресс и продуктивность»: и мало, и много — плохо). Пирсон покажет ≈0. Решение: смотреть на график, пробовать Спирмена или трансформации.</li>
+    <li><b>Выбросы</b> — одна точка-миллионер может «нарисовать» корреляцию из ничего. Решение: Спирмен, робастные методы, или осознанное удаление.</li>
+    <li><b>Гетероскедастичность</b> — разброс y растёт вместе с x («веер» на графике остатков). Сам коэффициент остаётся честным, но p-value и доверительные интервалы врут. Решение: робастные стандартные ошибки (HC3) или логарифмирование.</li>
+  </ul>
+  <span class="block-label">Python</span>
+  <pre><code>sns.<span class="fn">scatterplot</span>(x=x, y=y)           <span class="cm"># сначала ВСЕГДА смотрим глазами</span>
+<span class="cm"># Робастные стандартные ошибки при гетероскедастичности:</span>
+model.<span class="fn">fit</span>(cov_type=<span class="st">"HC3"</span>)</code></pre>
+</div>
+
+<div class="card" id="s6-3" data-title="линейная регрессия математика python">
+  <h2><span class="num">6.3</span>Линейная регрессия: математика и Python</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Корреляция говорит «связь есть». Регрессия идёт дальше и записывает её уравнением: зная x, предсказываем y. <b>b₁ (наклон)</b> — на сколько единиц в среднем меняется y при росте x на единицу. <b>b₀ (свободный член)</b> — значение y при x=0. Прямая подбирается методом наименьших квадратов (МНК): минимизируем сумму квадратов вертикальных расстояний от точек до прямой.</p>
+  <span class="block-label">Формулы</span>
+  <div class="formula">
+    Модель: <span class="f">ŷ = b₀ + b₁x</span><br>
+    <span class="f">b₁ = Σ(x<sub>i</sub>−x̄)(y<sub>i</sub>−ȳ) / Σ(x<sub>i</sub>−x̄)² = r · (s_y / sₓ)</span> &nbsp;&nbsp; <span class="f">b₀ = ȳ − b₁x̄</span>
+    <small>МНК: min Σ(y<sub>i</sub> − ŷ<sub>i</sub>)². Квадраты штрафуют большие ошибки сильнее.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="cm"># Быстрый вариант (scipy):</span>
+res = stats.<span class="fn">linregress</span>(x, y)
+res.slope, res.intercept, res.rvalue, res.pvalue
+
+<span class="cm"># Полноценный вариант (statsmodels) — с доверительными интервалами:</span>
+<span class="kw">import</span> statsmodels.formula.api <span class="kw">as</span> smf
+model = smf.<span class="fn">ols</span>(<span class="st">"sales ~ ads"</span>, data=df).<span class="fn">fit</span>()
+<span class="fn">print</span>(model.<span class="fn">summary</span>())</code></pre>
+</div>
+
+<div class="card" id="s6-4" data-title="коэффициент детерминации r квадрат">
+  <h2><span class="num">6.4</span>Коэффициент детерминации R²</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>R² отвечает: «какую долю разброса y объясняет модель?». R² = 0.7 значит, что 70% вариации y связано с x, а 30% — это другие факторы и шум. R² = 0 — модель не лучше, чем просто предсказывать среднее. Для простой регрессии R² — это просто квадрат корреляции r².</p>
+  <span class="block-label">Формула</span>
+  <div class="formula">
+    <span class="f">R² = 1 − SS<sub>res</sub>/SS<sub>total</sub> = 1 − Σ(y<sub>i</sub>−ŷ<sub>i</sub>)² / Σ(y<sub>i</sub>−ȳ)²</span>
+    <small>SS<sub>res</sub> — то, что модель НЕ объяснила; SS<sub>total</sub> — весь разброс вокруг среднего.</small>
+  </div>
+  <div class="warn">⚠️ Высокий R² ≠ хорошая модель: он всегда растёт при добавлении новых предикторов, даже бесполезных. Сравнивая модели, смотрите на скорректированный R² (см. 7.2).</div>
+  <span class="block-label">Python</span>
+  <pre><code>model.rsquared        <span class="cm"># R²</span>
+model.rsquared_adj    <span class="cm"># скорректированный R²</span>
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> r2_score
+<span class="fn">r2_score</span>(y_true, y_pred)</code></pre>
+</div>
+
+<div class="card" id="s6-5" data-title="визуализация корреляции регрессии квартет энскомба почему важна">
+  <h2><span class="num">6.5</span>Визуализация и почему она так важна</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p><b>Квартет Энскомба</b>: четыре набора данных с ИДЕНТИЧНЫМИ средними, дисперсиями, корреляцией r = 0.816 и линией регрессии. А на графиках — четыре разных мира: нормальное облако, дуга, прямая с одним выбросом и вертикальная линия точек. Мораль: никогда не доверяйте коэффициентам, не посмотрев на данные. Для пары переменных — scatterplot с линией регрессии и 95%-лентой; для диагностики модели — график «остатки vs предсказания».</p>
+  <span class="block-label">Python</span>
+  <pre><code>sns.<span class="fn">regplot</span>(x=<span class="st">"ads"</span>, y=<span class="st">"sales"</span>, data=df)        <span class="cm"># точки + прямая + 95% ДИ</span>
+sns.<span class="fn">residplot</span>(x=<span class="st">"ads"</span>, y=<span class="st">"sales"</span>, data=df)      <span class="cm"># остатки: ищем паттерны</span>
+
+<span class="cm"># Сам квартет Энскомба есть в seaborn:</span>
+df_q = sns.<span class="fn">load_dataset</span>(<span class="st">"anscombe"</span>)
+sns.<span class="fn">lmplot</span>(x=<span class="st">"x"</span>, y=<span class="st">"y"</span>, col=<span class="st">"dataset"</span>, data=df_q, col_wrap=<span class="nu">2</span>, ci=<span class="kw">None</span>)</code></pre>
+</div>
+
+<!-- ================= РАЗДЕЛ 7 ================= -->
+<h1 class="section">7. Множественный регрессионный анализ</h1>
+<p class="section-lead">Один предиктор — редкость. Реальные модели учитывают много факторов сразу и отделяют эффект каждого.</p>
+
+<div class="card" id="s7-1" data-title="множественная регрессия математика смысл">
+  <h2><span class="num">7.1</span>Множественная регрессия: математика и смысл</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Цена квартиры зависит не только от площади, но и от района, этажа и возраста дома. Множественная регрессия оценивает вклад каждого фактора <b>при прочих равных</b>: коэффициент β₁ читается как «при неизменных остальных факторах рост x₁ на единицу меняет y в среднем на β₁». Это главное отличие от простой корреляции: модель «очищает» эффект от влияния остальных переменных.</p>
+  <span class="block-label">Формулы</span>
+  <div class="formula">
+    <span class="f">ŷ = β₀ + β₁x₁ + β₂x₂ + … + βₖxₖ</span><br>
+    Матричная форма МНК: <span class="f">β̂ = (X<sup>T</sup>X)<sup>−1</sup> X<sup>T</sup> y</span>
+    <small>Считать руками не нужно — но полезно знать, что решение существует, пока предикторы не являются точными линейными комбинациями друг друга.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code>model = smf.<span class="fn">ols</span>(<span class="st">"price ~ area + floor + age + C(district)"</span>, data=df).<span class="fn">fit</span>()</code></pre>
+</div>
+
+<div class="card" id="s7-2" data-title="r2 скорректированный aic bic информационные критерии">
+  <h2><span class="num">7.2</span>R² и информационные критерии</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Обычный R² наивен: добавьте в модель хоть шум — он всё равно вырастет. Поэтому модели сравнивают иначе. <b>Скорректированный R²</b> штрафует за число предикторов и растёт, только если новая переменная правда помогает. <b>AIC и BIC</b> идут дальше: балансируют качество подгонки и сложность (BIC строже, чаще выбирает простые модели). При сравнении моделей меньше = лучше; разница &gt; 10 — сильное свидетельство в пользу модели с меньшим критерием.</p>
+  <span class="block-label">Формулы</span>
+  <div class="formula">
+    <span class="f">R²<sub>adj</sub> = 1 − (1−R²)(n−1)/(n−k−1)</span><br>
+    <span class="f">AIC = n·ln(SS<sub>res</sub>/n) + 2k</span> &nbsp;&nbsp; <span class="f">BIC = n·ln(SS<sub>res</sub>/n) + k·ln(n)</span>
+    <small>k — число параметров. Штраф BIC растёт с n, AIC — нет.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code>model.rsquared_adj, model.aic, model.bic
+
+<span class="cm"># Пошаговый отбор по AIC: выкидываем предиктор, пока AIC падает</span>
+<span class="cm"># (или сравниваем вручную:)</span>
+<span class="kw">for</span> f <span class="kw">in</span> [<span class="st">"price ~ area"</span>, <span class="st">"price ~ area + floor"</span>, <span class="st">"price ~ area + floor + age"</span>]:
+    m = smf.<span class="fn">ols</span>(f, data=df).<span class="fn">fit</span>()
+    <span class="fn">print</span>(f, <span class="st">"→ AIC:"</span>, <span class="fn">round</span>(m.aic, <span class="nu">1</span>))</code></pre>
+</div>
+
+<div class="card" id="s7-3" data-title="множественная регрессия в python statsmodels scikit-learn">
+  <h2><span class="num">7.3</span>Множественная регрессия в Python: два стиля</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Два главных инструмента решают разные задачи. <b>Statsmodels</b> — для выводов: p-value каждого коэффициента, доверительные интервалы, диагностика. <b>Scikit-learn</b> — для предсказаний: единый интерфейс fit/predict, удобные пайплайны и кросс-валидация, но без статистической отчётности. Обычно сначала разбираются через statsmodels, а предсказательный пайплайн строят на sklearn.</p>
+  <span class="block-label">Python</span>
+  <pre><code><span class="cm"># --- Statsmodels: формульный стиль (для анализа) ---</span>
+<span class="kw">import</span> statsmodels.formula.api <span class="kw">as</span> smf
+m = smf.<span class="fn">ols</span>(<span class="st">"y ~ x1 + x2 + C(category)"</span>, data=df).<span class="fn">fit</span>()
+<span class="fn">print</span>(m.<span class="fn">summary</span>())
+
+<span class="cm"># --- Scikit-learn: матричный стиль (для предсказаний) ---</span>
+<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LinearRegression
+X = df[[<span class="st">"x1"</span>, <span class="st">"x2"</span>]]; y = df[<span class="st">"y"</span>]
+reg = LinearRegression().<span class="fn">fit</span>(X, y)
+reg.coef_, reg.intercept_, reg.<span class="fn">score</span>(X, y)   <span class="cm"># коэффициенты, b0, R²</span>
+
+<span class="cm"># --- Statsmodels тоже умеет "по-склерновски":</span>
+<span class="kw">import</span> statsmodels.api <span class="kw">as</span> sm
+Xc = sm.<span class="fn">add_constant</span>(X)          <span class="cm"># свободный член добавляем руками!</span>
+m2 = sm.<span class="fn">OLS</span>(y, Xc).<span class="fn">fit</span>()</code></pre>
+</div>
+
+<div class="card" id="s7-4" data-title="интерпретация модели диагностика vif остатки">
+  <h2><span class="num">7.4</span>Интерпретация и диагностика модели</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>В <code>summary()</code> главное: <b>coef</b> — эффект предиктора при прочих равных; <b>P&gt;|t|</b> — значим ли он; <b>[0.025, 0.975]</b> — 95% ДИ коэффициента (если включает 0 — эффект под сомнением). Затем проверяем допущения: остатки должны выглядеть как случайный шум (без изгибов и «веера»), быть примерно нормальными (QQ-график), а предикторы — не дублировать друг друга (<b>мультиколлинеарность</b> меряем VIF; VIF &gt; 5–10 — повод удалить/объединить переменные).</p>
+  <span class="block-label">Python</span>
+  <pre><code><span class="kw">import</span> statsmodels.api <span class="kw">as</span> sm
+resid = m.resid; fitted = m.fittedvalues
+plt.<span class="fn">scatter</span>(fitted, resid); plt.<span class="fn">axhline</span>(<span class="nu">0</span>, c=<span class="st">"r"</span>)   <span class="cm"># паттерны? веер?</span>
+sm.<span class="fn">qqplot</span>(resid, line=<span class="st">"s"</span>)                            <span class="cm"># нормальность остатков</span>
+stats.<span class="fn">shapiro</span>(resid)                                   <span class="cm"># формальный тест</span>
+
+<span class="kw">from</span> statsmodels.stats.outliers_influence <span class="kw">import</span> variance_inflation_factor
+vif = [variance_inflation_factor(Xc.values, i) <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(Xc.shape[<span class="nu">1</span>])]
+
+m.<span class="fn">summary</span>().tables[<span class="nu">0</span>]   <span class="cm"># Durbin-Watson ~2 → остатки неавтокоррелированы</span></code></pre>
+</div>
+
+<div class="card" id="s7-5" data-title="задача предсказания train test предсказываем в python">
+  <h2><span class="num">7.5</span>Задача предсказания</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Когда цель — не объяснить, а <b>предсказать</b>, правила меняются. Главный враг — <b>переобучение</b>: модель выучила шум обучающих данных и плохо работает на новых. Поэтому данные делят: на train модель учится, на test честно проверяется. Качество меряем метриками ошибок, а не R² на тех же данных. Варианты построения: помимо обычного МНК — регуляризованные модели (Ridge/Lasso), которые штрафуют большие коэффициенты и устойчивее к шуму и мультиколлинеарности.</p>
+  <span class="block-label">Формулы / метрики</span>
+  <div class="formula">
+    <span class="f">MAE = (1/n)·Σ|y−ŷ|</span> &nbsp;&nbsp; <span class="f">RMSE = √((1/n)·Σ(y−ŷ)²)</span> &nbsp;&nbsp; <span class="f">R²</span> на тесте
+    <small>MAE — средняя ошибка «в единицах y», устойчив к выбросам; RMSE сильнее штрафует крупные промахи.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> Ridge
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> mean_absolute_error, mean_squared_error, r2_score
+
+X_train, X_test, y_train, y_test = <span class="fn">train_test_split</span>(X, y, test_size=<span class="nu">0.2</span>, random_state=<span class="nu">42</span>)
+model = Ridge(alpha=<span class="nu">1.0</span>).<span class="fn">fit</span>(X_train, y_train)
+pred = model.<span class="fn">predict</span>(X_test)
+<span class="fn">print</span>(<span class="st">"MAE:"</span>, <span class="fn">mean_absolute_error</span>(y_test, pred))
+<span class="fn">print</span>(<span class="st">"RMSE:"</span>, mean_squared_error(y_test, pred) ** <span class="nu">0.5</span>)
+<span class="fn">print</span>(<span class="st">"R²:"</span>, <span class="fn">r2_score</span>(y_test, pred))</code></pre>
+</div>
+
+<!-- ================= РАЗДЕЛ 8 ================= -->
+<h1 class="section">8. Bootstrap</h1>
+<p class="section-lead">Оценка неопределённости без формул — просто многократно «перетасовываем» имеющиеся данные.</p>
+
+<div class="card" id="s8-1" data-title="bootstrap бутстреп ресемплинг">
+  <h2><span class="num">8.1</span>Bootstrap</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Доверительный интервал для среднего легко вывести по формуле. А для медианы? Для разности медиан двух групп? Для 90-го процентиля? Формул нет или они сложные. Bootstrap обходит это: много раз (1000–10000) берём из выборки <b>случайную подвыборку того же размера с возвращением</b> и каждый раз считаем нужную статистику. Полученное распределение статистики показывает её неопределённость: 2.5-й и 97.5-й процентили — готовый 95% доверительный интервал. Работает почти для чего угодно и не требует нормальности — но выборка должна быть репрезентативной и не слишком маленькой.</p>
+  <span class="block-label">Идея</span>
+  <div class="formula">
+    Повторить B раз: <span class="f">x* = sample(x, n, replace=True)</span> → <span class="f">θ* = statistic(x*)</span><br>
+    ДИ: <span class="f">[Q<sub>0.025</sub>(θ*), Q<sub>0.975</sub>(θ*)]</span>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="cm"># Вручную — так понятно, что происходит:</span>
+boot = [np.<span class="fn">median</span>(np.random.<span class="fn">choice</span>(x, size=<span class="fn">len</span>(x), replace=<span class="kw">True</span>))
+        <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(<span class="nu">10_000</span>)]
+ci = np.<span class="fn">percentile</span>(boot, [<span class="nu">2.5</span>, <span class="nu">97.5</span>])      <span class="cm"># 95% ДИ для медианы</span>
+
+<span class="cm"># Готовая функция scipy:</span>
+<span class="kw">from</span> scipy <span class="kw">import</span> stats
+res = stats.<span class="fn">bootstrap</span>((x,), np.median, n_resamples=<span class="nu">10_000</span>,
+                     confidence_level=<span class="nu">0.95</span>, random_state=<span class="nu">42</span>)
+res.confidence_interval
+
+<span class="cm"># Bootstrap-тест разности средних двух групп:</span>
+diffs = [np.<span class="fn">mean</span>(np.random.<span class="fn">choice</span>(a, <span class="fn">len</span>(a), <span class="kw">True</span>)) -
+         np.<span class="fn">mean</span>(np.random.<span class="fn">choice</span>(b, <span class="fn">len</span>(b), <span class="kw">True</span>))
+         <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(<span class="nu">10_000</span>)]
+ci = np.<span class="fn">percentile</span>(diffs, [<span class="nu">2.5</span>, <span class="nu">97.5</span>])   <span class="cm"># 0 вне интервала → различие значимо</span></code></pre>
+</div>
+
+<!-- ================= РАЗДЕЛ 9 ================= -->
+<h1 class="section">9. Аналитика категориальных переменных</h1>
+<p class="section-lead">Когда данные — не числа, а категории: считаем частоты, проверяем связи, аккуратно вводим в регрессию.</p>
+
+<div class="card" id="s9-1" data-title="критерий хи-квадрат одна случайная величина">
+  <h2><span class="num">9.1</span>Критерий хи-квадрат для одной величины</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Проверяет, совпадают ли наблюдаемые частоты с ожидаемыми. Классика: кость честная? Бросили 60 раз, ожидаем по 10 выпадений каждой грани, а вышло иначе — случайно ли? Хи-квадрат суммирует квадраты отклонений «наблюдаемое − ожидаемое», нормированные на ожидаемое. Чем больше χ², тем хуже данные согласуются с H₀.</p>
+  <span class="block-label">Формула</span>
+  <div class="formula">
+    <span class="f">χ² = Σ (O<sub>i</sub> − E<sub>i</sub>)² / E<sub>i</sub></span>, &nbsp; df = число категорий − 1
+    <small>O — наблюдаемые частоты, E — ожидаемые по H₀. Допущение: ожидаемые частоты ≥ 5.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="kw">from</span> scipy <span class="kw">import</span> stats
+observed  = [<span class="nu">8</span>, <span class="nu">12</span>, <span class="nu">9</span>, <span class="nu">11</span>, <span class="nu">7</span>, <span class="nu">13</span>]   <span class="cm"># сколько раз выпала каждая грань</span>
+expected  = [<span class="nu">10</span>] * <span class="nu">6</span>               <span class="cm"># ожидание при честной кости</span>
+chi2, p = stats.<span class="fn">chisquare</span>(observed, expected)
+<span class="cm"># p &lt; 0.05 → распределение частот отличается от ожидаемого</span></code></pre>
+</div>
+
+<div class="card" id="s9-2" data-title="таблицы сопряжённости хи-квадрат независимость крамер">
+  <h2><span class="num">9.2</span>Таблицы сопряжённости</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Когда категориальных переменных две, вопрос меняется: «связаны ли они?». Например, зависит ли отток клиентов от тарифа. Строим <b>таблицу сопряжённости</b> (частоты всех комбинаций) и тем же хи-квадратом проверяем независимость: H₀ — «переменные независимы». Ожидаемые частоты при независимости: (сумма строки × сумма столбца) / общий итог. Хи-квадрат скажет «связь есть/нет», но не «насколько сильная» — для силы используют <b>V Крамера</b> (0 — нет связи, 1 — идеальная).</p>
+  <span class="block-label">Формулы</span>
+  <div class="formula">
+    <span class="f">χ² = Σ (O−E)²/E</span>, df = (строки−1)(столбцы−1); &nbsp;&nbsp; <span class="f">V = √(χ² / (n·min(r−1, c−1)))</span>
+    <small>Если таблица 2×2 и ожидаемые частоты &lt; 5 — берите точный тест Фишера.</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code>tab = pd.<span class="fn">crosstab</span>(df[<span class="st">"tariff"</span>], df[<span class="st">"churn"</span>])
+chi2, p, dof, expected = stats.<span class="fn">chi2_contingency</span>(tab)
+
+<span class="cm"># Сила связи — V Крамера:</span>
+n = tab.<span class="fn">to_numpy</span>().<span class="fn">sum</span>()
+v = np.<span class="fn">sqrt</span>(chi2 / (n * (<span class="fn">min</span>(tab.shape) - <span class="nu">1</span>)))
+
+<span class="cm"># Маленькие частоты, таблица 2x2:</span>
+odds, p = stats.<span class="fn">fisher_exact</span>(tab)</code></pre>
+</div>
+
+<div class="card" id="s9-3" data-title="фиктивные переменные one-hot кодирование ловушка интерпретация">
+  <h2><span class="num">9.3</span>Фиктивные переменные (dummy / one-hot)</h2>
+  <span class="block-label">Зачем это нужно</span>
+  <p>Регрессия понимает только числа, поэтому категории кодируют нулями и единицами: для города с 3 значениями создаём столбцы-индикаторы «это Москва?», «это Казань?» и т.д. <b>Ловушка фиктивных переменных:</b> если оставить ВСЕ k индикаторов вместе со свободным членом, они в сумме всегда дают 1 — идеальная мультиколлинеарность, матрица не обращается. Поэтому одну категорию выкидывают — она становится <b>базовой (референсной)</b>. <b>Интерпретация:</b> коэффициент при индикаторе = насколько эта категория отличается от базовой при прочих равных. β = +5000 при «Москве» (база — Казань) читается: «в Москве y в среднем на 5000 выше, чем в Казани».</p>
+  <span class="block-label">Формула / схема</span>
+  <div class="formula">
+    <span class="f">ŷ = β₀ + β₁·Москва + β₂·Питер</span> (база — Казань: оба индикатора = 0)
+    <small>k категорий → k−1 индикаторов. Никогда не кодируйте категории числами 1, 2, 3 — модель решит, что «город 3 вдвое больше города 1.5»!</small>
+  </div>
+  <span class="block-label">Python</span>
+  <pre><code><span class="cm"># Автоматически, с выбросом базовой категории:</span>
+df_d = pd.<span class="fn">get_dummies</span>(df, columns=[<span class="st">"city"</span>], drop_first=<span class="kw">True</span>, dtype=<span class="kw">int</span>)
+
+<span class="cm"># В statsmodels категории разворачиваются сами через C():</span>
+m = smf.<span class="fn">ols</span>(<span class="st">"salary ~ experience + C(city)"</span>, data=df).<span class="fn">fit</span>()
+<span class="cm"># Коэффициент C(city)[T.Москва] — отличие Москвы от базовой категории.</span>
+<span class="cm"># Сменить базовую: C(city, Treatment(reference="Казань"))</span></code></pre>
+</div>
+
+<footer>
+  Шпаргалка по статистике · Темы по курсу «Симулятор статистики» (Karpov.Courses), перегруппированы для быстрого поиска · Совет: пользуйтесь поиском в шапке ↑
+</footer>
+
+</main>
+</div>
+
+<script>
+// ===== Поиск по карточкам =====
+const searchInput = document.getElementById('search');
+const cards = document.querySelectorAll('.card');
+const noResults = document.createElement('p');
+noResults.id = 'noResults';
+noResults.textContent = 'Ничего не найдено — попробуйте другой запрос.';
+document.getElementById('content').appendChild(noResults);
+
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  let visible = 0;
+  cards.forEach(card => {
+    const match = !q || card.textContent.toLowerCase().includes(q)
+      || (card.dataset.title || '').includes(q);
+    card.classList.toggle('hidden', !match);
+    if (match) visible++;
+  });
+  noResults.style.display = visible ? 'none' : 'block';
+  // Прячем заголовки разделов без видимых карточек
+  document.querySelectorAll('h1.section, .section-lead').forEach(h => {
+    h.classList.toggle('hidden', !!q);
+  });
+});
+
+// ===== Подсветка активного пункта навигации =====
+const navLinks = document.querySelectorAll('.sidebar a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector('.sidebar a[href="#' + e.target.id + '"]');
+      if (link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+cards.forEach(c => observer.observe(c));
+
+// ===== Мобильное меню =====
+const sidebar = document.getElementById('sidebar');
+document.getElementById('menuBtn').addEventListener('click', () => {
+  sidebar.classList.toggle('open');
+});
+navLinks.forEach(l => l.addEventListener('click', () => sidebar.classList.remove('open')));
+</script>
+
+</body>
+</html>

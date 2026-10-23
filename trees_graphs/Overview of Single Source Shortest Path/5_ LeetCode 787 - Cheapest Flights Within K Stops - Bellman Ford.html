@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>LeetCode 787 - Cheapest Flights Within K Stops - Bellman Ford
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/dynamic_programming.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../trees_graphs.html" class="binary_trees">Binary trees</a>
+        <a href="../binary_trees_dfs.html" class="binary_trees_dfs">Binary trees DFS</a>
+        <a href="../binary_trees_bfs.html" class="binary_trees_bfs">Binary trees BFS</a>
+        <a href="../binary_search_trees.html" class="binary_search_trees">Binary search trees</a>
+        <a href="../graphs.html" class="graphs">Graphs</a>
+        <a href="../graphs_dfs.html" class="graphs_dfs">Graphs DFS</a>
+        <a href="../graphs_bfs.html" class="graphs_bfs">Graphs BFS</a>
+        <a href="../implicit_graphs.html" class="implicit_graphs">Implicit graphs</a>
+        <a href="../premium_graphs.html" class="premium_graphs">Premium graphs</a>
+        <a href="../disjoint_set/1_disjoint_set.html" class="disjoint_set">Disjoint set</a>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div>
+
+    <div class="container">
+        <h1>LeetCode 787 - Cheapest Flights Within K Stops - Bellman Ford</h1>
+
+        <hr>
+        <h2>
+            Video Solution
+        </h2>
+        <hr>
+
+        <p class="content">
+            Теперь, после рассмотрения всех различных версий алгоритма Беллмана-Форда, пришло время решить некоторые
+            проблемы с его использованием! В следующем видео мы решим проблему «Самые дешевые рейсы с интервалом K
+            остановок».
+        </p>
+
+        <p class="content">
+            Video: LeetCode 787 Export v1_1080p
+        </p>
+
+        <h2>
+            Implementation
+        </h2>
+        <hr>
+
+        <div class="code">
+            class Solution: <br>
+            <p class="raw1">def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) ->
+                int:</p>
+            <p class="raw2">if src == dst:</p>
+            <p class="raw3">return 0</p>
+            <br>
+            <p class="raw2">INF = sys.maxsize</p>
+            <p class="raw2">previous = [INF] * n</p>
+            <p class="raw2">current = [INF] * n</p>
+            <p class="raw2">previous[src] = 0</p>
+            <br>
+            <p class="raw2">for i in range(1, k + 2):</p>
+            <p class="raw3">current[src] = 0</p>
+            <p class="raw3">for flight in flights:</p>
+            <p class="raw4">previous_flight, current_flight, cost = flight</p>
+            <br>
+            <p class="raw4">if previous[previous_flight] < INF:</p>
+                    <p class="raw5">current[current_flight] = min(current[current_flight],
+                        previous[previous_flight] + cost)</p>
+                    <br>
+                    <p class="raw3">previous = current.copy()</p>
+                    <br>
+                    <p class="raw2">return -1 if current[dst] == INF else current[dst]</p>
+        </div>
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>

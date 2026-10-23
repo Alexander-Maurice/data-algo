@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>JOIN
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../1 sql data structure/1_Schema.html">SQL Data Structure</a>
+            <a href="../2 sql syntax/1_select_insert_update_delete.html">SQL Syntax</a>
+            <a href="../3 sql relationship/1_ Relationships.html">SQL Relationship</a>
+            <a href="../4 intermediate sql/1_Foreign Key.html">Intermediate SQL</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="./1_ Relationships.html" class="">Relationships</a>
+        <a href="./2_ JOIN.html" class="">JOIN</a>
+        <a href="./3_ Subqueries.html" class="">Subqueries</a>
+    </div>
+
+    <!-- <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div> -->
+
+    <div class="container">
+        <h1>JOIN</h1>
+
+        <hr>
+        <h2>
+            Чему вы научитесь
+        </h2>
+
+        <ol>
+            <li>Как объединить таблицы с помощью LEFT, RIGHT и INNER JOIN.</li>
+            <li>Как выбрать нужные нам столбцы через JOIN.</li>
+        </ol>
+
+        <p class="content">
+            До сих пор мы научились создавать несколько таблиц и настраивать связи друг с другом, но предположим, что
+            теперь у нас есть требование к отчету, который должен отображать все заказы и сведения о пользователях, у
+            которых есть заказ. Что мы делаем?
+        </p>
+
+        <p class="content">
+            Ключевое слово <span>JOIN</span> в SQL отвечает за такого рода работу, объединяя разные таблицы вместе.
+            Итак, давайте
+            начнем учиться пользоваться этим инструментом!
+        </p>
+
+        <h2>
+            LEFT JOIN
+        </h2>
+
+        <p class="content">
+            При использовании <span>JOIN</span> первое, что нам знакомо, — это <span>LEFT JOIN</span>, который можно
+            представить как обработку
+            таблицы в левой части оператора как основной таблицы, а другой таблицы — как присоединенной таблицы. При
+            использовании синтаксиса, связанного с JOIN, отображаются все столбцы из обеих таблиц. Однако если
+            какая-либо конкретная запись основной таблицы не включает записи прикрепленной таблицы, значения столбцов в
+            прикрепленной таблице будут установлены в NULL.
+        </p>
+
+        <p class="content">
+            Эту идею будет легче понять на примере. Предположим, у нас есть две таблицы:
+        </p>
+
+        <p class="content">
+            <b>orders</b>
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>user_id</td>
+                <td>note</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>some information</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>2</td>
+                <td>some information</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>2</td>
+                <td>no comments</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>NULL</td>
+                <td>weird</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            <b>users</b>
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>40</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>30</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tim</td>
+                <td>25</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Предположим, мы хотим использовать <span>users</span> в качестве основной таблицы и объединять
+            <span>orders</span> в качестве
+            прикрепленной таблицы. Тогда мы можем сказать, что пользователи оставили заказы на объединение, и написать
+            следующий запрос:
+        </p>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`users` <br>
+            LEFT JOIN `new_schema`.`orders` ON `users`.`id` = `orders`.`user_id`;
+        </div>
+
+        <p class="content">
+            Здесь мы можем сосредоточиться на строке <span>LEFT JOIN</span> и разделить ее на 2 части: <br>
+            1. <span>LEFT JOIN</span>: в приведенном
+            выше случае основная таблица — это <span>users</span>. Далее следует таблица, используемая в качестве
+            прикрепленной таблицы, то есть <span>orders</span>. <br>
+            2. <span>ON</span>: это ключевое слово позволяет SQL узнать, как соединить две
+            таблицы. Итак, вы можете заметить, что мы установили столбец <span>id</span> <span>users</span>, который
+            будет связан со
+            столбцом <span>user_id</span> <span>orders</span>. Это наиболее важный способ применения отношений,
+            поскольку мы узнали об отношениях
+            в предыдущей главе.
+        </p>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+                <td>id</td>
+                <td>user_id</td>
+                <td>note</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>40</td>
+                <td>1</td>
+                <td>1</td>
+                <td>some information</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>30</td>
+                <td>2</td>
+                <td>2</td>
+                <td>some comments</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>30</td>
+                <td>3</td>
+                <td>2</td>
+                <td>no comments</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tim</td>
+                <td>25</td>
+                <td>NULL</td>
+                <td>NULL</td>
+                <td>NULL</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Мы видим, что, поскольку <span>users</span> являются основной таблицей, даже если существует запись
+            пользователя
+            без соответствующих данных о заказе, запись все равно будет получена. Но столбцы <span>orders</span> в этой
+            записи будут
+            содержать значение NULL. Например, здесь в таблице <span>orders</span> нет записей, у которых
+            <span>user_id</span> равен 3, поэтому
+            для Тима (чей <span>id</span> равен 3) заполняем оставшиеся столбцы <span>NULL</span>.
+        </p>
+
+        <h2>
+            RIGHT JOIN
+        </h2>
+
+        <p class="content">
+            Поскольку существует <span>LEFT JOIN</span>, должно быть также и <span>RIGHT JOIN</span>, а <span>RIGHT
+                JOIN</span> на самом деле можно
+            рассматривать как противоположное использование <span>LEFT JOIN</span>. Таблица справа становится основной,
+            а таблица
+            слева — присоединенной.
+        </p>
+
+        <p class="content">
+            Предположим, что наш оператор SQL выглядит следующим образом:
+        </p>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`users` <br>
+            RIGHT JOIN `new_schema`.`orders` ON `users`.`id` = `orders`.`user_id`;
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+                <td>id</td>
+                <td>user_id</td>
+                <td>note</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>40</td>
+                <td>1</td>
+                <td>1</td>
+                <td>some information</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>30</td>
+                <td>2</td>
+                <td>2</td>
+                <td>some information</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>30</td>
+                <td>3</td>
+                <td>2</td>
+                <td>no comments</td>
+            </tr>
+            <tr>
+                <td>NULL</td>
+                <td>NULL</td>
+                <td>NULL</td>
+                <td>4</td>
+                <td>NULL</td>
+                <td>weird</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Мы видим, что когда он извлекает все данные <span>orders</span>, части без данных <span>users</span> впереди
+            будут заполнены
+            NULL.
+        </p>
+
+        <p class="content">
+            Некоторые из вас, возможно, заметили хитрость:
+        </p>
+
+        <p class="important">
+            Если мы поменяем порядок двух таблиц при использовании <span>LEFT JOIN</span>, не будет ли это то же самое,
+            что при
+            использовании <span>RIGHT JOIN</span>?
+        </p>
+
+        <p class="content">
+            Это верно! Фактически, приведенный выше оператор <span>RIGHT JOIN</span> эквивалентен:
+        </p>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`orders` <br>
+            LEFT JOIN `new_schema`.`users` ON `users`.`id` = `orders`.`user_id`;
+        </div>
+
+        <p class="content">
+            Единственная разница будет в порядке отображения столбцов. Применяя этот трюк с другими языками
+            программирования, большинство из них могут игнорировать эту разницу и использовать данные, которые мы
+            предоставляем, как обычно!
+        </p>
+
+        <h2>
+            INNER JOIN
+        </h2>
+
+        <p class="content">
+            Хотя мы научились комбинировать данные, вам иногда кажется странным видеть данные со значением NULL? Сейчас
+            мы можем научиться использовать <span>INNER JOIN</span> для извлечения записей, в которых обе таблицы могут
+            быть связаны
+            друг с другом. Это распространенный сценарий фильтрации данных на практике, и его концепция похожа на
+            пересечение.
+        </p>
+
+        <img src="../../sql/sql_imgs/c3_2_intersection.png" alt="">
+
+        <p class="content">
+            SQL syntax:
+        </p>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`users` <br>
+            INNER JOIN `new_schema`.`orders` ON `users`.`id` = `orders`.`user_id`;
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+                <td>id</td>
+                <td>user_id</td>
+                <td>note</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>40</td>
+                <td>1</td>
+                <td>1</td>
+                <td>some information</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>30</td>
+                <td>2</td>
+                <td>2</td>
+                <td>some comments</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>30</td>
+                <td>3</td>
+                <td>2</td>
+                <td>no comments</td>
+            </tr>
+        </table>
+
+        <h2>
+            Как выбрать нужный столбец с тем же именем?
+        </h2>
+
+        <p class="content">
+            Обратите внимание, что в приведенном выше примере обе таблицы имеют столбец <span>id</span>. Предположим, мы
+            хотим
+            отображать только <span>id</span> таблицы <span>order</span>. Что нам делать? Можем ли мы записать его
+            напрямую как
+            <span>SELECT id</span>?
+        </p>
+
+        <p class="content">
+            В этом случае вы не сможете напрямую написать имя столбца. Когда мы выбираем столбец и присутствует
+            повторяющееся имя столбца, мы должны указать, какой столбец нам нужен, включив имя таблицы. Однако столбцы с
+            непересекающимися именами можно записывать напрямую. Вот пример:
+        </p>
+
+        <div class="code">
+            SELECT `orders`.`id` AS order_id , `name` FROM `new_schema`.`users` <br>
+            INNER JOIN `new_schema`.`orders` ON `users`.`id` = `orders`.`user_id`;
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>order_id</td>
+                <td>name</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>May</td>
+            </tr>
+        </table>
+
+        <p class="important">
+            Примечание. За исключением MySQL, большинство программных систем баз данных обычно поддерживают <span>FULL
+                OUTER
+                JOIN</span>. Для получения более подробной информации обратитесь к Oracle — FULL OUTER JOIN.
+        </p>
+
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>

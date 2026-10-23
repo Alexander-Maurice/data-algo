@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Implicit graphs</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="trees_graphs.html" class="binary_trees">Binary trees</a>
+        <a href="binary_trees_dfs.html" class="binary_trees_dfs">Binary trees DFS</a>
+        <a href="binary_trees_bfs.html" class="binary_trees_bfs">Binary trees BFS</a>
+        <a href="binary_search_trees.html" class="binary_search_trees">Binary search trees</a>
+        <a href="graphs.html" class="graphs">Graphs</a>
+        <a href="graphs_dfs.html" class="graphs_dfs">Graphs DFS</a>
+        <a href="graphs_bfs.html" class="graphs_bfs">Graphs BFS</a>
+        <a href="implicit_graphs.html" class="implicit_graphs">Implicit graphs</a>
+        <a href="premium_graphs.html" class="premium_graphs">Premium graphs</a>
+        <a href="disjoint_set/1_disjoint_set.html" class="disjoint_set">Disjoint set</a>
+        <a href="dejkstra.html" class="dejkstra">Dejkstra</a>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Открыть замок</a>
+        <a href="#ex2">#2 Оценить подразделение </a>
+        <a href="#ex3">#3 Minimum Genetic Mutation</a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Implicit graphs
+        </h1>
+
+        <hr>
+
+        <p class="content">
+            Когда мы впервые начали изучать графы, мы говорили о некоторых распространенных входных форматах графов
+            (список смежности, матрица смежности, массив ребер, матрица). Проблемы, которые мы рассматривали до сих пор,
+            соответствовали этим входным форматам, что облегчило нам определение того, что проблему следует моделировать
+            в виде графа. Некоторые задачи явно говорили нам, что мы имеем дело с графом, а некоторые имели историю типа
+            «города, соединенные дорогами». Несмотря на это, формат ввода обычно был понятен.
+        </p>
+
+        <p class="content">
+            Иногда график более тонкий. Ввод может быть совсем не похож на один из форматов, о которых мы говорили.
+            Помните,
+            что граф — это любая абстрактная совокупность элементов (узлов), соединенных абстрактными отношениями
+            (ребрами).
+            Если проблема связана с переходом между состояниями, попробуйте подумать, могут ли состояния быть узлами, а
+            критериями перехода могут быть ребра. Кроме того, если задача требует кратчайшего пути или наименьшего
+            количества операций и т. д., это отличный кандидат для BFS. Давайте посмотрим на несколько примеров.
+        </p>
+
+        <p class="important" id="ex1">
+            <a href="https://leetcode.com/problems/open-the-lock/">Пример 1: 752. Открыть замок</a>
+            <br>
+            <br>
+            У вас есть замок с 4 круглыми колесами. На каждом колесе есть цифры от <span>0</span> до <span>9</span>.
+            Колеса вращаются и вращаются,
+            поэтому <span>0</span> может превратиться в <span>9</span>, а <span>9</span> может превратиться в
+            <span>0</span>. Первоначально на замке написано <span>«0000»</span>. Один
+            ход состоит из поворота колеса на одну прорезь. Вам дан массив заблокированных кодов <span>deadends</span> —
+            если замок
+            прочитает любой из этих кодов, то он уже не сможет повернуться. Возвращает минимальное количество ходов,
+            чтобы сделать блокировку <span>target</span>.
+        </p>
+
+        <p class="content">
+            В этой задаче мы можем рассматривать каждое состояние блокировки как узел. Ребрами являются все узлы,
+            которые отличаются только на одну позицию со значением <span>1</span>. Например, <span>«5231»</span> и
+            <span>«5331»</span> являются соседями.
+            Отсюда мы можем просто выполнить простую BFS с <span>«0000»</span> с одним условием: мы не можем посещать
+            какие-либо узлы
+            в <span>deadends</span>. Для
+            проверки в O(1) давайте превратим <span>deadends</span> в набор перед запуском нашей BFS.
+        </p>
+
+        <p class="content">
+            Чтобы найти соседей узла, мы можем перебрать каждый из 4 слотов и каждый слот увеличивать и уменьшать слот
+            на <span>1</span>. Чтобы обработать случай циклического обхода, мы можем использовать оператор по модулю -
+            <span>decrement(x) =
+                (x - 1) % 10</span> и <span>increment(х) = (х + 1) % 10</span>. Это работает, поскольку
+            <span>decrement(0) = 9</span>
+            и <span>increment(9) = 0</span>.
+        </p>
+
+        <p class="important">
+            Чтобы быть немного понятнее, мы можем поместить все заблокированные коды из <span>deadends</span> в
+            <span>seen</span> перед
+            запуском BFS вместо добавления дополнительной проверки <span>if</span> на предмет того, находится ли сосед в
+            <span>deadends</span>.
+        </p>
+
+        <details>
+            <summary>Нажмите для подробного объяснения</summary>
+            <p class="content">
+                Всякий раз, когда проблема требует минимального количества шагов/операций/ходов для выполнения
+                чего-либо, вам следует сразу подумать, можно ли использовать BFS.
+            </p>
+
+            <p class="content">
+                Мы можем рассматривать каждое число в диапазоне <span>[0, 9999]</span> как узел. Для данного
+                <span>node</span> соседями являются
+                все числа, которые отличаются только в одной позиции на единицу (с учетом случая переноса <span>0</span>
+                и <span>9</span>).
+            </p>
+
+            <p class="content">
+                Давайте воспользуемся вспомогательной функцией <span>neighbors</span>, которая принимает
+                <span>node</span> и генерирует все строки,
+                отличающиеся в одной позиции на единицу.
+            </p>
+
+            <p class="content">
+                Как только у нас появится эта функция, реализация сведется к очень простой BFS, которую мы уже делали
+                много раз. Свяжите количество <span>steps</span>, предпринятых на данный момент, с каждым
+                <span>node</span> в очереди. Для каждой
+                пары <span>(node, steps)</span>, если <span>node = target</span>, <span>return steps</span>. В противном
+                случае выполните итерацию по <span>neighbors
+                    (node)</span> и для каждого соседа проверьте, был ли он уже посещен (используя <span>seen</span>
+                набор). Если это не так,
+                поместите <span>(neighbor, steps + 1)</span> в очередь. Начинаем BFS с <span>«0000»</span>.
+            </p>
+
+            <p class="content">
+                И последнее: у нас есть дополнительное ограничение, при котором мы не можем посещать узлы в
+                <span>deadends</span>. Мы
+                можем инициализировать <span>seen</span> со всеми этими узлами, поскольку <span>seen</span> уже
+                предоставляет нам функцию
+                не посещать узлы.
+            </p>
+        </details>
+
+        <div class="code">
+            class Solution:
+            <p class="raw1">def openLock(self, deadends: List[str], target: str) -> int:</p>
+            <p class="raw2">def neighbors(node):</p>
+            <p class="raw3">ans = []</p>
+            <p class="raw3">for i in range(4):</p>
+            <p class="raw4">num = int(node[i])</p>
+            <p class="raw4">for change in [-1, 1]:</p>
+            <p class="raw5">x = (num + change) % 10</p>
+            <p class="raw5">ans.append(node[:i] + str(x) + node[i + 1:])</p>
+            <br>
+            <p class="raw3">return ans</p>
+            <br>
+            <p class="raw2">if "0000" in deadends:</p>
+            <p class="raw3">return -1</p>
+            <br>
+            <p class="raw2">queue = deque([("0000", 0)])</p>
+            <p class="raw2">seen = set(deadends)</p>
+            <p class="raw2">seen.add("0000")</p>
+            <br>
+            <p class="raw2">while queue:</p>
+            <p class="raw3">node, steps = queue.popleft()</p>
+            <p class="raw3">if node == target:</p>
+            <p class="raw4">return steps</p>
+            <br>
+            <p class="raw3">for neighbor in neighbors(node):</p>
+            <p class="raw4">if neighbor not in seen:</p>
+            <p class="raw5">seen.add(neighbor)</p>
+            <p class="raw5">queue.append((neighbor, steps + 1))</p>
+            <br>
+            <p class="raw2">return -1</p>
+        </div>
+
+        <p class="content">
+            Технически временная сложность этого алгоритма равна
+            O(d), где <span>d = deadends.length</span> для преобразования deadends в набор. Это потому, что все
+            остальное в задаче
+            постоянно (4 слота, 10 цифр). Однако, если у замка было переменное количество слотов, скажем,
+            <span>n</span>, тогда наша
+            временная сложность изменится на O(10<sup>n</sup> ⋅ n<sup>2</sup> + d).
+            Есть 10<sup>n</sup>
+            разных состояний, потому что каждый слот имеет 10 вариантов. В каждом состоянии мы выполняем
+            О(n<sup>2</sup>) работы, потому что мы перебираем <span>n</span> слотов при выполнении конкатенации строк,
+            что дает
+            O(n) для неизменяемых строк.
+        </p>
+
+        <hr>
+
+        <p class="important" id="ex2">
+            <a href="https://leetcode.com/problems/evaluate-division/">
+                Пример 2: 399. Оценить подразделение</a>
+            <br>
+            <br>
+
+            Вам дан массив <span>equations</span> и массив чисел <span>values</span> одинаковой длины.
+            <span>equations[i] = [x, y]</span> представляют собой <span>x /
+                y = values[i]</span>. Вам также предоставляется массив <span>queries</span>, где <span>queries[i] = [a,
+                b]</span>, который представляет
+            частное <span>a / b</span>. Вернуть массив <span>answer</span>, где <span>answer[i]</span> — это ответ на
+            i<sup>th</sup>
+            запрос или <span>-1</span>, если его невозможно определить.
+        </p>
+
+        <p class="content">
+            У нас есть некоторые уравнения x / y = val. Трудно представить, но этих уравнений достаточно, чтобы описать
+            график!
+
+            Во всех задачах с графами, которые мы рассматривали до сих пор, графы не были взвешенными. Вес — это
+            значение, связанное с ребром. Для большинства интервью взвешенные графики выходят за рамки и требуют
+            продвинутых алгоритмов, поэтому мы о них еще не говорили. В этой задаче мы можем рассматривать каждую
+            переменную <span>x</span> и <span>y</span> как узел. Ребра представлены в <span>equations</span>, а веса
+            указаны в <span>values</span>.
+        </p>
+
+        <p class="content">
+            Допустим, у нас есть 3 переменные <span>a, b, c</span>. Нам дано, что <span>a/b = 5</span> и <span>b/c =
+                2</span>. Что такое <span>a/c</span>? Мы могли бы
+            заменить некоторые значения, скажем, <span>a = 10, b = 2, c = 1</span>. Тогда уравнения работают, и мы
+            видим, что <span>a/c =
+                10</span>. Как мы можем добиться этого посредством обхода графа вместо анализа?
+        </p>
+
+        <p class="content">
+            a / b = 5 говорит нам, что <span>a</span> в 5 раз больше <span>b</span>. Если <span>a</span> и
+            <span>b</span> — узлы графа, то использование ребра <span>a -> b</span> дает нам множитель <span>5</span>.
+            b/c = 2 говорит нам, что <span>b</span> в <span>2</span> раза больше, чем <span>c</span>. Если мы используем
+            ребро <span>b -> c</span>, это даст нам множитель
+            <span>2</span>. Таким образом, переход от <span>a</span> к <span>c</span> даст нам множитель <span>5 * 2 =
+                10</span>.
+        </p>
+
+        <p class="content">
+            Мы можем создать <span>graph</span>, используя хеш-карту, где каждый узел сопоставляется с другой
+            хеш-картой, содержащей
+            отношения, заданные во входных данных. Итак, в приведенном выше примере <span>a</span> будет отображаться в
+            хеш-карту,
+            которая отображает <span>b: 5</span>. Затем мы можем выполнить обход (BFS или DFS, не имеет значения) для
+            каждого запроса
+            - начать с числителя и искать знаменатель, пока связывание текущего коэффициента/множителя (первоначально
+            <span>1</span>)
+            с каждым узлом. При каждом обходе соседей мы умножаем текущее соотношение на любое соотношение между
+            соседями.
+        </p>
+
+        <p class="content">
+
+            И еще: если у нас есть x/y=val, это также подразумевает y/x = 1/val, поэтому нам следует включить это при
+            построении нашего графа (ребра ненаправленные).
+        </p>
+
+        <div class="code">
+            from collections import defaultdict
+
+            def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) ->
+            List[float]:
+            <p class="raw1">def answer_query(start, end):</p>
+            <p class="raw2"># no info on this node</p>
+            <p class="raw2">if start not in graph:</p>
+            <p class="raw3">return -1</p>
+            <br>
+            <p class="raw2">seen = {start}</p>
+            <p class="raw2">stack = [(start, 1)]</p>
+            <br>
+            <p class="raw2">while stack:</p>
+            <p class="raw3">node, ratio = stack.pop()</p>
+            <p class="raw3">if node == end:</p>
+            <p class="raw4">return ratio</p>
+            <br>
+            <p class="raw3">for neighbor in graph[node]:</p>
+            <p class="raw4">if neighbor not in seen:</p>
+            <p class="raw5">seen.add(neighbor)</p>
+            <p class="raw5">stack.append((neighbor, ratio * graph[node][neighbor]))</p>
+            <br>
+            <p class="raw2">return -1</p>
+            <br>
+            <p class="raw1">graph = defaultdict(dict)</p>
+            <p class="raw1">for i in range(len(equations)):</p>
+            <p class="raw2">numerator, denominator = equations[i]</p>
+            <p class="raw2">val = values[i]</p>
+            <p class="raw2">graph[numerator][denominator] = val</p>
+            <p class="raw2">graph[denominator][numerator] = 1 / val</p>
+            <br>
+            <p class="raw1">ans = []</p>
+            <p class="raw1">for numerator, denominator in queries:</p>
+            <p class="raw2">ans.append(answer_query(numerator, denominator))</p>
+            <br>
+            <p class="raw1">return ans</p>
+        </div>
+
+        <p class="content">
+            Если у нас есть <span>n</span> — количество переменных, заданных из <span>equations</span> (которое в худшем
+            случае линейно с
+            <span>equations.length</span>) и <span>q</span> — длина запросов, то мы имеем временную сложность, равную
+            О(q⋅(n+e)). Каждый вызов <span>answerQuery</span> представляет собой обход построенного нами графа, который,
+            как мы
+            знаем, стоит количество узлов плюс количество ребер <span>n + e</span>. Выполняем <span>q</span> обходов.
+            Если мы не считаем
+            пространство, используемое для вывода, дополнительным пространством, то сложность пространства равна
+            O(n+e) для построения <span>graph</span>, <span>seen</span> и стека вызовов рекурсии.
+        </p>
+
+        <p class="content">
+            Это все, о чем мы будем говорить в этой главе для графов. Попробуйте решить следующие несколько
+            практических задач, прежде чем проверить свои знания с помощью викторины по графам, завершающей главу.
+        </p>
+
+
+        <p class="important" id="ex3">
+
+            Minimum Genetic Mutation
+
+        </p>
+        <p class="content">
+            Генная строка может быть представлена ​​8-символьной длинной строкой с возможностью выбора из «A», «C», «G»
+            и «T».
+            <br>
+            <br>
+            Предположим, нам нужно исследовать мутацию генной строки <span>startGene</span> в генную строку
+            <span>endGene</span>, где одна мутация
+            определяется как изменение одного символа в генной строке.
+        <ul>
+            <li>Например, «AACCGGTT» --> «AACCGGTA» — это одна мутация.</li>
+        </ul>
+        </p>
+        <p class="content">
+            Существует также банк генов <span>bank</span>, в котором регистрируются все действительные мутации генов.
+            Чтобы генная строка
+            была
+            действительной, ген должен находиться в <span>bank</span>.
+        </p>
+        <p class="content">
+            Учитывая две строки генов <span>startGene</span> и <span>endGene</span> и <span>bank</span> генного банка,
+            верните минимальное количество мутаций,
+            необходимых для мутации от <span>startGene</span> до <span>endGene</span>. Если такой мутации нет, верните
+            -1.
+        </p>
+        <p class="content">
+            Обратите внимание: предполагается, что отправная точка действительна, поэтому она может не быть включена в
+            банк.
+        </p>
+
+        <div class="code">
+            def minMutation(startGene, endGene, bank):
+            <p class="raw1">def neighbors(node):</p>
+            <p class="raw2">ans = []</p>
+            <p class="raw2">for i in range(len(node)):</p>
+            <p class="raw3">current_gene = node[i]</p>
+            <p class="raw3">for elem in ['A', 'C', 'G', 'T']:</p>
+            <p class="raw4">current_gene = elem</p>
+            <p class="raw4">ans.append(node[:i] + current_gene + node[i+1:])</p>
+            <p class="raw2">return ans</p>
+            <br>
+            <br>
+
+            <p class="raw1">queue = deque([(startGene, 0)])</p>
+            <p class="raw1">seen = set((startGene))</p>
+            <br>
+            <p class="raw1">if endGene not in bank:</p>
+            <p class="raw2">return -1</p>
+            <br>
+            <p class="raw1">while queue:</p>
+            <p class="raw2">gene, steps = queue.popleft()</p>
+            <p class="raw2">if gene == endGene:</p>
+            <p class="raw3">return steps</p>
+            <br>
+            <p class="raw2">for neighbor in neighbors(gene):</p>
+            <p class="raw3">if neighbor not in seen and neighbor in bank:</p>
+            <p class="raw4">seen.add(neighbor)</p>
+            <p class="raw4">queue.append((neighbor, steps+1))</p>
+            <p class="raw3">elif neighbor not in seen:</p>
+            <p class="raw4">seen.add(neighbor)</p>
+            <br>
+            <p class="raw1">return -1</p>
+
+        </div>
+
+
+
+    </div>
+
+</body>
+
+</html>

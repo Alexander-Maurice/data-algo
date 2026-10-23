@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Prim’s Algorithm
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/dynamic_programming.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../trees_graphs.html" class="binary_trees">Binary trees</a>
+        <a href="../binary_trees_dfs.html" class="binary_trees_dfs">Binary trees DFS</a>
+        <a href="../binary_trees_bfs.html" class="binary_trees_bfs">Binary trees BFS</a>
+        <a href="../binary_search_trees.html" class="binary_search_trees">Binary search trees</a>
+        <a href="../graphs.html" class="graphs">Graphs</a>
+        <a href="../graphs_dfs.html" class="graphs_dfs">Graphs DFS</a>
+        <a href="../graphs_bfs.html" class="graphs_bfs">Graphs BFS</a>
+        <a href="../implicit_graphs.html" class="implicit_graphs">Implicit graphs</a>
+        <a href="../premium_graphs.html" class="premium_graphs">Premium graphs</a>
+        <a href="../disjoint_set/1_disjoint_set.html" class="disjoint_set">Disjoint set</a>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div>
+
+    <div class="container">
+        <h1>Prim’s Algorithm</h1>
+
+        <hr>
+        <h2>
+            Video Explanation
+        </h2>
+        <hr>
+
+        <p class="content">
+            Узнав об алгоритме Краскала, давайте посмотрим на другой алгоритм, «алгоритм Прима», который можно
+            использовать для построения «минимального остовного дерева» «взвешенного неориентированного графа».
+        </p>
+
+        <p class="content">
+            Video: Explanation of Prim's Algorithm_1080p
+        </p>
+
+        <h2>
+            Visual Example
+        </h2>
+        <hr>
+
+        <img src="../../trees_graphs/tree_graphs_imgs/PrimAlgDemo.gif" alt="">
+
+        <p class="content">
+            На приведенной выше иллюстрации показано, как работает алгоритм Прима путем добавления вершин. В этом
+            примере расстояние между двумя вершинами является весом ребра. Начиная с произвольной вершины, алгоритм
+            Прима увеличивает минимальное остовное дерево, добавляя к дереву по одной вершине за раз. Выбор вершины
+            основан на жадной стратегии, т. е. добавление новой вершины требует минимальных затрат.
+        </p>
+
+
+        <h2>
+            Доказательство алгоритма Прима
+        </h2>
+        <hr>
+
+        <p class="content">
+            Вы можете задаться вопросом: гарантирует ли алгоритм Прима, что в конце мы получим правильное «минимальное
+            остовное дерево»? Ответ на этот вопрос — да, как мы объясним в следующем видео.
+        </p>
+
+        <p class="content">
+            Video: Proof of Prim's Algorithm_1080p
+        </p>
+
+        <h2>Разница между «алгоритмом Краскала» и «алгоритмом Прима»</h2>
+        <hr>
+
+        <p class="content">
+            «Алгоритм Краскала» расширяет «минимальное остовное дерево» за счет добавления ребер. Тогда как «алгоритм
+            Прима» расширяет «минимальное остовное дерево» за счет добавления вершин.
+        </p>
+
+        <h2>
+            Анализ сложности
+        </h2>
+
+        <p class="content">
+            V представляет количество вершин, а
+            E представляет количество ребер.
+        </p>
+
+        <ul>
+            <li>
+                Временная сложность:
+                O(E⋅logV) для двоичной кучи и
+                O(E+V⋅logV) для кучи Фибоначчи.
+                <ul>
+                    <li>
+                        Для двоичной кучи:
+                        <ul>
+                            <li>Нам нужно
+                                Время O(V+E) для обхода всех вершин графа, и мы сохраняем в куче все вершины, которые
+                                еще не включены в наше минимальное остовное дерево.</li>
+                            <li>Извлечение минимального элемента и ключа, снижающее стоимость операций
+                                Время O(logV).</li>
+                            <li>Следовательно, общая временная сложность равна
+                                О(V+E)⋅О(logV)=O(E⋅logV).</li>
+                        </ul>
+                    </li>
+                    <li>
+                        Для кучи Фибоначчи:
+                        <ul>
+                            <li>Извлечение минимального элемента займет
+                                Время O(logV), пока операция уменьшения ключа будет амортизирована.
+                                O(1), следовательно, общая временная сложность будет равна
+                                О(Е+V⋅logV).</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>Пространственная сложность:
+                О(В). Нам нужно хранить
+                V вершин в нашей структуре данных.</li>
+        </ul>
+
+
+
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>

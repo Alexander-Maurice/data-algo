@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Relationships
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../1 sql data structure/1_Schema.html">SQL Data Structure</a>
+            <a href="../2 sql syntax/1_select_insert_update_delete.html">SQL Syntax</a>
+            <a href="../3 sql relationship/1_ Relationships.html">SQL Relationship</a>
+            <a href="../4 intermediate sql/1_Foreign Key.html">Intermediate SQL</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="./1_ Relationships.html" class="">Relationships</a>
+        <a href="./2_ JOIN.html" class="">JOIN</a>
+        <a href="./3_ Subqueries.html" class="">Subqueries</a>
+    </div>
+
+    <!-- <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div> -->
+
+    <div class="container">
+        <h1>Relationships</h1>
+
+        <hr>
+        <h2>
+            Чему вы научитесь
+        </h2>
+
+        <ol>
+            <li>Значение и использование отношений в SQL.</li>
+            <li>О типах отношений, в том числе один к одному, один ко многим, многие ко многим.</li>
+        </ol>
+
+        <h2>
+            Что такое связь в SQL
+        </h2>
+
+        <p class="content">
+            В предыдущих главах мы выполняли операции и обсуждения в одной таблице. Но в большинстве реальных ситуаций
+            нам понадобится более одной таблицы, и существует множество задач, которые необходимо выполнить, объединив
+            разные таблицы.
+        </p>
+
+        <p class="content">
+            Итак, возникает вопрос: как определить связь между двумя разными таблицами?
+        </p>
+
+        <p class="content">
+            Ответ в том, что нам следует полагаться на технологию отношений в SQL. И, как и MySQL, использованный в
+            нашей серии демонстраций, он классифицируется как система управления реляционными базами данных, и самое
+            главное — иметь структуру Relationship, которая также является одним из стандартных компонентов большинства
+            зрелых коммерческих баз данных на рынке.
+        </p>
+
+        <p class="content">
+            В SQL нам не нужно использовать новый оператор, ключевым моментом является установление правильного
+            соответствия полей, например, столбец id таблицы пользователей соответствует столбцу user_id таблицы
+            заказов.
+        </p>
+
+        <p class="content">
+            Теперь давайте посмотрим, как построить правильные отношения.
+        </p>
+
+        <h2>Один к одному</h2>
+
+        <p class="content">
+            Представьте себе ситуацию, когда в нашей базе данных есть две таблицы: <span>transportations</span> и
+            <span>orders</span>. Каждая
+            транспортировка отвечает только за один заказ, и каждый заказ может быть назначен только одной
+            транспортировке. Затем у них возникают отношения Один к Одному.
+        </p>
+
+        <img src="../../sql/sql_imgs/c3_1_one_to_one.png" alt="">
+
+        <p class="content">
+            В базе данных, конечно, нет связи без каких-либо действий. Нам нужно определить следующие две таблицы:
+        </p>
+
+        <p class="content">
+            <b>transportations</b>
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>order_id</td>
+                <td>address</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>U.S</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>2</td>
+                <td>India</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            <b>orders</b>
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>note</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>some information</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>some information</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Пожалуйста, сосредоточьтесь на <span>transportations</span>, мы добавляем столбец <span>order_id</span> и
+            используем этот столбец для
+            записи, какой заказ соответствует какой транспортировке. В отношениях один к одному можно также возложить
+            ответственность за запись id на другую таблицу, то есть добавить в <span>orders</span> новый столбец
+            <span>transportation_id</span>.
+        </p>
+
+        <h2>
+            Один ко многим
+        </h2>
+
+        <p class="content">
+            Отношение «один ко многим» очень распространено при проектировании реальной архитектуры таблиц базы данных.
+            Это можно представить как отношения между <span>users</span> и <span>orders</span>. Обычно у пользователя
+            может быть много
+            заказов, но заказ может принадлежать только одному пользователю.
+        </p>
+
+        <img src="../../sql/sql_imgs/c3_1_one_to_many.png" alt="">
+
+        <p class="content">
+            В этом случае мы можем составить следующие таблицы:
+        </p>
+
+        <p class="content">
+            <b>users</b>
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>40</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>30</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            <b>orders</b>
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>user_id</td>
+                <td>note</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>some information</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>2</td>
+                <td>some information</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>2</td>
+                <td>no comments</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Давайте сосредоточимся на столбце <span>user_id</span> в <span>orders</span>. Мы устанавливаем идентификатор
+            другой таблицы в
+            таблицу, которая принадлежит другой таблице, и он отличается от одного к одному, поэтому обмен настройками
+            здесь невозможен.
+        </p>
+
+        <p class="content">
+            Причина в том, что если мы установим <span>order_id</span> в <span>user</span>, то у каждого пользователя
+            будет только один заказ, что
+            не соответствует желаемому соотношению данных!
+        </p>
+
+        <h2>
+            Многие ко многим
+        </h2>
+
+        <p class="content">
+            Отношения «многие ко многим» — относительно сложные отношения. Обычно для двух таблиц с такой связью
+            требуется создать третью новую таблицу только для записи связи между двумя исходными таблицами.
+        </p>
+
+        <p class="content">
+            Например, связь между <span>orders</span> и <span>products</span>: заказ может иметь множество продуктов, а
+            продукт также может
+            принадлежать многим заказам.
+        </p>
+
+        <img src="../../sql/sql_imgs/c3_1_many_to_many.png" alt="">
+
+        <p class="content">
+            Отображаемые ассоциации таблиц, такие как:
+        </p>
+
+        <p class="content">
+            <b>orders</b>
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>user_id</td>
+                <td>note</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>some information</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>2</td>
+                <td>some comments</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>2</td>
+                <td>no comments</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            <b>products</b>
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>table</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>chair</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>apple</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            <b>orders_products</b>
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>order_id</td>
+                <td>product_id</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>1</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>2</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>3</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>3</td>
+                <td>3</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Давайте сосредоточимся на таблице <span>order_products</span>. Эта таблица специально используется для
+            записи
+            взаимосвязей между <span>orders</span> и <span>products</span>, поэтому можно увидеть только идентификаторы
+            <span>orders</span> и <span>products</span>. С
+            помощью этой таблицы мы можем понять следующие ассоциации: <br>
+            1. В заказе 1 есть два продукта: стол и стул. <br>
+            2.
+            В заказе 2 имеется один товар — стул. <br>
+            3. В заказе 3 два продукта: стол и яблоко.
+        </p>
+
+        <p class="content">
+            И это все, что нужно!
+        </p>
+
+        <h2>
+            Значимая трансформация
+        </h2>
+
+        <p class="content">
+            Наконец, читатели, знакомые с бизнес-сферой, могут заметить, что таблица <span>order_products</span> очень
+            похожа на
+            таблицу <span>order_items</span>. Можем ли мы использовать эту таблицу для записи деталей заказа?
+        </p>
+
+        <p class="content">
+            Конечно! И <span>order_products</span> можно разумно расширить до:
+        </p>
+
+        <p class="content">
+            <b>order_items</b>
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>order_id</td>
+                <td>product_id</td>
+                <td>quantity</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>2</td>
+                <td>2</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>3</td>
+                <td>1</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>3</td>
+                <td>3</td>
+                <td>8</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Здесь каждая строка представляет заказанный элемент. В качестве реального примера: пользователь приобрел 3
+            товара в своем заказе, который имеет определенный идентификатор заказа, и каждый товар будет иметь свой
+            собственный идентификатор продукта и количество, купленное в этом заказе.
+        </p>
+
+        <img src="../../sql/sql_imgs/c3_1_order_item.png" alt="">
+
+        <p class="content">
+            Она становится таблицей практического использования и может одновременно записывать связи между двумя
+            другими таблицами. Мы называем ее промежуточной таблицей по отношению к двум другим таблицам.
+        </p>
+
+        <p class="content">
+            Это очень распространенная логика проектирования баз данных, которую стоит запомнить, поскольку она
+            пригодится при проектировании систем баз данных в будущем!
+        </p>
+
+
+
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>

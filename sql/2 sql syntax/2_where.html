@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>WHERE
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../1 sql data structure/1_Schema.html">SQL Data Structure</a>
+            <a href="../2 sql syntax/1_select_insert_update_delete.html">SQL Syntax</a>
+            <a href="../3 sql relationship/1_ Relationships.html">SQL Relationship</a>
+            <a href="../4 intermediate sql/1_Foreign Key.html">Intermediate SQL</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="./1_select_insert_update_delete.html" class="">Select, Insert, Update, Delete</a>
+        <a href="./2_where.html" class="">Where</a>
+        <a href="./3_json_in_sql.html" class="">JSON in SQL</a>
+        <a href="./4_Auxiliary SELECT Statements.html" class="">Auxiliare Select Statements</a>
+        <a href="./5_aggregate_functions.html" class="">Aggregate functions</a>
+    </div>
+
+    <!-- <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div> -->
+
+    <div class="container">
+        <h1>WHERE</h1>
+
+        <hr>
+        <h2>
+            Чему вы научитесь
+        </h2>
+
+        <ol>
+            <li>Как запрашивать данные с отдельными и сравниваемыми условиями.</li>
+            <li>Как запросить данные с условием диапазона.</li>
+            <li>Как запросить данные с нечетким условием.</li>
+
+        </ol>
+
+        <p class="content">
+            В предыдущем разделе мы представили предложение <span>WHERE</span>. Этот раздел предоставит вам
+            дополнительную практику
+            использования предложения <span>WHERE</span> и поможет вам научиться легко извлекать данные с использованием
+            различных
+            условий.
+        </p>
+
+        <h2>
+            Sample data
+        </h2>
+
+        <p class="content">
+            Результаты поиска по всей главе будут ссылаться на этот пример набора данных:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+                <td>height</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>50</td>
+                <td>180</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>40</td>
+                <td>Null</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tim</td>
+                <td>10</td>
+                <td>170</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Jay</td>
+                <td>20</td>
+                <td>155</td>
+            </tr>
+        </table>
+
+        <h2>
+            Basic Conditions
+        </h2>
+
+        <h3>
+            Equal To, Greater Than, and Less Than
+        </h3>
+
+        <p class="content">
+            Начнем с рассмотрения примера простейшего использования <span>WHERE</span> и его результатов:
+        </p>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`users` WHERE id = 1;
+        </div>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+                <td>height</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>50</td>
+                <td>180</td>
+            </tr>
+        </table>
+
+
+        <p class="content">
+            Помимо символа <span>=</span> SQL также поддерживает символы «больше» и «меньше»:
+        </p>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`users` WHERE id > 2;
+        </div>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+                <td>height</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tim</td>
+                <td>10</td>
+                <td>170</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Jay</td>
+                <td>20</td>
+                <td>155</td>
+            </tr>
+        </table>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`users` WHERE id <= 1; </div>
+
+                <table>
+                    <tr>
+                        <td>id</td>
+                        <td>name</td>
+                        <td>age</td>
+                        <td>height</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>John</td>
+                        <td>50</td>
+                        <td>180</td>
+                    </tr>
+                </table>
+
+                <p class="content">
+                    Предположим, вы хотите использовать отрицательное условие, которое не равно, тогда мы можем
+                    использовать <span>!=</span>:
+                </p>
+
+                <div class="code">
+                    SELECT * FROM `new_schema`.`users` WHERE id != 1;
+
+                </div>
+
+                <table>
+                    <tr>
+                        <td>id</td>
+                        <td>name</td>
+                        <td>age</td>
+                        <td>height</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>May</td>
+                        <td>40</td>
+                        <td>NULL</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Tim</td>
+                        <td>10</td>
+                        <td>170</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Jay</td>
+                        <td>20</td>
+                        <td>155</td>
+                    </tr>
+                </table>
+
+                <h3>
+                    NULL
+                </h3>
+
+                <p class="content">
+                    В SQL, если вы хотите определить, что значение в столбце равно <span>NULL</span>, его нельзя
+                    записать как
+                    <span>columnA = NULL</span>. Поскольку <span>NULL</span> — это специальное значение для базы данных,
+                    его нельзя использовать
+                    при общем сравнении значений. Вместо этого мы можем использовать следующее:
+                </p>
+
+                <div class="code">
+                    SELECT * FROM `new_schema`.`users` WHERE height IS NULL;
+                </div>
+
+                <table>
+                    <tr>
+                        <td>id</td>
+                        <td>name</td>
+                        <td>age</td>
+                        <td>height</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>May</td>
+                        <td>40</td>
+                        <td>NULL</td>
+                    </tr>
+                </table>
+
+                <p class="content">
+                    Для противоположного условия вам нужно добавить еще одно ключевое слово NOT.
+                </p>
+
+                <div class="code">
+                    SELECT * FROM `new_schema`.`users` WHERE height IS NOT NULL;
+                </div>
+
+                <table>
+                    <tr>
+                        <td>id</td>
+                        <td>name</td>
+                        <td>age</td>
+                        <td>height</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>John</td>
+                        <td>50</td>
+                        <td>180</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Tim</td>
+                        <td>10</td>
+                        <td>170</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Jay</td>
+                        <td>20</td>
+                        <td>150</td>
+                    </tr>
+                </table>
+
+                <h2>
+                    Multiple Conditions
+                </h2>
+
+                <p class="content">
+                    В предыдущем разделе основное внимание уделялось оператору извлечения данных с использованием одного
+                    условия. Что нам делать, если мы хотим использовать несколько условий? В этой ситуации нам
+                    необходимо использовать логические операторы, то есть объединять ключевые слова <span>AND</span> и
+                    <span>OR</span> в
+                    операторах SQL для удовлетворения наших требований.
+                </p>
+
+                <h3>
+                    AND
+                </h3>
+
+                <div class="code">
+                    SELECT * FROM `new_schema`.`users` WHERE age < 40 AND height> 160;
+                </div>
+
+                <table>
+                    <tr>
+                        <td>id</td>
+                        <td>name</td>
+                        <td>age</td>
+                        <td>height</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Tim</td>
+                        <td>10</td>
+                        <td>170</td>
+                    </tr>
+                </table>
+
+                <p class="content">
+                    В этом операторе ключевое слово <span>AND</span> используется для того, чтобы гарантировать, что
+                    каждая запись
+                    удовлетворяет как условию слева (<span>age < 40</span>), так и условию справа (<span>height >
+                                160</span>).
+                </p>
+
+                <h3>
+                    OR
+                </h3>
+
+                <div class="code">
+                    SELECT * FROM `new_schema`.`users` WHERE age < 40 OR height> 160;
+                </div>
+
+                <table>
+                    <tr>
+                        <td>id</td>
+                        <td>name</td>
+                        <td>age</td>
+                        <td>height</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>John</td>
+                        <td>50</td>
+                        <td>180</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Tim</td>
+                        <td>10</td>
+                        <td1>170</td1>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Jay</td>
+                        <td>20</td>
+                        <td>155</td>
+                    </tr>
+                </table>
+
+                <p class="content">
+                    В этом запросе используется ключевое слово <span>OR</span>, чтобы гарантировать, что данные,
+                    соответствующие
+                    одному из условий (<span>age < 40</span> слева или <span>height > 60</span> справа), будут получены.
+                </p>
+
+                <p class="content">
+                    Обратите внимание на рекорд за May. Поскольку высота May равна <span>NULL</span>, в операции она не
+                    будет
+                    рассматриваться как пустое значение или 0. Это было бы напрямую исключено из результата!
+                </p>
+
+                <h3>
+                    AND + OR
+                </h3>
+
+                <div class="code">
+                    SELECT * FROM `new_schema`.`users` WHERE id < 4 AND (age> 30 OR height > 175);
+                </div>
+
+                <table>
+                    <tr>
+                        <td>id</td>
+                        <td>name</td>
+                        <td>age</td>
+                        <td>height</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>John</td>
+                        <td>50</td>
+                        <td>180</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>May</td>
+                        <td>40</td>
+                        <td>NULL</td>
+                    </tr>
+                </table>
+
+                <p class="content">
+                    Этот запрос более сложный, но распространен в реальном мире. Для формирования этого оператора SQL
+                    необходимо объединить несколько условий.
+                </p>
+
+                <p class="content">
+                    Поэтому вы можете использовать круглые скобки для разделения логических блоков, которые будут
+                    работать независимо. Если предположить, что круглые скобки отсутствуют, текущее состояние (<span>age
+                        >
+                        30 OR height > 175</span>), которое можно было бы объединить и вычислить вместе, будет разобрано
+                    и
+                    обработано отдельно, что повлияет на окончательный результат данных.
+                </p>
+
+                <p class="content">
+                    Примечание. Вы можете обратиться к разделу «Приоритет операторов в MySQL», чтобы получить более
+                    подробную информацию о том, почему здесь важны круглые скобки.
+                </p>
+
+                <h2>
+                    Range Conditions
+                </h2>
+
+                <p class="content">
+                    Запрос диапазона также является одним из распространенных типов проблем поиска данных. Три наиболее
+                    распространенных типа диапазонов в SQL — это <span>IN</span>, <span>BETWEEN</span> и
+                    <span>LIKE</span>.
+                </p>
+
+                <h3>
+                    IN
+                </h3>
+
+                <div class="code">
+                    SELECT * FROM `new_schema`.`users` WHERE `id` IN (1, 3);
+                </div>
+
+                <table>
+                    <tr>
+                        <td>id</td>
+                        <td>name</td>
+                        <td>age</td>
+                        <td>height</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>John</td>
+                        <td>50</td>
+                        <td>180</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Tim</td>
+                        <td>10</td>
+                        <td>170</td>
+                    </tr>
+                </table>
+
+                <p class="content">
+                    Использование ключевого слова <span>IN</span> заставит SQL сравнивать только значение указанного
+                    столбца с
+                    абсолютной точностью, например, в этом случае будут выбраны только записи с идентификатором, равным
+                    1 или 3.
+                </p>
+
+                <p class="content">
+                    Как и в предыдущем примере оператора <span>IS NULL</span>, вы можете добавить ключевое слово
+                    <span>NOT</span> перед <span>IN</span>, чтобы
+                    получить противоположный результат.
+                </p>
+
+                <p class="content">
+                    Например:
+                </p>
+
+                <div class="code">
+                    SELECT * FROM `new_schema`.`users` WHERE id NOT IN (1, 4);
+                </div>
+
+                <table>
+                    <tr>
+                        <td>id</td>
+                        <td>name</td>
+                        <td>age</td>
+                        <td>height</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>May</td>
+                        <td>40</td>
+                        <td>NULL</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Tim</td>
+                        <td>10</td>
+                        <td>170</td>
+                    </tr>
+                </table>
+
+                <h3>
+                    BETWEEN
+                </h3>
+
+                <div class="code">
+                    SELECT * FROM `new_schema`.`users` WHERE height BETWEEN 160 AND 190;
+                </div>
+
+                <table>
+                    <tr>
+                        <td>id</td>
+                        <td>name</td>
+                        <td>age</td>
+                        <td>height</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>John</td>
+                        <td>50</td>
+                        <td>180</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Tim</td>
+                        <td>10</td>
+                        <td>170</td>
+                    </tr>
+                </table>
+
+                <p class="content">
+                    <span>BETWEEN</span> необходимо использовать с ключевым словом <span>AND</span> для получения данных
+                    в определенном диапазоне.
+                    Как и <span>IN</span>, существует режим обратного запроса с <span>NOT</span>.
+                </p>
+
+                <h3>
+                    LIKE
+                </h3>
+                <p class="content">
+                    <span>LIKE</span> — мощное ключевое слово SQL, поддерживающее регулярные выражения, которые часто
+                    используются
+                    для сравнения текста во многих языках программирования.
+                </p>
+
+                <p class="content">
+                    Мы собираемся представить три наиболее часто используемых метода поиска и сравнения.
+                </p>
+
+                <div class="code">
+                    SELECT * FROM `new_schema`.`users` WHERE name LIKE '%a%';
+                </div>
+
+                <table>
+                    <tr>
+                        <td>id</td>
+                        <td>name</td>
+                        <td>age</td>
+                        <td>height</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>May</td>
+                        <td>40</td>
+                        <td>NULL</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Jay</td>
+                        <td>20</td>
+                        <td>155</td>
+                    </tr>
+                </table>
+
+                <p class="content">
+                    Логика сопоставления, используемая в этом предложении, заключается в поиске записей с именами,
+                    содержащими букву «а». Используйте два символа <span>%</span> (по одному с каждой стороны) и
+                    поместите слово,
+                    которое вы хотите найти, посередине.
+                </p>
+
+                <div class="important">
+                    Примечание. Знак процента (<span>%</span>) будет соответствовать нулю, одному или нескольким
+                    символам. Чтобы
+                    соответствовать только одному символу, мы могли бы использовать подчеркивание (<span>_</span>).
+                </div>
+
+                <div class="code">
+                    SELECT * FROM `new_schema`.`users` WHERE name LIKE 'J%';
+                </div>
+
+                <table>
+                    <tr>
+                        <td>id</td>
+                        <td>name</td>
+                        <td>age</td>
+                        <td>height</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>John</td>
+                        <td>50</td>
+                        <td>180</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Jay</td>
+                        <td>20</td>
+                        <td>155</td>
+                    </tr>
+                </table>
+
+                <p class="content">
+                    В дополнение к обычному режиму сравнения содержимого вы также можете использовать другой синтаксис
+                    для поиска данных, имя которых начинается с J. Этот подход заключается в том, чтобы оставить только
+                    символ <span>%</span> и поместить его в конец искомой строки.
+                </p>
+
+                <p class="content">
+                    Обратите внимание, что знак процента (<span>%</span>) является подстановочным знаком; он будет
+                    соответствовать
+                    нулю, одному или нескольким символам. Чтобы соответствовать только одному символу, мы могли бы
+                    использовать подчеркивание (<span>_</span>).
+                </p>
+
+                <p class="content">
+                    Итак, если вы хотите узнать данные, имя которых заканчивается на <b>y</b>, просто напишите:
+                </p>
+
+                <div class="code">
+                    SELECT * FROM `new_schema`.`users` WHERE name LIKE '%y';
+                </div>
+
+                <table>
+                    <tr>
+                        <td>id</td>
+                        <td>name</td>
+                        <td>age</td>
+                        <td>height</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>May</td>
+                        <td>40</td>
+                        <td>NULL</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Jay</td>
+                        <td>20</td>
+                        <td>155</td>
+                    </tr>
+                </table>
+
+                <hr>
+
+
+        </div>
+
+
+</body>
+
+</html>

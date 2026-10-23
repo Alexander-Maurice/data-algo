@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>SELECT, INSERT, UPDATE and DELETE
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../1 sql data structure/1_Schema.html">SQL Data Structure</a>
+            <a href="../2 sql syntax/1_select_insert_update_delete.html">SQL Syntax</a>
+            <a href="../3 sql relationship/1_ Relationships.html">SQL Relationship</a>
+            <a href="../4 intermediate sql/1_Foreign Key.html">Intermediate SQL</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="./1_select_insert_update_delete.html" class="">Select, Insert, Update, Delete</a>
+        <a href="./2_where.html" class="">Where</a>
+        <a href="./3_json_in_sql.html" class="">JSON in SQL</a>
+        <a href="./4_Auxiliary SELECT Statements.html" class="">Auxiliare Select Statements</a>
+        <a href="./5_aggregate_functions.html" class="">Aggregate functions</a>
+    </div>
+
+    <!-- <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div> -->
+
+    <div class="container">
+        <h1>SELECT, INSERT, UPDATE and DELETE</h1>
+
+        <hr>
+        <h2>
+            Чему вы научитесь
+        </h2>
+
+        <ol>
+            <li>Базовый синтаксис о том, как читать, создавать, изменять и удалять данные.</li>
+            <li>Основные изменения синтаксиса для реальных сценариев.</li>
+
+        </ol>
+
+        <p class="content">
+            Те, кто знаком с системой программного обеспечения, также могут быть знакомы с четырьмя режимами работы с
+            данными: создание, чтение, обновление и удаление (CRUD). Эти четыре поведения представляют собой самые
+            основные операции; они также являются первым синтаксисом, который мы должны понять.
+        </p>
+
+        <p class="content">
+            На более продвинутых стадиях синтаксиса SQL способы его использования в различных программах реляционных баз
+            данных будут разными. Но для основных операций использование каждого программного обеспечения практически
+            одинаково, просто немного отличается.
+        </p>
+
+        <h2>Basic syntax</h2>
+        <p class="content">
+            Давайте сначала рассмотрим базовую структуру синтаксиса SQL:
+        </p>
+
+        <div class="code">
+            SELECT `id`, `name` FROM `new_schema`.`users`;
+        </div>
+
+        <p class="content">
+            Вы можете увидеть часть грамматики выше. <span>SELECT</span> и <span>FROM</span> — это ключевые слова в SQL,
+            и мы обсудим, что они
+            означают позже. Что касается других слов, используемых в середине, <span>id</span> и <span>name</span> — это
+            имена столбцов,
+            <span>new_schema</span> — это имя схемы, а <span>users</span> — это имя таблицы.
+        </p>
+
+        <h2>
+            Sample data
+        </h2>
+        <p class="content">
+            Начнем с примера таблицы <span>users</span>, чтобы помочь вам понять, какие результаты будут представлены
+            при
+            выполнении оператора SQL.
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>50</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>40</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tim</td>
+                <td>10</td>
+            </tr>
+        </table>
+
+
+        <div class="code">
+            #SChema SQL <br>
+            CREATE SCHEMA `new_schema` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; <br> <br>
+
+            CREATE TABLE `new_schema`.`users` ( <br>
+            `id` INT NOT NULL AUTO_INCREMENT COMMENT 'This is the primary index', <br>
+            `name` VARCHAR(45) NOT NULL DEFAULT 'N/A', <br>
+            `age` INT NULL, <br>
+            `height` INT NULL, <br>
+            PRIMARY KEY (`id`) <br>
+            ); <br> <br>
+
+            INSERT INTO `new_schema`.`users` (`id`, `name`, `age`, `height`) VALUES (1, 'John', 50, 180); <br>
+            INSERT INTO `new_schema`.`users` (`id`, `name`, `age`) VALUES (2, 'May', 40); <br>
+            INSERT INTO `new_schema`.`users` (`id`, `name`, `age`, `height`) VALUES (3, 'Tim', 10, 170); <br>
+            INSERT INTO `new_schema`.`users` (`id`, `name`, `age`, `height`) VALUES (4, 'Jay', 20, 155);
+            <br>
+            <br>
+            <br>
+            #Query SQL <br>
+            SELECT * FROM `new_schema`.`users`; <br><br><br>
+
+            #Result <br>
+            <table>
+                <tr>
+                    <td>
+                        id
+                    </td>
+                    <td>
+                        name
+                    </td>
+                    <td>
+                        age
+                    </td>
+                    <td>
+                        height
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        1
+                    </td>
+                    <td>
+                        John
+                    </td>
+                    <td>
+                        50
+                    </td>
+                    <td>
+                        180
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        2
+                    </td>
+                    <td>
+                        May
+                    </td>
+                    <td>
+                        40
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        3
+                    </td>
+                    <td>
+                        Tim
+                    </td>
+                    <td>
+                        10
+                    </td>
+                    <td>
+                        170
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        4
+                    </td>
+                    <td>
+                        Jay
+                    </td>
+                    <td>
+                        20
+                    </td>
+                    <td>
+                        155
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+        <h2>
+            Create data: INSERT
+        </h2>
+        <div class="code">
+            INSERT INTO `new_schema`.`users` (`id`, `name`, `age`) VALUES (4, 'Harry', 33);
+        </div>
+
+        <p class="content">
+            Это запрос на добавление данных в базу данных. Здесь есть три ключевых слова: <br>
+            1. <span>INSERT INTO</span>: эти два слова
+            можно объединить и в основном используются для указания таблицы базы данных и добавляемых столбцов. Таким
+            образом, этот оператор добавит одну новую запись в таблицу <span>users</span> и установит значение для
+            <span>id</span>, <span>name</span> и <span>age</span>. Эти столбцы необходимо подготовить перед добавлением
+            данных. <br>
+            2. <span>VALUES</span>:
+            добавляемое значение будет установлено после этого слова, и оно должно будет соответствовать столбцам,
+            указанным после <span>INSERT INTO</span>. После выполнения запроса в базу данных будет вставлена запись с
+            идентификатором, равным 4, имя Гарри, возраст 33 года.
+        </p>
+
+        <p class="content">
+            При написании оператора вставки главное помнить, что имена и значения полей должны быть правильно
+            сопоставлены друг с другом. Таким образом, оператор <span>INSERT</span> относительно прост по сравнению с
+            оператором
+            <span>SELECT</span>, который имеет другой, более сложный синтаксис, о котором мы познакомимся в последующих
+            главах.
+        </p>
+
+        <h2>
+            Create Multiple New Records
+        </h2>
+
+        <p class="content">
+            Чтобы добавить несколько записей, вы можете добавить новый набор данных непосредственно после
+            <span>VALUES</span>. Вот
+            пример:
+        </p>
+
+        <div class="code">
+            INSERT INTO `new_schema`.`users` (`id`, `name`, `age`) VALUES (4, 'Harry', 33), (5, 'Tom', 30);
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>
+                    id
+                </td>
+                <td>name</td>
+                <td>age</td>
+            </tr>
+            <tr>
+                <td>
+                    1
+                </td>
+                <td>John</td>
+                <td>50</td>
+            </tr>
+            <tr>
+                <td>
+                    2
+                </td>
+                <td>May</td>
+                <td>40</td>
+            </tr>
+            <tr>
+                <td>
+                    3
+                </td>
+                <td>Tim</td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>
+                    4
+                </td>
+                <td>Harry</td>
+                <td>33</td>
+            </tr>
+            <tr>
+                <td>
+                    5
+                </td>
+                <td>Tom</td>
+                <td>30</td>
+            </tr>
+        </table>
+
+
+        <h2>
+            Read Data: SELECT
+        </h2>
+        <p class="content">
+            Чтение данных — одно из наиболее распространенных применений SQL. Давайте посмотрим на пример кода:
+        </p>
+
+        <div class="code">
+            SELECT `id`, `name` FROM `new_schema`.`users`;
+        </div>
+
+        <p class="content">
+            Здесь есть два ключевых слова: <span>SELECT</span> и <span>FROM</span>: <br>
+            1. <span>FROM</span>: Это слово относится к работе с какой таблицей и какой
+            базой данных. В данном примере это относится к работе с таблицей пользователей в базе данных new_schema.
+            2. <span>SELECT</span>
+            : это слово означает выбор столбцов для отображения. В этом примере в результате будут отображены
+            столбцы идентификатора и имени.
+        </p>
+
+        <p class="content">
+            Выполненный результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tim</td>
+            </tr>
+        </table>
+
+        <h2>
+            Read All
+        </h2>
+
+        <p class="content">
+            Кроме того, многие разработчики предпочитают использовать в небольших проектах оператор <span>SELECT</span>
+            следующим
+            образом:
+        </p>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`users`;
+        </div>
+
+        <p class="content">
+            Использование звездочки ('*') вместо перечисления имен столбцов позволит получить все столбцы таблицы и
+            получить следующий результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>50</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>40</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tim</td>
+                <td>10</td>
+            </tr>
+        </table>
+
+
+        <p class="content">
+            Это очень удобное утверждение, и вам не нужно специально перечислять все столбцы. Однако следует отметить,
+            что если данные в таблице очень большие, производительность <span>SELECT *</span> может быть очень низкой.
+        </p>
+
+        <p class="content">
+            Поэтому в более сложной и большой базе данных используйте <span>SELECT *</span> только после тщательного
+            рассмотрения.
+        </p>
+
+
+        <h2>
+            Conditions
+        </h2>
+        <p class="content">
+            Что касается того, как получить нужные данные в соответствии с условиями, вы можете обратиться к следующей
+            главе, в которой более подробно обсуждается предложение <span>WHERE</span>. Здесь мы начнем с простого
+            примера оператора
+            и результата:
+        </p>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`users` WHERE `id` = 2;
+        </div>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>40</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Как видите, результат показывает только те данные, где id равен 2.
+        </p>
+
+        <div class="important">
+            В технической статье или разговоре оператор SQL будет называться «запросом». В дальнейшем мы можем
+            использовать термин «запрос» при упоминании оператора SQL.
+        </div>
+
+        <h2>
+            Modify Data: UPDATE
+        </h2>
+
+        <div class="code">
+            UPDATE `new_schema`.`users` SET `name` = 'Andy', `age` = 100 WHERE `id` = 2;
+        </div>
+
+        <p class="content">
+            Есть два ключевых слова, на которых мы можем сосредоточиться: <br>
+            1. <span>UPDATE</span>. После этого ключевого слова
+            следует имя обновляемой таблицы. <br>
+            2. <span>SET</span>: Ниже приведены значения, которые следует обновить в существующих
+            данных. Если столбцов несколько, разделите их запятыми.
+        </p>
+
+        <p class="content">
+            Мы часто используем ключевое слово <span>WHERE</span> для фильтрации данных. Хотя это необязательно и его не
+            обязательно
+            записывать, если его не добавить, оно станет полным обновлением таблицы, что является редкой ситуацией.
+        </p>
+
+        <p class="content">
+            Существует также множество программ баз данных, которые по умолчанию имеют защиту для предотвращения таких
+            опасных операций.
+        </p>
+
+        <p class="content">
+            После завершения выполнения (с предложением <span>WHERE</span>) оно обновит только запись с идентификатором
+            2, установив
+            имя Andy и возраст 100.
+        </p>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>50</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Andy</td>
+                <td>100</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tim</td>
+                <td>10</td>
+            </tr>
+        </table>
+
+        <h2>
+            Remove Data: DELETE
+        </h2>
+
+        <div class="code">
+            DELETE FROM `new_schema`.`users` WHERE `id` = 1;
+        </div>
+
+        <p class="content">
+            Единственное новое ключевое слово здесь — <span>DELETE</span>. Он связан с <span>FROM</span>, ключевым
+            словом, которое мы видели ранее
+            и которое указывает на то, с какой таблицей работать.
+        </p>
+
+        <p class="content">
+            Логика работы здесь аналогична <span>UPDATE</span>. <span>WHERE</span> можно добавлять или нет, но на
+            практике удалить данные всей
+            таблицы вряд ли получится. Поэтому нам обычно необходимо включать <span>WHERE</span>, чтобы ограничить
+            диапазон удаляемых
+            данных.
+        </p>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>40</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tim</td>
+                <td>10</td>
+            </tr>
+        </table>
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>

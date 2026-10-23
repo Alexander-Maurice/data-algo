@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <title>Backtracking</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../backtracking/backtracking.html">Backtracking</a>
+        <a href="../backtracking/generation.html">Generation</a>
+        <a href="../backtracking/more_constrained_backtracking.html">More constrained backtracking</a>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#execution">Выполнение</a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Backtracking
+        </h1>
+        <hr>
+
+        <p class="content">
+            Самый грубый способ решения проблемы — перебор. Сгенерируйте все возможности, а затем проверьте каждую из
+            них на наличие решения.
+        </p>
+
+        <p class="content">
+            Представьте, что у вас есть буквы от <span>a до z</span>, и вас попросили сгенерировать строки длины
+            <span>n</span>, используя эти
+            буквы. Есть
+            26<sup>n</sup>
+            возможностей, так как каждая из <span>n</span> букв может быть от <span>a до z</span>. Вы можете представить
+            все возможности в виде
+            дерева. Корнем является пустая строка <span>""</span>, а затем все узлы имеют 26 дочерних элементов, причем
+            путь от корня
+            представляет строящуюся строку. Итак, если вы начали с корня и перешли к узлу <span>«g»</span>, затем от
+            этого узла
+            перешли к узлу <span>«p»</span>, который будет представлять строку <span>«gp»</span>. Глубина дерева равна
+            <span>n</span>, а листовые узлы
+            представляют ответы.
+        </p>
+
+        <img src="../backtracking/bactracking_imgs/43_1.png" alt="">
+
+        <p class="content">
+            Теперь предположим, что мы добавили ограничение, чтобы вместо всех решений длины <span>n</span> нам нужны
+            были только те,
+            которые удовлетворяют этому ограничению. Полный поиск по-прежнему будет генерировать все строки длины
+            <span>n</span> как
+            «кандидаты», а затем проверять каждую из них на наличие ограничения. Это будет иметь временную сложность
+            О(к⋅26<sup>n</sup>), где <span>k</span> — работа, затраченная на проверку соответствия строки ограничению.
+            На этот раз сложность
+            смехотворно медленная.
+        </p>
+
+        <p class="content">
+            <b>Backtracking</b> — это оптимизация, которая предполагает отказ от «пути», если установлено, что этот путь
+            не может
+            привести к решению. Идея аналогична двоичным деревьям поиска: если вы ищете значение x, а корневой узел
+            имеет значение больше x, то вы знаете, что можете игнорировать все правое поддерево. Поскольку количество
+            узлов в каждом поддереве экспоненциально зависит от глубины, возврат назад может сэкономить огромное
+            количество вычислений. Представьте, если бы ограничение заключалось в том, что строка могла содержать только
+            гласные - 26<sup>n</sup> строк, а затем проверьте каждый из них, есть ли в нем только гласные. При возврате
+            мы отбрасываем все поддеревья, в которых есть согласные, улучшая
+            с O(26<sup>n</sup>) вариантов до O(5<sup>n</sup>).
+        </p>
+
+        <img src="../backtracking/bactracking_imgs/44_1.png" alt="">
+
+        <p class="important">
+            Отказ от пути также иногда называют «обрезкой».
+            <br>
+            <br>
+            Подводя итог разнице между исчерпывающим поиском и backtracking:
+            <br>
+            <br>
+            В ходе исчерпывающего поиска мы генерируем все возможности, а затем проверяем их на наличие решений.
+            В backtracking, мы отсекаем пути, которые не могут привести к решению, создавая гораздо меньше
+            возможностей.
+        </p>
+
+        <p class="content">
+            Backtracking — отличный инструмент, когда проблема требует, чтобы вы нашли что-то целиком, или когда не
+            существует четкого способа найти решение без проверки всех логических возможностей. В LeetCode сильный намек
+            на то, что вам следует использовать обратный поиск, заключается в том, что входные ограничения очень малы
+            (<span>n
+                <= ~ 15</span>), поскольку алгоритмы обратного отслеживания обычно имеют экспоненциальную временную
+                    сложность.
+        </p>
+
+
+        <p class="content">
+            К сожалению, на собеседовании вам обычно не сообщают об ограничениях, и даже если вы попытаетесь уточнить у
+            интервьюера, он даст расплывчатый ответ или просто посоветует вам сделать все возможное. Вот почему важно
+            выработать хорошую интуицию, позволяющую распознавать, когда использовать определенный алгоритм.
+        </p>
+
+        <hr>
+
+        <h3 id="execution">
+            Выполнение
+        </h3>
+
+        <p class="content">
+            Backtracking почти всегда реализуется с помощью рекурсии — делать это итеративно не имеет смысла. В
+            большинстве задач с возвратом вы будете что-то создавать либо напрямую (например, изменение массива), либо
+            косвенно (используя переменные для представления некоторого состояния). Вот некоторый псевдокод для общего
+            формата backtracking:
+        </p>
+
+        <div class="code">
+            // let curr represent the thing you are building <br>
+            // it could be an array or a combination of variables <br>
+
+            function backtrack(curr) {
+            <p class="raw1">if (base case) {</p>
+            <p class="raw2">Increment or add to answer</p>
+            <p class="raw2">return</p>
+            <p class="raw1">}</p>
+
+            <p class="raw1">for (iterate over input) {</p>
+            <p class="raw2">Modify curr</p>
+            <p class="raw2">backtrack(curr)</p>
+            <p class="raw2">Undo whatever modification was done to curr</p>
+            <p class="raw1">}</p>
+            }
+        </div>
+
+        <p class="content">
+            Давайте вернемся к аналогии возможностей, представленных деревом.
+        </p>
+
+        <p class="content">
+            Каждый вызов функции <span>backtrack</span> представляет собой узел в дереве. Каждая итерация в цикле for
+            представляет
+            дочерний узел текущего узла, а вызов <span>backtrack</span> в этом цикле представляет переход к дочернему
+            узлу.
+        </p>
+
+        <p class="content">
+            Строка, в которой вы отменяете изменения, является шагом «backtracking» и эквивалентна перемещению
+            обратно вверх по дереву от дочернего элемента к его родительскому.
+        </p>
+
+        <p class="content">
+            В любом заданном узле путь от корня до узла представляет собой строящегося кандидата. Листовые узлы
+            представляют собой законченные решения и обозначают достижение базового случая. Корень этого дерева является
+            пустым кандидатом и представляет область, из которой выполняется исходный вызов <span>backtrack</span>.
+        </p>
+
+        <p class="content">
+            В этой главе мы будем использовать деревья для представления процесса поиска с возвратом, поскольку это
+            очень интуитивно понятный способ решения этих проблем.
+        </p>
+
+        <p class="important">
+            Если эта аналогия с деревом сбивает с толку; Не волнуйтесь. Видео с пошаговыми инструкциями в следующих
+            примерах задач должно прояснить ситуацию.
+        </p>
+
+        <hr>
+
+
+
+    </div>
+
+</body>
+
+</html>

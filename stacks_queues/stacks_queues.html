@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Stacks</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../stacks_queues/stacks_queues.html" class="stacks_queues">Stacks</a>
+        <a href="../stacks_queues/string_problems.html" class="string_problems">String problems</a>
+        <a href="../stacks_queues/queues.html" class="queues">Queues</a>
+        <a href="../stacks_queues/monotonic.html" class="monotonic">Monotonic</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#interface">Interface</a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Stacks
+        </h1>
+        <hr>
+
+        <p class="content">
+            Стек — это упорядоченная коллекция элементов, в которой элементы добавляются и удаляются только с одного и
+            того же конца. В физическом мире примером стопки может быть стопка тарелок на кухне: вы добавляете тарелки
+            или убираете тарелки с верха стопки. В мире программного обеспечения хорошим примером стека является история
+            текущей вкладки вашего браузера. Допустим, вы находитесь на сайте <span>A</span> и нажимаете на ссылку,
+            чтобы перейти на
+            сайт <span>B</span>, затем с <span>B</span> вы нажимаете на другую ссылку, чтобы перейти на сайт
+            <span>C</span>. Каждый раз, когда вы нажимаете на
+            ссылку, вы добавляете в стек своей истории — это <span>[A, B, C]</span>. Когда вы нажимаете стрелку назад,
+            вы
+            «удаляете» из стека — щелкните по ней один раз, и у вас есть <span>[A, B]</span>, щелкните по ней еще раз, и
+            у вас есть
+            <span>[A]</span>.
+        </p>
+
+        <p class="important">
+            Другой термин, используемый для описания стеков, — это LIFO, что означает «последним вошел — первым вышел».
+            Последний (самый последний) элемент, помещенный внутрь, выходит первым.
+        </p>
+
+        <p class="content">
+            Стеки очень просты в реализации. Некоторые языки, такие как Java, имеют встроенные стеки. В Python вы можете
+            просто использовать список <span>stack = []</span> и использовать <span>stack.append(element)</span> и
+            <span>stack.pop()</span>. Фактически любой
+            динамический массив может реализовать стек. Обычно вставка в стек называется нажатием, а удаление из стека
+            называется извлечением. Стеки обычно также содержат такие операции, как просмотр, что означает просмотр
+            элемента в верхней части стека.
+        </p>
+
+        <p class="content">
+            Временная сложность операций стека зависит от реализации. Если вы используете динамический массив, что
+            является наиболее распространенным и простым способом, то временная сложность ваших операций такая же, как и
+            у динамического массива.
+            O(1) push, pop и произвольный доступ, и
+            O(n) поиск. Иногда стек может быть реализован в виде связанного списка с хвостовым указателем.
+        </p>
+
+        <p class="important">
+            Характеристика, которая делает что-то «стеком», заключается в том, что вы можете добавлять и удалять
+            элементы только с одного и того же конца. Неважно, как вы это реализуете, «стек» — это всего лишь
+            абстрактный интерфейс.
+            <br>
+            <br>
+            Стеки и рекурсия очень похожи. Это связано с тем, что рекурсия фактически выполняется с использованием
+            стека. Вызовы функций помещаются в стек. Вызов на вершине стека в любой момент является «активным» вызовом.
+            При операторе возврата или достижении конца функции текущий вызов извлекается из стека.
+        </p>
+
+        <p class="content">
+            Для решения алгоритмических задач стек является хорошим вариантом, если вы можете распознать шаблон LIFO.
+            Обычно существует некоторый компонент проблемы, который включает в себя элементы входных данных,
+            взаимодействующие друг с другом. Взаимодействие может означать сопоставление элементов, запрос некоторого
+            свойства, например «насколько далеко находится следующий по величине элемент», оценку математического
+            уравнения, заданного в виде строки, простое сравнение элементов друг с другом или любое другое абстрактное
+            взаимодействие. Иногда свойство LIFO трудно увидеть, но в этой главе мы обязательно поговорим о том, как его
+            распознать.
+        </p>
+
+        <hr>
+
+        <h2 id="interface">
+            Interface guide
+        </h2>
+
+        <p class="content">
+            Вот краткое описание интерфейса стека на основных языках:
+        </p>
+
+        <div class="code">
+            # Declaration: we will just use a list <br>
+            stack = [] <br>
+            <br> <br>
+            # Pushing elements: <br>
+            stack.append(1) <br>
+            stack.append(2) <br>
+            stack.append(3) <br>
+            <br>
+            # Popping elements: <br>
+            stack.pop() # 3 <br>
+            stack.pop() # 2 <br> <br>
+
+            # Check if empty <br>
+            not stack # False <br>
+            <br>
+            # Check element at top <br>
+            stack[-1] # 1 <br> <br>
+
+            # Get size <br>
+            len(stack) # 1
+        </div>
+
+        <hr>
+
+    </div>
+
+</body>
+
+</html>

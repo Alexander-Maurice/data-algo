@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Binary trees</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="trees_graphs.html" class="binary_trees">Binary trees</a>
+        <a href="binary_trees_dfs.html" class="binary_trees_dfs">Binary trees DFS</a>
+        <a href="binary_trees_bfs.html" class="binary_trees_bfs">Binary trees BFS</a>
+        <a href="binary_search_trees.html" class="binary_search_trees">Binary search trees</a>
+        <a href="graphs.html" class="graphs">Graphs</a>
+        <a href="graphs_dfs.html" class="graphs_dfs">Graphs DFS</a>
+        <a href="graphs_bfs.html" class="graphs_bfs">Graphs BFS</a>
+        <a href="implicit_graphs.html" class="implicit_graphs">Implicit graphs</a>
+        <a href="premium_graphs.html" class="premium_graphs">Premium graphs</a>
+        <a href="disjoint_set/1_disjoint_set.html" class="disjoint_set">Disjoint set</a>
+        <a href="dejkstra.html" class="dejkstra">Dejkstra</a>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div>
+
+    <div class="container">
+        <h1>Overview</h1>
+
+        <hr>
+
+        <p class="content">
+            Граф, вероятно, представляет собой структуру данных, которая больше всего похожа на нашу повседневную жизнь.
+            Существует множество типов графов, описывающих отношения в реальной жизни. Например, круг наших друзей
+            представляет собой огромный «граф».
+        </p>
+
+        <img src="../trees_graphs/tree_graphs_imgs/The_basic_of_graph_1.png" alt="">
+
+        <p class="content">
+            На рисунке 1 выше мы видим, что люди G, B и E являются прямыми друзьями A, тогда как люди C, D и F являются
+            косвенными друзьями A. Этот пример представляет собой социальный график дружбы. Итак, что же такое структура
+            данных «граф»?
+        </p>
+
+        <h2>
+            Виды «графов»
+        </h2>
+
+        <p class="content">
+            Существует много типов «графиков». В этой карточке исследования мы представим три типа графиков:
+            неориентированные графы, ориентированные графы и взвешенные графы.
+        </p>
+
+        <h3>
+            Неориентированные графы
+        </h3>
+
+        <p class="content">
+            Ребра между любыми двумя вершинами в «неориентированном графе» не имеют направления, что указывает на
+            двустороннюю связь.
+            <br> <br>
+            На рисунке 1 приведен пример неориентированного графа.
+        </p>
+
+
+        <h3>
+            Ориентированные графы
+        </h3>
+
+        <p class="content">
+            Ребра между любыми двумя вершинами в графе «ориентированный граф» являются направленными.
+            <br> <br>
+            На рисунке 2 приведен пример ориентированного графа.
+        </p>
+
+        <img src="../trees_graphs/tree_graphs_imgs/The_basic_of_graph_2.png" alt="">
+
+
+        <h3>
+            Взвешенные графы
+        </h3>
+
+        <p class="content">
+            Каждое ребро во «взвешенном графе» имеет связанный с ним вес. Вес может иметь любую метрику, например время,
+            расстояние, размер и т. д. Наиболее часто встречающейся «взвешенной картой» в нашей повседневной жизни может
+            быть карта города. На рисунке 3 каждое ребро отмечено расстоянием, которое можно рассматривать как вес этого
+            ребра.
+        </p>
+
+        <img src="../trees_graphs/tree_graphs_imgs/The_basic_of_graph_3.png" alt="">
+
+        <h2>
+            Определение понятия «граф» и терминология
+        </h2>
+
+        <p class="content">
+            «График» — это нелинейная структура данных, состоящая из вершин и ребер. Для описания графа существует
+            множество терминов. Если вы встретите незнакомый термин в следующей карточке исследования, вы можете
+            посмотреть его определение ниже.
+        </p>
+
+        <ul>
+            <li>Вершина: на рисунке 1 такие узлы, как A, B и C, называются вершинами графа.</li>
+            <li>Ребро: соединение между двумя вершинами является ребром графа. На рисунке 1 связь между людьми А и Б
+                представляет собой ребро графа.</li>
+            <li>Путь: последовательность вершин, через которую нужно пройти от одной вершины к другой. На рисунке 1 путь
+                от A до C — это [A, B, C], или [A, G, B, C], или [A, E, F, D, B, C].</li>
+        </ul>
+
+        <p class="content">
+            **Примечание**: между двумя вершинами может быть несколько путей.
+        </p>
+
+        <ul>
+            <li>Длина пути: количество ребер в пути. На рисунке 1 длины пути от человека A до C равны 2, 3 и 5
+                соответственно.</li>
+            <li>Цикл: путь, начальная и конечная точки которого являются одной и той же вершиной. На рисунке 1 [A, B, D,
+                F, E] образует цикл. Аналогично [A, G, B] образует другой цикл.</li>
+            <li>Цикл с отрицательным весом: если во «взвешенном графе» сумма весов всех ребер цикла имеет отрицательное
+                значение, это цикл с отрицательным весом. На рисунке 4 сумма весов равна -3.</li>
+            <li>Связность: если между двумя вершинами существует хотя бы один путь, эти две вершины связаны. На рисунке
+                1 точки A и C соединены, поскольку их соединяет хотя бы один путь.</li>
+            <li>Степень вершины: термин «степень» применяется к невзвешенным графам. Степень вершины — это количество
+                ребер, соединяющих вершину. На рисунке 1 степень вершины A равна 3, поскольку ее соединяют три ребра.
+            </li>
+            <li>In-Degree: “in-degree” is a concept in directed graphs. If the in-degree of a vertex is d, there are d
+                directional edges incident to the vertex. In Figure 2, A’s indegree is 1, i.e., the edge from F to A.
+            </li>
+            <li>Исходящая степень: «исходящая степень» — это концепция ориентированных графов. Если исходящая степень
+                вершины равна d, из вершины выходит d ребер. На рисунке 2 исходящая степень A равна 3, то есть ребра от
+                A до B, от A до C и от A до G.</li>
+        </ul>
+
+        <img src="../trees_graphs/tree_graphs_imgs/4._Negative_Cycle.png" alt="">
+
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Column
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../1 sql data structure/1_Schema.html">SQL Data Structure</a>
+            <a href="../2 sql syntax/1_select_insert_update_delete.html">SQL Syntax</a>
+            <a href="../3 sql relationship/1_ Relationships.html">SQL Relationship</a>
+            <a href="../4 intermediate sql/1_Foreign Key.html">Intermediate SQL</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="./1_Schema.html" class="schema">Schema</a>
+        <a href="./2_table.html" class="table">Table</a>
+        <a href="./3_column.html" class="column">Column</a>
+    </div>
+
+    <!-- <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div> -->
+
+    <div class="container">
+        <h1>Column</h1>
+
+        <hr>
+        <h2>
+            Чему вы научитесь
+        </h2>
+
+        <ol>
+            <li>Различные типы данных и когда их использовать.</li>
+            <li>Общие функции атрибутов столбцов, предоставляемые SQL.</li>
+            <li>Операторы создания и обновления столбцов.</li>
+        </ol>
+
+        <p class="content">
+            В этой статье речь пойдет об очень маленьком измерении — столбце. Каждый столбец отвечает за ограничение
+            типа и размера значений, которые могут хранить данные. Кроме того, столбец также может включать некоторые
+            функции базы данных.
+        </p>
+
+        <h2>
+            Data Types
+        </h2>
+
+        <p class="content">
+            Прежде всего, мы можем наблюдать тип данных, которые фактически будут храниться. На самом деле он не очень
+            разнообразен.
+        </p>
+
+
+        <p class="content">
+            Его можно разделить на три типа: число, дату и время и текст. В программном обеспечении баз данных мы можем
+            использовать эти три типа и их расширения для установки различных типов данных. Помимо этих типов данных,
+            SQL также имеет некоторые специальные типы данных, которые будут представлены позже.
+        </p>
+
+
+        <h3>
+            Number
+        </h3>
+
+        <ol>
+            <li><span>BIGINT</span>, <span>INT</span>, <span>MEDIUMINT</span>, <span>SMALLINT</span>,
+                <span>TINYINT</span>: представляют целые числа. Чем левее, тем большее число можно
+                сохранить. Наиболее распространенной настройкой является <span>INT</span>, которая может хранить
+                значения в диапазоне
+                от -2147483648 до 2147483647.
+            </li>
+            <li><span>DOUBLE</span>, <span>FLOAT</span>, <span>DECIMAL</span>: представляют десятичные дроби.
+                <span>DECIMAL</span> может быть установлен в <span>DECIMAL(5, 2)</span>,
+                что означает, что значение столбца должно состоять из 5 цифр, а две цифры встречаются после десятичной
+                точки, например, значение типа <span>666,88</span>.
+            </li>
+        </ol>
+
+        <p class="content">
+            Следует отметить, что значения, хранящиеся в <span>DOUBLE</span> и <span>FLOAT</span>, не являются точными.
+            Когда вы сохраняете 2,5
+            для связанных операций, оно, скорее всего, будет рассчитано как 2,500000002. Поэтому <span>DECIMAL</span>
+            рекомендуется
+            для требований к системе данных высокой точности.
+        </p>
+
+        <h3>
+            Datetime
+        </h3>
+        <ol>
+            <li><span>DATE</span>, <span>MONTH</span>, <span>YEAR</span>: установка даты, месяца и года.</li>
+            <li><span>DATETIME</span>, <span>TIMESTAMP</span>: относительно полный формат данных даты, помимо года,
+                месяца и дня, он также
+                включает часы, минуты и секунды, что более точно, чем <span>DATE</span>.<span>DATETIME</span> может
+                принимать чисто формат
+                значения даты и времени, например <span>8888-01-01 00:00:00</span>, но <span>TIMESTAMP</span> ограничен
+                диапазоном между
+                <span>1970-01-01 00:00:01</span> и <span>2038-01-19 03:14:07</span>.
+            </li>
+        </ol>
+
+        <h3>
+            Text
+        </h3>
+
+        <ul>
+            <li><span>CHAR</span>, <span>VARCHAR</span>: хранит простой текст; первый вариант подходит для данных с
+                фиксированной длиной текста,
+                например сокращений валют. Последний подходит для данных, длина которых будет меняться, и необходимо
+                установить длину текста, который можно сохранить. Наиболее распространенной настройкой по умолчанию для
+                MySQL является <span>VARCHAR(45)</span>, что означает, что каждый элемент в столбце может хранить 45
+                символов. Это
+                момент, когда многие новички в SQL допускают ошибки при установке типа данных столбца. Установка слишком
+                маленького размера приводит к превышению предельного размера столбца.</li>
+            <li><span>TEXT</span>, <span>LONGTEXT</span>: Если вы хотите хранить текстовые данные, максимальная длина
+                которых неизвестна, вы
+                можете использовать настройки типа данных, связанные с <span>TEXT</span>.</li>
+        </ul>
+
+
+        <h3>
+            Special Data Types
+        </h3>
+
+        <p class="content">
+            Существует также несколько специальных типов данных: <br><br>
+            1. <span>BINARY</span>, <span>BLOB</span>: хранят данные типа файла, например
+            изображения или видео. <span>BLOB</span> (большой двоичный объект) предназначен не только для этих типов, но
+            и для
+            больших неструктурированных данных. Однако на практике он используется редко, поскольку управлять файлами с
+            помощью программного обеспечения баз данных сложно. <br><br>
+            2. <span>BOOLEAN</span>: сохраните данные логического операнда. Проще
+            говоря, это истинные или ложные данные. База данных заменит его на 1 или 0 соответственно. Предположим, есть
+            столбец с именем <span>is_alive</span>, тогда каждое значение имеет значение true или false. <br> <br>
+            3. <span>JSON</span>: очень
+            распространенный формат данных в современном обмене данными. Более подробную информацию об этом типе данных
+            мы предоставим в главе «<span>Синтаксис SQL: JSON</span>».
+        </p>
+
+
+        <h2>
+            Функции атрибутов столбца
+        </h2>
+
+        <p class="content">
+            В демонстрационном операторе на предыдущей странице функция атрибута столбца <span>NOT NULL</span> была
+            добавлена к
+            столбцу <span>id</span>. Цель функции атрибута столбца — гарантировать, что при добавлении новых данных в
+            таблицу база
+            данных заранее обработает формат данных или содержимое.
+        </p>
+
+        <p class="content">
+            Благодаря функции атрибутов столбца пользователи могут легче поддерживать правильность данных. Давайте
+            уделим немного времени, чтобы понять наиболее распространенные функции атрибутов столбца: <br>
+            1. <span>NOT NULL</span>: это
+            означает, что значение в поле не может быть <span>NULL</span>. Поэтому, когда мы используем <span>NOT
+                NULL</span>, мы заставляем
+            столбец НЕ принимать нулевые значения, что означает, что поле всегда должно содержать значение. В мире
+            языков программирования <span>NULL</span> ничего не значит. Например, если значением является пустой текст,
+            это означает
+            как минимум пустой текст, но не может быть ничем. В реальном мире можно представить, что это похоже на
+            контраст между воздухом и вакуумом. Хотя воздух и не видно, он все равно есть, но вакуум на самом деле
+            ничто. <br>
+            2. <span>AUTO_INCREMENT</span>: в базе данных он автоматически генерирует значения столбца одно за другим,
+            используя числа. Он похож на серийный номер. Программное обеспечение базы данных поможет нам избежать
+            проблемы повторяющихся серийных номеров, поэтому вам не нужно писать собственные программы для сравнения и
+            установки значения. <br>
+            3. <span>DEFAULT</span>: вы можете установить значение по умолчанию для столбца, поскольку в
+            некоторых случаях данные, которые нужно вставить в поле, могут быть пустыми.
+        </p>
+
+        <p class="content">
+            Предположим, мы создаем новую таблицу, и ее два столбца (<span>id</span> и <span>name</span>) имеют разные
+            настройки функции атрибута
+            столбца. Это можно записать следующим образом:
+        </p>
+
+        <div class="code">
+            CREATE SCHEMA `new_schema` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; <br> <br>
+
+            CREATE TABLE `new_schema`.`users` ( <br>
+            `id` INT NOT NULL AUTO_INCREMENT COMMENT 'This is the primary index', <br>
+            `name` VARCHAR(45) NOT NULL DEFAULT 'N/A', <br>
+            PRIMARY KEY (`id`) <br>
+            );
+        </div>
+
+        <p class="content">
+            В разных системах баз данных он может проявляться в разных формах. Например, в PostgreSQL функция
+            <span>AUTO_INCREMENT</span> будет заменена настройкой <span>SERIAL</span>, а Oracle будет использовать
+            <span>IDENTITY</span>. Таким образом,
+            сосредоточив внимание на том, что может делать каждая функция, а не на том, «что представляет собой каждая
+            функция», вы сможете лучше адаптироваться к различным системам баз данных.
+        </p>
+
+
+        <h2>
+            Create and Update Column
+
+        </h2>
+
+        <p class="content">
+            Столбцы не статичны; как и данные в реальном мире, они будут постоянно меняться. Когда мы хотим добавить или
+            изменить столбцы, мы можем использовать следующие инструкции (на основе предыдущего примера создания
+            таблицы).
+        </p>
+
+        <h3>
+            Create
+        </h3>
+
+        <div class="code">
+            ALTER TABLE `new_schema`.`users` <br>
+            ADD COLUMN `age` INT NULL AFTER `name`;
+        </div>
+
+        <p class="content">
+            Его можно разделить на две части: <br>
+            1. <span>ALTER TABLE</span>: при изменении настроек столбца нам нужно объявить,
+            что мы хотим изменить таблицу. <br>
+            2. <span>ADD COLUMN</span>: используйте ключевое слово <span>ADD COLUMN</span>, а затем
+            добавьте параметр, который будет использоваться при создании таблицы. Обратите внимание, что вы можете
+            использовать <span>AFTER</span> для установки порядка столбцов. Это повышает читаемость при просмотре
+            настроек столбцов
+            таблицы.
+        </p>
+
+
+        <h3>
+            Update
+        </h3>
+
+        <p class="content">
+            В SQL обновление столбца больше похоже на создание нового правила и перезапись исходной версии. Инструкция
+            выглядит следующим образом:
+        </p>
+
+        <div class="code">
+            ALTER TABLE `new_schema`.`users` <br>
+            CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT, <br>
+            CHANGE COLUMN `name` `user_name` VARCHAR(45) NOT NULL DEFAULT 'No Name';
+        </div>
+
+        <p class="content">
+            Этот оператор использует <span>CHANGE COLUMN</span>, а затем добавляет новые правила. Стоит отметить, что
+            грамматика
+            сначала будет соответствовать двум последовательным словам типа <span>id</span> — <span>id</span> и
+            <span>name</span> — <span>user_name</span>. Первое — это имя
+            существующего столбца, второе — новое имя столбца, за которым следуют новые правила для столбца.
+        </p>
+
+        <p class="content">
+            Поэтому, если вы не хотите менять имя столбца, необходимо сохранить их согласованными, как показано выше.
+        </p>
+
+        <p class="content">
+            Результаты новой таблицы будут такими, как показано на вкладке «Результаты»:
+        </p>
+
+        <div class="code">
+            #Schema SQL <br>
+            CREATE SCHEMA `new_schema` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; <br> <b></b>
+
+            CREATE TABLE `new_schema`.`users` ( <br>
+            `id` INT NOT NULL AUTO_INCREMENT COMMENT 'This is the primary index', <br>
+            `name` VARCHAR(45) NOT NULL DEFAULT 'N/A', <br>
+            PRIMARY KEY (`id`) <br>
+            );
+
+            <br>
+            <br>
+            #Query SQL <br>
+            ALTER TABLE `new_schema`.`users` <br>
+            ADD COLUMN `age` INT NULL AFTER `name`; <br> <br>
+
+            ALTER TABLE `new_schema`.`users` <br>
+            CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT, <br>
+            CHANGE COLUMN `name` `user_name` VARCHAR(45) NOT NULL DEFAULT 'No Name'; <br> <br>
+
+            SHOW FULL COLUMNS FROM `new_schema`.`users`;
+            <br>
+            <br>
+
+            #Results <br>
+            <table>
+                <tr>
+                    <td>Field</td>
+                    <td>Type</td>
+                    <td>Collation</td>
+                    <td>Null</td>
+                    <td>Key</td>
+                    <td>Default</td>
+                    <td>Extra</td>
+                    <td>Privileges</td>
+                    <td>Comment</td>
+                </tr>
+                <tr>
+                    <td>id</td>
+                    <td>int(11)</td>
+                    <td></td>
+                    <td>NO</td>
+                    <td>PRI</td>
+                    <td></td>
+                    <td>auto_increment</td>
+                    <td>select,insert,update,references</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>user_name</td>
+                    <td>varchar(45) </td>
+                    <td>utf8mb4_unicode_ci</td>
+                    <td>NO</td>
+                    <td></td>
+                    <td>No Name </td>
+                    <td></td>
+                    <td>select,insert,update,references </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>age</td>
+                    <td>int(11) </td>
+                    <td></td>
+                    <td>YES</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>select,insert,update,references </td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

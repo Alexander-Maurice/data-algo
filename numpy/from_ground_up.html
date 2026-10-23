@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <title>From the Ground up</title>
+</head>
+
+<body>
+
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../numpy/numpy.html">Introduction</a>
+            <a href="../numpy/numpy_quickstart.html">Quickstart</a>
+            <a href="../numpy/from_ground_up.html">From the Ground up</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../numpy/from_ground_up.html">Основы NumPy - многомерный объект массива</a>
+        <a href="../numpy/universal_funcs.html">Универсальные функции</a>
+        <a href="../numpy/programming.html">Программирование на основе массивов</a>
+
+    </div>
+
+    <div class="w">
+        <div class="stick__navigation">
+            <a href="#short">Краткая справка о numpy!</a>
+            <a href="#create">Создание массива</a>
+
+        </div>
+    </div>
+
+    <div class="container" id="short">
+        <h1>
+            Краткая справка о Numpy:
+        </h1>
+        <hr>
+
+        <p class="content">
+            Numpy - это библиотека Python, которая предоставляет мощные и универсальные вычисления с массивами,
+            математическими функциями и другими инструментами для различных научных областей. С помощью Numpy вы можете
+            работать с многомерными массивами фиксированного размера одинакового типа, выполнять задачи по линейной
+            алгебре, матричные операции и многое другое. Numpy является открытым проектом, который вы можете
+            использовать бесплатно, само название означает Numerical Python.
+        </p>
+
+        <p class="content">
+            Numpy быстрее и эффективнее, чем обычные списки Python, потому что он хранит массивы в одном непрерывном
+            месте в памяти, что позволяет процессам быстро доступаться и манипулировать данными.
+        </p>
+
+
+        <p class="content">
+            <span>ndarray</span> (N-dimensional array) в библиотеке NumPy представляет собой основной объект для
+            хранения и
+            манипуляций многомерными массивами данных. Вот некоторые ключевые аспекты <span>ndarray</span>:
+        </p>
+
+        <ol>
+            <li><b>Многомерность</b>: <span>ndarray</span> может представлять массивы различных размерностей. Это может
+                быть одномерный
+                массив (вектор), двумерный массив (матрица), трехмерный массив и так далее. Это обеспечивает удобное
+                представление различных структур данных</li>
+            <li><b>Однородность типов</b>: Все элементы в <span>ndarray</span> должны быть одного и того же типа данных.
+                Это обеспечивает
+                эффективное использование памяти и позволяет проводить векторизированные операции.</li>
+            <li><b>Индексация и срезы</b>: К <span>ndarray</span> можно обращаться по индексу, а также использовать
+                срезы для получения
+                подмассивов. Индексация начинается с 0, а отрицательные индексы отсчитываются с конца.</li>
+            <li><b>Форма (Shape)</b>: <span>ndarray</span> имеет атрибут <span>shape</span>, представляющий кортеж
+                размеров массива по каждой из его
+                осей. Например, для двумерного массива, <span>shape</span> будет (число строк, число столбцов).</li>
+            <li><b>Тип данных (dtype)</b>: Каждый <span>ndarray</span> имеет свой тип данных, определяющий тип значений,
+                которые он содержит
+                (например, целые числа, числа с плавающей запятой и т.д.).</li>
+            <li><b>Создание массивов</b>: Массивы могут быть созданы различными методами, такими как
+                <span>np.array()</span>, <span>np.zeros()</span>,
+                <span>np.ones()</span>, <span>np.arange()</span> и другие.
+            </li>
+            <li><b>Векторизированные операции</b>: NumPy поддерживает векторизированные операции, что означает, что
+                операции выполняются над целыми массивами без необходимости явного использования циклов.
+
+            </li>
+        </ol>
+
+        <p class="content">
+            Для импорта библиотеки в python достаточно ввести в python одну строчку: <span>import numpy as np</span>
+        </p>
+
+        <hr>
+
+        <!-- Cоздание массива -->
+        <h2 id="create">
+            Создание массива
+        </h2>
+
+        <h4>
+            1. np.array()
+        </h4>
+
+        <p class="content">
+            Метод <span>np.array</span>(object, dtype=None, copy=True, order='K', subok=False, ndmin=0) создает массив
+            из объекта,
+            такого как список или кортеж.
+        </p>
+        <ul>
+            <li><span>object:</span>Исходный объект, который может быть списком, кортежем и т.д.</li>
+            <li><span>dtype</span> (необязательный): Тип данных элементов массива. Если не указан, тип данных будет
+                определен автоматически. </li>
+            <li><span>copy</span> (необязательный): Если True, создает копию массива. По умолчанию True.</li>
+            <li><span>order</span> (необязательный): Порядок, в котором будут расположены элементы массива в памяти ('C'
+                - C-порядок, 'F' - порядок Fortran). По умолчанию 'K'.</li>
+            <li><span>subok</span> (необязательный): Если True, подклассы будут переданы, если это возможно. По
+                умолчанию False.</li>
+            <li><span>ndmin</span> (необязательный): Минимальное количество измерений в массиве. По умолчанию 0.</li>
+        </ul>
+
+        <p class="content">
+            Примеры: <br>
+            arr1 = np.array([1, 2, 3]) <br>
+            print(arr1) <br>
+            # Вывод: [1 2 3] <br>
+
+            arr2 = np.array((4, 5, 6)) <br>
+            print(arr2) <br>
+            # Вывод: [4 5 6] <br>
+        </p>
+
+
+    </div>
+
+
+
+</body>

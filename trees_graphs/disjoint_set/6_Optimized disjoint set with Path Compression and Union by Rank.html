@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Optimized “disjoint set” with Path Compression and Union by Rank</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/dynamic_programming.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../trees_graphs.html" class="binary_trees">Binary trees</a>
+        <a href="../binary_trees_dfs.html" class="binary_trees_dfs">Binary trees DFS</a>
+        <a href="../binary_trees_bfs.html" class="binary_trees_bfs">Binary trees BFS</a>
+        <a href="../binary_search_trees.html" class="binary_search_trees">Binary search trees</a>
+        <a href="../graphs.html" class="graphs">Graphs</a>
+        <a href="../graphs_dfs.html" class="graphs_dfs">Graphs DFS</a>
+        <a href="../graphs_bfs.html" class="graphs_bfs">Graphs BFS</a>
+        <a href="../implicit_graphs.html" class="implicit_graphs">Implicit graphs</a>
+        <a href="../premium_graphs.html" class="premium_graphs">Premium graphs</a>
+        <a href="1_disjoint_set.html" class="disjoint_set">Disjoint set</a>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div>
+
+    <div class="container">
+        <h1>Optimized “disjoint set” with Path Compression and Union by Rank</h1>
+
+        <hr>
+        <h2>
+            Optimized “disjoint set” with Path Compression and Union by Rank
+        </h2>
+        <hr>
+
+        <p class="content">
+            Эта реализация «непересекающегося набора» оптимизирована как для «сжатия пути», так и для «объединения по
+            рангу».
+        </p>
+
+        <div class="code">
+            # UnionFind class <br>
+            class UnionFind: <br>
+            <p class="raw1">def __init__(self, size):</p>
+            <p class="raw2">self.root = [i for i in range(size)]</p>
+            <p class="raw2"># Use a rank array to record the height of each vertex, i.e., the "rank" of each vertex.</p>
+            <p class="raw2"># The initial "rank" of each vertex is 1, because each of them is</p>
+            <p class="raw2"># a standalone vertex with no connection to other vertices.</p>
+            <p class="raw2">self.rank = [1] * size</p>
+            <br>
+            <p class="raw1"># The find function here is the same as that in the disjoint set with path compression.</p>
+            <p class="raw1">def find(self, x):</p>
+            <p class="raw2">if x == self.root[x]:</p>
+            <p class="raw3">return x</p>
+            <p class="raw1"># Some ranks may become obsolete so they are not updated</p>
+            <p class="raw2">self.root[x] = self.find(self.root[x])</p>
+            <p class="raw2">return self.root[x]</p>
+            <br>
+            <p class="raw1"># The union function with union by rank</p>
+            <p class="raw1">def union(self, x, y):</p>
+            <p class="raw2">rootX = self.find(x)</p>
+            <p class="raw2">rootY = self.find(y)</p>
+            <p class="raw2">if rootX != rootY:</p>
+            <p class="raw3">if self.rank[rootX] > self.rank[rootY]:</p>
+            <p class="raw4">self.root[rootY] = rootX</p>
+            <p class="raw3">elif self.rank[rootX] < self.rank[rootY]:</p>
+                    <p class="raw4">self.root[rootX] = rootY</p>
+                    <p class="raw3">else:</p>
+                    <p class="raw4">self.root[rootY] = rootX</p>
+                    <p class="raw4">self.rank[rootX] += 1</p>
+                    <br>
+                    <p class="raw1">def connected(self, x, y):</p>
+                    <p class="raw2">return self.find(x) == self.find(y)</p>
+                    <br> <br>
+
+                    # Test Case<br>
+                    uf = UnionFind(10)<br>
+                    # 1-2-5-6-7 3-8-9 4<br>
+                    uf.union(1, 2)<br>
+                    uf.union(2, 5)<br>
+                    uf.union(5, 6)<br>
+                    uf.union(6, 7)<br>
+                    uf.union(3, 8)<br>
+                    uf.union(8, 9)<br>
+                    print(uf.connected(1, 5)) # true<br>
+                    print(uf.connected(5, 7)) # true<br>
+                    print(uf.connected(4, 9)) # false<br>
+                    # 1-2-5-6-7 3-8-9-4<br>
+                    uf.union(9, 4)<br>
+                    print(uf.connected(4, 9)) # true
+
+
+        </div>
+
+        <h2>
+            Time Complexity
+        </h2>
+        <hr>
+
+        <table>
+            <tr>
+                <td></td>
+                <td>Union-find Constructor</td>
+                <td>Find</td>
+                <td>Union</td>
+                <td>Connected</td>
+            </tr>
+            <tr>
+                <td>Time Complexity</td>
+                <td>O(N)</td>
+                <td>O(α(N))</td>
+                <td>O(α(N))</td>
+                <td>O(α(N))</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Примечание:
+            N — количество вершин в графе.
+            α относится к обратной функции Аккермана. На практике мы предполагаем, что это константа. Другими словами,
+            O(α(N)) рассматривается как
+            O(1) в среднем.
+        </p>
+
+        <ul>
+            <li>Для конструктора <span>union-find</span> нам нужно создать два массива размером
+                Н каждый.</li>
+            <li>При использовании комбинации объединения по рангу и оптимизации сжатия пути операция поиска займет
+                В среднем время O(α(N)) Поскольку и Union, и Connected выполняют вызовы для поиска, а все остальные
+                операции требуют постоянного времени, Union и Connected функции также будут занимать
+                В среднем время O(α(N))</li>
+        </ul>
+
+        <h2>Space Complexity</h2>
+        <hr>
+        <p class="content">
+            Нам нужно
+            O(N) пространство для хранения массива размером
+            𝑁
+        </p>
+
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>

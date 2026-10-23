@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Heaps</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="heaps.html" class="heaps">Heaps</a>
+        <a href="heap_examples.html" class="heap_examples">Heap Examples</a>
+        <a href="top_k.html" class="top_k">Top K</a>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#heap">Как реализована куча?</a>
+        <a href="#interface">Руководство по интерфейсу</a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Heaps
+        </h1>
+        <hr>
+
+        <p class="content">
+            Куча — это структура данных, которая является реализацией <a
+                href="https://en.wikipedia.org/wiki/Priority_queue">priority queue</a>.
+        </p>
+
+        <p class="content">
+            Обратите внимание, что приоритетная очередь представляет собой абстрактную структуру данных. Куча — это один
+            из многих способов реализации очереди с приоритетами. Однако люди часто используют эти два термина как
+            синонимы. В этом курсе мы будем использовать термин «куча».
+        </p>
+
+        <p class="content">
+            Куча — это контейнер, в котором хранятся элементы и поддерживаются следующие операции:
+
+        </p>
+        <ul>
+            <li>Добавление элемента за O(logn)</li>
+            <li>Удаление минимального элемента за O(logn)</li>
+            <li>Нахождение минимального элемента за O(1)</li>
+        </ul>
+
+        <p class="important">
+            Куча также может найти максимальные элементы вместо минимальных. Если куча настроена на поиск/удаление
+            минимального элемента, она называется минимальной кучей. Если он настроен на поиск/удаление максимального
+            элемента, это называется максимальной кучей.
+        </p>
+
+        <p class="content">
+            Возможность находить элемент max/min за постоянное время, требуя при этом только логарифмического времени
+            для поддержания этой способности посредством изменений, делает кучу чрезвычайно мощной структурой данных.
+        </p>
+
+        <hr>
+
+        <h3 id="heap">
+            Как реализована куча?
+        </h3>
+
+        <p class="content">
+            Как и хэш-карта, все основные языки программирования поддерживают кучу, поэтому вам не нужно реализовывать
+            ее самостоятельно. Что касается решения алгоритмических задач, вас действительно волнует только интерфейс, а
+            не то, как он реализован. Но, как и в случае с хэш-картами, все равно полезно понимать реализацию, если вас
+            об этом спросят на собеседовании.
+        </p>
+
+        <p class="important">
+            Для краткости в этой статье мы поговорим о минимальных кучах, хотя для максимальных куч логика та же.
+        </p>
+
+        <p class="content">
+            Существует несколько способов реализации кучи, хотя наиболее популярный способ называется двоичной кучей с
+            использованием массива. В главе о деревьях и графах мы видели, что двоичные деревья обычно реализуются с
+            помощью объекта <span>Node</span>.
+        </p>
+
+        <p class="content">
+            Бинарная куча реализует двоичное дерево, но содержит только массив. Идея состоит в том, что каждый элемент
+            массива является узлом дерева. Наименьший элемент в дереве является корнем, и в каждом узле сохраняется
+            следующее свойство: если <span>A</span> является родительским элементом <span>B</span>, то <span>A.val <=
+                    B.val</span>. Обратите внимание, что это
+                    свойство напрямую подразумевает, что корень — это наименьший элемент.
+        </p>
+
+        <p class="important">
+            Другое ограничение состоит в том, что дерево должно быть <a
+                href="https://en.wikipedia.org/wiki/Binary_tree#complete">полным деревом</a>.
+        </p>
+
+        <p class="content">
+            Отношения родитель-потомок выполняются с использованием математических вычислений с индексами. Первый
+            элемент с индексом <span>0</span> является корнем, затем элементы с индексами <span>1</span> и
+            <span>2</span> являются дочерними элементами корня,
+            элементы с индексами <span>3</span> и <span>4</span> являются дочерними элементами элемента с индексом
+            <span>1</span>, а элементы с индексами <span>5</span> и <span>6</span>
+            являются дочерними элементами элемента с индексом <span>2</span> и так далее. Если узел имеет индекс
+            <span>i</span>, то его дочерние
+            элементы имеют индексы <span>2i + 1</span> и <span>2i + 2</span>. Когда элементы добавляются или удаляются,
+            выполняются операции для
+            поддержания вышеупомянутого свойства <span>parent.val <= child.val</span>. Количество необходимых операций
+                    логарифмически зависит от количества элементов в куче, и этот процесс известен как «всплывание»
+        </p>
+
+        <img src="../heaps/heaps_img/35_1.png" alt="">
+
+        <p class="important">
+            Существующий массив элементов также можно преобразовать в кучу за линейное время, хотя этот процесс и
+            сложен. К счастью, некоторые основные языки программирования имеют для этого встроенные методы.
+            <br>
+            <br>
+            Помните: вам не следует слишком беспокоиться о том, как реализованы кучи. Главное, чтобы вы понимали
+            интерфейс. Мы включили подробности реализации в эту статью для полноты картины.
+        </p>
+
+        <p class="content">
+            Во многих задачах использование кучи может улучшить временную сложность алгоритма с O(n<sup>2</sup>) до O(n
+            * logn),
+            что является огромным улучшением (для <span>n = 1 000 000</span> это в <span>50 000</span> раз быстрее).
+            Куча — отличный вариант, когда вам нужно неоднократно найти максимум или минимум чего-либо.
+        </p>
+
+        <hr>
+        <h3 id="interface">
+            Руководство по интерфейсу
+        </h3>
+
+        <p class="content">
+
+            Вот краткое описание интерфейса кучи на основных языках:
+        </p>
+
+        <p class="important">
+            Примечание. Некоторые языки по умолчанию реализуют минимальную кучу, а некоторые — максимальную.
+            <br>
+            <br>
+            Если вы имеете дело с числами и хотите иметь дело с типом кучи, противоположным тому, который реализует ваш
+            язык, простой способ сделать это — умножить все числа на <span>-1</span>.
+        </p>
+
+        <div class="code">
+            # In Python, we will use the heapq module <br>
+            # Note: heapq only implements min heaps <br>
+            from heapq import * <br>
+            <br>
+            # Declaration: heapq does not give you a heap data structure. <br>
+            # You just use a normal list, and heapq provides you with <br>
+            # methods that can be used on this list to perform heap operations <br>
+            heap = [] <br>
+            <br>
+            # Add to heap <br>
+            heappush(heap, 1) <br>
+            heappush(heap, 2) <br>
+            heappush(heap, 3) <br>
+            <br>
+            # Check minimum element <br>
+            heap[0] # 1 <br>
+            <br>
+            # Pop minimum element <br>
+            heappop(heap) # 1 <br>
+            <br>
+            # Get size <br>
+            len(heap) # 2 <br>
+            <br>
+            # Bonus: convert a list to a heap in linear time <br>
+            nums = [43, 2, 13, 634, 120] <br>
+            heapify(nums) <br>
+            <br>
+            # Now, you can use heappush and heappop on nums <br>
+            # and nums[0] will always be the minimum element <br>
+        </div>
+
+        <hr>
+        <p class="content">
+            Вот интерактивная площадка, демонстрирующая использование очереди с кучей/приоритетами.
+        </p>
+
+        <div class="code">
+            import heapq <br>
+            <br>
+            # Note: Python's heapq implements a min heap <br>
+            <br>
+            heap = [67, 341, 234, -67, 12, -976] <br>
+            heapq.heapify(heap) <br>
+            <br>
+            heapq.heappush(heap, 7451) <br>
+            heapq.heappush(heap, -5352) <br>
+            <br>
+            # The numbers will be printed in sorted order <br>
+            while heap: <br>
+            <p class="raw1">print(heapq.heappop(heap))</p>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

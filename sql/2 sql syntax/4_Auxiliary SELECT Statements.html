@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Auxiliary SELECT Statements
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../1 sql data structure/1_Schema.html">SQL Data Structure</a>
+            <a href="../2 sql syntax/1_select_insert_update_delete.html">SQL Syntax</a>
+            <a href="../3 sql relationship/1_ Relationships.html">SQL Relationship</a>
+            <a href="../4 intermediate sql/1_Foreign Key.html">Intermediate SQL</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="./1_select_insert_update_delete.html" class="">Select, Insert, Update, Delete</a>
+        <a href="./2_where.html" class="">Where</a>
+        <a href="./3_json_in_sql.html" class="">JSON in SQL</a>
+        <a href="./4_Auxiliary SELECT Statements.html" class="">Auxiliare Select Statements</a>
+        <a href="./5_aggregate_functions.html" class="">Aggregate functions</a>
+    </div>
+
+    <!-- <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div> -->
+
+    <div class="container">
+        <h1>Auxiliary SELECT Statements</h1>
+
+        <hr>
+        <h2>
+            Чему вы научитесь
+        </h2>
+
+        <ol>
+            <li>Как найти данные без дубликатов.</li>
+            <li>Как разбить результат на страницы.</li>
+            <li>Как отсортировать результат.</li>
+            <li>Как сгруппировать данные в указанные столбцы.</li>
+        </ol>
+
+        <p class="content">
+            В предыдущих разделах мы подробно рассмотрели использование синтаксиса SQL, и теперь вы можете получать
+            нужные данные из конкретной таблицы в соответствии с вашими потребностями.
+        </p>
+
+        <p class="content">
+            Однако на рабочем месте выполнить задачу, только извлекая данные, невозможно. На самом деле изменений в
+            разных ситуациях будет много, например, ограничение первых 50 результатов или сортировка по конкретным
+            столбцам, и эта глава поможет вам изучить наиболее часто используемые вспомогательные операторы.
+        </p>
+
+        <h2>
+            Sample Data
+        </h2>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+                <td>height</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>40</td>
+                <td>150</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>30</td>
+                <td>140</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tim</td>
+                <td>25</td>
+                <td>170</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Jay</td>
+                <td>60</td>
+                <td>185</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Maria</td>
+                <td>30</td>
+                <td>190</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Tom</td>
+                <td>53</td>
+                <td>200</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Carter</td>
+                <td>40</td>
+                <td>145</td>
+            </tr>
+        </table>
+
+        <h2>
+            Uniqueness: DISTINCT
+        </h2>
+
+        <p class="content">
+            Когда количество данных становится очень большим, обычно возникает проблема: нужно найти результаты, которые
+            не повторяются в определенном столбце. На данный момент мы можем использовать <span>DISTINCT</span>, чтобы
+            ограничить
+            результаты и избежать повторения значений:
+        </p>
+
+        <div class="code">
+            SELECT DISTINCT age FROM `new_schema`.`users`;
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>age</td>
+            </tr>
+            <tr>
+                <td>40</td>
+            </tr>
+            <tr>
+                <td>30</td>
+            </tr>
+            <tr>
+                <td>25</td>
+            </tr>
+            <tr>
+                <td>60</td>
+            </tr>
+            <tr>
+                <td>53</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Обратите внимание: хотя Марии и Мэй по 30, а Джону и Картеру — 40, числа 30 и 40 встречаются в результате
+            только один раз.
+        </p>
+
+
+        <h2>Pagination: LIMIT & OFFSET</h2>
+        <p class="content">
+            <span>LIMIT</span> и <span>OFFSET</span> часто используются, когда результат содержит слишком много данных.
+            Логика синтаксиса,
+            используемая функцией отображения ленты страниц, является очень важным синтаксисом. Эти два ключевых слова
+            будут предоставлять функции <b>ограничения количества отображаемых элементов и пропуска первого указанного
+                количества элементов</b>.
+        </p>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`users` LIMIT 3 OFFSET 1;
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+                <td>height</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>30</td>
+                <td>140</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tim</td>
+                <td>25</td>
+                <td>170</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Jay</td>
+                <td>60</td>
+                <td>185</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Из результатов мы особенно отмечаем, что число после <span>LIMIT</span> обозначает количество отображаемых
+            записей, а
+            число после <span>OFFSET</span> относится к количеству фрагментов данных, подлежащих смещению, то есть
+            результат
+            пропустит определенное количество результатов.
+        </p>
+
+        <p class="content">
+            Поэтому многие программы SQL предоставляют функции разбиения на страницы, динамически генерируя числа после
+            <span>OFFSET</span>. Например, если требуется, чтобы каждые 3 строки представляли собой страницу, одним из
+            вариантов
+            является динамическое создание следующих запросов:
+        </p>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`users` LIMIT 3 OFFSET 0;
+        </div>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`users` LIMIT 3 OFFSET 3;
+        </div>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`users` LIMIT 3 OFFSET 6;
+        </div>
+
+        <p class="content">
+            И результат будет:
+        </p>
+
+        <h4>
+            First page
+        </h4>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+                <td>height</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>40</td>
+                <td>150</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>30</td>
+                <td>140</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tim</td>
+                <td>25</td>
+                <td>170</td>
+            </tr>
+        </table>
+
+        <h4>
+            Second page
+        </h4>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+                <td>height</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Jay</td>
+                <td>60</td>
+                <td>185</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Maria</td>
+                <td>30</td>
+                <td>190</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Tom</td>
+                <td>53</td>
+                <td>200</td>
+            </tr>
+        </table>
+
+        <h4>
+            Third page
+        </h4>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+                <td>height</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Carter</td>
+                <td>40</td>
+                <td>145</td>
+            </tr>
+        </table>
+
+        <h2>
+            Sorting: ORDER
+        </h2>
+
+        <p class="content">
+            <span>ORDER</span> обычно используется в конце запроса для оптимизации результатов поиска, чтобы данные
+            можно было
+            отсортировать по определенному столбцу.
+        </p>
+
+        <p class="content">
+            Нам удобно визуально анализировать внешний вид данных по столбцу типа <b>update_time</b> или
+            <b>order_price</b> и
+            сортировать их от больших к маленьким или от маленьких к большим.
+        </p>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`users` ORDER BY age;
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+                <td>height</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tim</td>
+                <td>25</td>
+                <td>170</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>30</td>
+                <td>140</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Maria</td>
+                <td>30</td>
+                <td>190</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>40</td>
+                <td>150</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Carter</td>
+                <td>40</td>
+                <td>145</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Tom</td>
+                <td>53</td>
+                <td>200</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Jay</td>
+                <td>60</td>
+                <td>185</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Как показано в приведенных выше результатах, он будет отсортирован по возрастанию, от меньшего к большему, и
+            это утверждение на самом деле является сокращением следующего предложения:
+        </p>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`users` ORDER BY age ASC;
+        </div>
+
+        <p class="content">
+            Поэтому, заменив ключевое слово <span>ASC</span> в конце возраста на <span>DESC</span>, данные можно
+            отсортировать по убыванию, то
+            есть от большего к меньшему:
+        </p>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`users` ORDER BY age DESC;
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+                <td>height</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Jay</td>
+                <td>60</td>
+                <td>185</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Tom</td>
+                <td>53</td>
+                <td>200</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Carter</td>
+                <td>40</td>
+                <td>145</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>40</td>
+                <td>150</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Maria</td>
+                <td>30</td>
+                <td>190</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>30</td>
+                <td>140</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tim</td>
+                <td>25</td>
+                <td>170</td>
+            </tr>
+        </table>
+
+        <h2>
+            Multi-column Sorting
+        </h2>
+
+        <p class="content">
+            Помимо сортировки по одному столбцу, результат также можно сортировать по нескольким столбцам. Если две
+            записи имеют одинаковое значение в первом столбце, они будут отсортированы в соответствии со значениями во
+            втором столбце, например:
+        </p>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`users` ORDER BY age DESC, height DESC;
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+                <td>height</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Jay</td>
+                <td>60</td>
+                <td>185</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Tom</td>
+                <td>53</td>
+                <td>200</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>40</td>
+                <td>150</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>Carter</td>
+                <td>40</td>
+                <td>145</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Maria</td>
+                <td>30</td>
+                <td>190</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>30</td>
+                <td>140</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tim</td>
+                <td>25</td>
+                <td>170</td>
+            </tr>
+        </table>
+
+        <h2>
+            Grouping: GROUP BY
+        </h2>
+
+        <p class="content">
+            Это ключевая концепция, упомянутая в начале этой серии статей: язык программирования SQL фокусируется на
+            логике группировки. Ключевое слово <span>GROUP BY</span> является воплощением этой концепции, и его можно
+            использовать
+            следующим образом:
+        </p>
+
+        <div class="code">
+            SELECT `age` FROM `new_schema`.`users` GROUP BY age;
+
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>age</td>
+            </tr>
+            <tr>
+                <td>40</td>
+            </tr>
+            <tr>
+                <td>30</td>
+            </tr>
+            <tr>
+                <td>25</td>
+            </tr>
+            <tr>
+                <td>60</td>
+            </tr>
+            <tr>
+                <td>53</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Вы обнаружите, что результат этого оператора очень похож на результат использования <span>DISTINCT</span>,
+            но <span>GROUP BY</span>
+            также поддерживает операторы агрегатной функции, поэтому данные можно объединять для создания результатов,
+            таких как отчеты (более подробную информацию об агрегатных функциях см. в следующих главах!) .
+        </p>
+
+        <p class="content">
+            Например, предположим, что мы хотим узнать, сколько записей в каждой возрастной группе, тогда мы можем
+            написать:
+        </p>
+
+        <div class="code">
+            SELECT COUNT(*), `age` FROM `new_schema`.`users` GROUP BY age;
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>count(*)</td>
+                <td>age</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>40</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>30</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>25</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>60</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>53</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            И здесь мы можем использовать различные оптимизирующие операторы <span>SELECT</span>, которые мы изучили,
+            для оптимизации
+            результатов. Например, мы можем использовать <span>AS</span>, чтобы изменить имя столбца
+            <span>count(*)</span>, чтобы его было легче
+            читать, и мы можем сортировать результаты от меньшего к большему:
+        </p>
+
+        <div class="code">
+            SELECT COUNT(*) AS `age_count`, `age` <br>
+            FROM `new_schema`.`users` <br>
+            GROUP BY age <br>
+            ORDER BY `age_count`;
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>age_count</td>
+                <td>age</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>25</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>60</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>53</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>40</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>30</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Наконец, небольшой совет читателям: при практике и использовании SQL вы можете разделить свое мышление на
+            две части. <br>
+            1. Первая часть — как написать запрос, удовлетворяющий заданным условиям. <br>
+            2. Вторая часть — как
+            отобразить сгенерированный результат.
+        </p>
+
+        <p class="content">
+            Помня об этих советах, вы сможете писать все более и более качественные SQL-запросы
+        </p>
+
+
+
+    </div>
+
+
+</body>
+
+</html>

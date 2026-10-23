@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Bellman Ford Algorithm
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/dynamic_programming.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../trees_graphs.html" class="binary_trees">Binary trees</a>
+        <a href="../binary_trees_dfs.html" class="binary_trees_dfs">Binary trees DFS</a>
+        <a href="../binary_trees_bfs.html" class="binary_trees_bfs">Binary trees BFS</a>
+        <a href="../binary_search_trees.html" class="binary_search_trees">Binary search trees</a>
+        <a href="../graphs.html" class="graphs">Graphs</a>
+        <a href="../graphs_dfs.html" class="graphs_dfs">Graphs DFS</a>
+        <a href="../graphs_bfs.html" class="graphs_bfs">Graphs BFS</a>
+        <a href="../implicit_graphs.html" class="implicit_graphs">Implicit graphs</a>
+        <a href="../premium_graphs.html" class="premium_graphs">Premium graphs</a>
+        <a href="../disjoint_set/1_disjoint_set.html" class="disjoint_set">Disjoint set</a>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div>
+
+    <div class="container">
+        <h1>Bellman Ford Algorithm</h1>
+
+        <hr>
+        <p class="content">
+            Как обсуждалось ранее, «алгоритм Дейкстры» ограничен решением задачи «кратчайшего пути из одного источника»
+            в графах без отрицательных весов. Итак, как мы можем решить проблему «кратчайшего пути из одного источника»
+            в графах с отрицательными весами? В этой главе мы познакомимся с алгоритмом Беллмана-Форда.
+        </p>
+
+        <h2>
+            Основная теорема
+        </h2>
+        <hr>
+        <p class="content">
+            Теорема 1. В «графе без циклов с отрицательным весом» с N вершинами кратчайший путь между любыми двумя
+            вершинами имеет не более N-1 ребер.
+        </p>
+
+        <p class="content">
+            В следующем видео мы докажем эту теорему.
+        </p>
+
+        <p class="content">
+            Video: Intro to Bellman Ford v2_1080p
+        </p>
+
+
+        <details>
+            <summary>Уточняющие примечания</summary>
+            <p class="content">
+                Для простоты в видеороликах, посвященных Беллману-Форду, мы будем называть ориентированный ациклический
+                граф (DAG) «регулярным» графом. Однако в целом мы рекомендуем вам использовать терминологию DAG,
+                поскольку в теории графов «регулярный граф» — это граф, в котором каждый узел имеет одинаковое
+                количество соседей.
+            </p>
+        </details>
+
+
+        <h2>
+            Теорема 2: В «графе с циклами отрицательного веса» не существует кратчайшего пути.
+        </h2>
+        <p class="content">
+            В следующем видео мы покажем, почему не удается найти решение, когда у нас есть «график с отрицательными
+            весовыми циклами».
+        </p>
+
+
+        <p class="content">
+            Video: Bellman-Ford No Shortest Path with Negative Cycle_1080p
+        </p>
+
+        <h2>
+            Using Dynamic Programming to Find the Shortest Path
+        </h2>
+        <hr>
+
+        <p class="content">
+            Теперь мы воспользуемся техникой динамического программирования, чтобы найти кратчайший путь между вершинами
+            данного графа.
+        </p>
+
+        <p class="content">
+            Video: BFA Using Dynamic Programming Export v2_1080p
+        </p>
+
+        <h2>
+            Анализ сложности
+        </h2>
+        <hr>
+
+        <p class="content">
+            V представляет количество вершин в графе, а
+            E представляет количество ребер.
+        </p>
+
+        <ul>
+            <li>Временная сложность:
+                О(V⋅Е). В худшем случае, когда все вершины связаны друг с другом, нам нужно проверить каждый путь из
+                каждой вершины; это приводит к
+                Временная сложность O(V⋅E).</li>
+            <li>Космическая сложность:
+                О (V<sup>2</sup>
+                ). Нам нужно сохранить двумерную матрицу DP размером
+                V⋅V.</li>
+        </ul>
+
+
+        <h2>
+            Объяснение алгоритма Беллмана-Форда:
+        </h2>
+        <hr>
+
+        <p class="content">
+            Ту же задачу мы решим в следующем видео, но теперь воспользуемся алгоритмом Беллмана-Форда.
+        </p>
+
+        <p class="content">
+            Video: Explanation of Bellman Ford v2_1080p
+        </p>
+
+
+        <h2>
+            Оптимизация алгоритма Беллмана-Форда
+        </h2>
+        <hr>
+
+        <p class="content">
+            В следующем видео мы продолжим оптимизацию нашего алгоритма.
+        </p>
+
+        <p class="content">
+            Video: Improving Bellman Ford_1080p
+        </p>
+
+
+        <h2>
+            Сравнение двух вариантов алгоритма Беллмана-Форда
+        </h2>
+        <hr>
+
+        <p class="content">
+            Теперь давайте проверим различия между двумя версиями алгоритма Беллмана-Форда, которые мы объяснили ранее.
+        </p>
+
+
+        <p class="content">
+            Video: Comparing Bellman-Ford Algo Variations_1080p
+        </p>
+
+        <h2>
+            Ограничение алгоритма
+        </h2>
+        <hr>
+        <p class="content">
+            «Алгоритм Беллмана-Форда» применим только к «графам» без «циклов с отрицательным весом».
+        </p>
+
+
+        <h2>
+            Как алгоритм Беллмана-Форда обнаруживает «циклы с отрицательным весом»?
+        </h2>
+        <hr>
+
+        <p class="content">
+            Хотя «алгоритм Беллмана-Форда» не может найти кратчайший путь в графе с «циклами с отрицательным весом», он
+            может определить, существует ли в «графе» «цикл с отрицательным весом».
+        </p>
+
+        <p class="content">
+            Метод обнаружения: После расслабления каждого края <span>N-1</span> раз выполните <span>N</span>-е
+            расслабление. Согласно «алгоритму
+            Беллмана-Форда», все расстояния должны быть кратчайшими после расслабления каждого ребра <span>N-1</span>
+            раз. Однако
+            после <span>N</span>-й релаксации, если существуют <span>distances[u] + weight(u, v) < distances(v)</span>
+                    для любого <span>edge(u, v)</span>,
+                    это означает, что существует более короткий путь. На этом этапе мы можем сделать вывод, что
+                    существует
+                    «цикл отрицательного веса». </p>
+
+
+        <h2>
+            Анализ сложности
+        </h2>
+        <hr>
+
+        <p class="content">
+            V представляет количество вершин, а
+            E представляет количество ребер.
+        </p>
+
+        <ul>
+            <li>Временная сложность: мы перебираем все вершины и на каждой итерации выполняем операцию релаксации для
+                каждого соответствующего ребра. Следовательно, временная сложность будет
+                О(V⋅Е).</li>
+            <li>Космическая сложность:
+                О (V). Мы используем два массива длины
+                V. Один для хранения кратчайшего расстояния от исходной вершины с использованием не более
+                <span>k-1</span> ребер.
+                Другой — сохранить кратчайшее расстояние от исходной вершины, используя не более <span>k</span> ребер.
+            </li>
+        </ul>
+
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>

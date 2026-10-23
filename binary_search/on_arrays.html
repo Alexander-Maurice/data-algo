@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>On arrays</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="binary_search.html" class="binary_search">Binary search</a>
+        <a href="on_arrays.html" class="on_arrays">On arrays</a>
+        <a href="on_solution_space.html" class="on_solution_space">On solution space</a>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Binary Search </a>
+        <a href="#ex2">#2 Search a 2D Matrix </a>
+        <a href="#ex3">#3 Успешные пары заклинаний и зелий. </a>
+
+
+    </div>
+
+    <div class="container">
+        <h1>
+            On arrays
+        </h1>
+        <hr>
+
+        <p class="content">
+            Бинарный поиск — это обычная оптимизация линейного сканирования при поиске индекса элемента или точки
+            вставки, если он не существует. В этих задачах <span>left</span> и <span>right</span> границы представляют
+            границы подмассива,
+            который мы сейчас рассматриваем. <span>mid</span> представляет индекс середины текущего пространства поиска.
+            Иногда вы
+            будете напрямую искать ответ в двоичном формате. В других случаях двоичный поиск будет просто инструментом,
+            ускоряющим ваш алгоритм. Давайте посмотрим на несколько примеров.
+        </p>
+
+        <p class="important">
+            Примечание о реализации двоичного поиска:
+            <br>
+            <br>
+            Многие люди путаются при реализации бинарного поиска: как инициализировать правильную границу? Вы бежите,
+            когда <span>left < right</span> или <span>left <= right</span>? Вы обновляетесь с <span>mid+1</span> или
+                            <span>mid</span>? А что насчет <span>mid - 1</span> или <span>mid</span>?
+
+                            <br>
+                            <br>
+                            Наш совет: ознакомьтесь с шаблонами, представленными в главе «Интервью и инструменты». Решая
+                            задачи, не размышляйте над деталями реализации, а просто копируйте шаблоны. Для
+                            собеседований вы можете либо сохранить шаблоны в памяти, либо открыть их на другой вкладке
+                            или на листе бумаги во время собеседования.
+        </p>
+
+        <hr>
+
+        <p class="important" id="ex1">
+            <a href="https://leetcode.com/problems/binary-search/">Example 1: 704. Binary Search</a>
+            <br>
+            <br>
+            Вам дан массив целых чисел <span>nums</span>, отсортированный в порядке возрастания, и число
+            <span>target</span>. Если <span>target</span>
+            существует в <span>nums</span>, верните ее индекс. В противном случае верните <span>-1</span>.
+        </p>
+
+        <p class="content">
+            Мы начнем с простого примера, показывающего реализацию кода. Решением грубой силы было бы выполнить линейное
+            сканирование — просто проверьте каждый индекс. Это происходит в
+            O(n), где
+            n — длина входного массива. Поскольку массив отсортирован, мы можем использовать двоичный поиск, чтобы
+            улучшить временную сложность.
+            О(logn).
+        </p>
+
+        <div class="code">
+            def search(nums: List[int], target: int) -> int:
+            <p class="raw1">left = 0</p>
+            <p class="raw1">right = len(nums) - 1</p>
+            <br>
+            <p class="raw1">while left <= right:</p>
+                    <p class="raw2">mid = (left + right) // 2</p>
+                    <p class="raw2">num = nums[mid]</p>
+                    <br>
+                    <p class="raw2">if num == target:</p>
+                    <p class="raw3">return mid</p>
+                    <br>
+                    <p class="raw2">if num > target:</p>
+                    <p class="raw3">right = mid - 1</p>
+                    <p class="raw2">else:</p>
+                    <p class="raw3">left = mid + 1</p>
+                    <br>
+                    <p class="raw1">return -1</p>
+        </div>
+
+        <p class="content">
+            Мы не используем никакого дополнительного пространства, за исключением нескольких целочисленных переменных.
+        </p>
+
+        <hr>
+
+        <p class="important" id="ex2">
+            <a href="https://leetcode.com/problems/search-a-2d-matrix/">Example 2: 74. Search a 2D Matrix</a>
+            <br>
+            <br>
+            Напишите эффективный алгоритм, который ищет значение <span>target</span> в целочисленной <span>matrix</span>
+            размером <span>m x n</span>. Целые
+            числа в каждой строке сортируются слева направо. Первое целое число каждой строки больше последнего целого
+            числа предыдущей строки.
+        </p>
+
+        <p class="content">
+            Поскольку каждая строка отсортирована и полностью меньше следующей строки, мы можем рассматривать матрицу
+            как один массив. Этот гипотетический одиночный массив имеет длину <span>m * n</span>. Если мы рассмотрим
+            индексы между
+            <span>[0, m * n — 1]</span>, то как нам найти строку и столбец, в которые преобразуется каждый индекс?
+        </p>
+
+        <p class="content">
+            В каждой строке <span>n</span> элементов. Это означает, что строка <span>0</span> — это индексы <span>[0, n
+                — 1]</span>. Строка <span>1</span> — это индексы <span>[n,
+                2 * n — 1]</span> и так далее. Это эквивалентно разделению <span>n</span> по этажам, иначе говоря,
+            <span>row = i // n</span> — строка
+            увеличивается каждые <span>n</span> индексов.
+        </p>
+
+        <p class="content">
+            Столбец может находиться в диапазоне <span>[0, n – 1]</span>. Каждые <span>n</span> индексов столбец
+            сбрасывается в <span>0</span>. Это идеально
+            подходит для оператора по модулю. <span>col = i % n</span>.
+        </p>
+
+        <p class="content">
+            Затем мы можем просто выполнить двоичный поиск в этом гипотетическом единственном массиве. На следующем
+            изображении показаны индексы этого гипотетического одиночного массива в 2d-матрице.
+        </p>
+
+        <img src="../binary_search/binary_search_imgs/rem_3.png" alt="">
+
+        <details>
+            <summary>Нажмите для подробного объяснения</summary>
+            <p class="content">
+                Нам нужно свести эту проблему к предыдущему примеру, чтобы мы могли применить тот же алгоритм двоичного
+                поиска.
+            </p>
+
+            <p class="content">
+                Допустим, есть <span>n</span> столбцов. В каждой строке <span>n</span> элементов. Первые <span>n</span>
+                индексов принадлежат строке 0.
+                Следующие <span>n</span> индексов принадлежат строке 1 и так далее.
+            </p>
+
+            <p class="content">
+                Если элемент находится в <span>row</span>, то над ним в сетке находятся элементы <span>row * n</span>.
+                Дан индекс <span>i</span>, мы
+                можем найти строку, к которой он принадлежит, разделив на <span>n</span>. Например, на изображении
+                индекс <span>9</span>
+                принадлежит строке <span>2</span>. В каждой строке содержится четыре элемента, и у нас есть <span>9/4 =
+                    2</span>. Это имеет смысл,
+                поскольку над строкой <span>2</span> находится восемь элементов, поэтому индексы <span>8, 9, 10,
+                    11</span> все принадлежат строке
+                <span>2</span>.
+            </p>
+
+            <p class="content">
+                Чтобы найти столбец с индексом <span>i</span>, мы просто берем <span>i % n</span>. Индекс <span>0</span>
+                принадлежит 0<sup>th</sup> столбцу,
+                а затем каждые <span>n</span> индексов мы возвращаемся в 0<sup>th</sup> столбец. Индекс <span>1</span>
+                принадлежит 1<sup>th</sup>
+                столбцу, а затем каждые n индексов мы возвращаемся в 1<sup>th</sup> столбец. Поскольку каждый столбец
+                разделен на <span>n</span> индексов, оператор модуля дает нам столбец.
+            </p>
+
+            <p class="content">
+                Как только мы сможем преобразовать индекс <span>i</span> в <span>(row, col)</span>, мы сможем
+                рассматривать матрицу как
+                обычный массив и выполнять по ней двоичный поиск, как мы это делали в предыдущем примере.
+            </p>
+        </details>
+
+        <div class="code">
+            def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+            <p class="raw1">m, n = len(matrix), len(matrix[0])</p>
+            <p class="raw1">left, right = 0, m * n - 1</p>
+            <br>
+            <p class="raw1">while left <= right:</p>
+                    <p class="raw2">mid = (left + right) // 2</p>
+                    <p class="raw2">row = mid // n</p>
+                    <p class="raw2">col = mid % n</p>
+                    <p class="raw2">num = matrix[row][col]</p>
+                    <br>
+                    <p class="raw2">if num == target:</p>
+                    <p class="raw3">return True</p>
+                    <br>
+                    <p class="raw2">if num < target:</p>
+                            <p class="raw3">left = mid + 1</p>
+                            <p class="raw2">else:</p>
+                            <p class="raw3">right = mid - 1</p>
+                            <br>
+                            <p class="raw1">return False</p>
+        </div>
+
+        <p class="content">
+            Потому что есть
+            O(m⋅n) элементов, начальное пространство поиска имеет размер
+            O(m⋅n), что означает, что этот алгоритм имеет временную сложность
+            О(журнал(м⋅n)). Мы не используем никакого дополнительного пространства, за исключением нескольких
+            целочисленных переменных.
+        </p>
+
+
+        <hr>
+
+        <p class="important" id="ex3">
+            <a href="https://leetcode.com/problems/successful-pairs-of-spells-and-potions/">Пример 3: 2300. Успешные
+                пары заклинаний и зелий.</a>
+            <br>
+            <br>
+            Вам даны два массива положительных целых чисел, <span>spells</span> и <span>potions</span>, где
+            <span>spells[i]</span> представляют силу
+            i<sup>th</sup> заклинания и <span>potions[j]</span> представляют силу j<sup>th</sup> зелья. Вам также дается
+            целочисленный массив <span>success</span>. Пара заклинаний и зелий считается успешной, если произведение их
+            сильных сторон равно
+            <span>success</span>. Для каждого заклинания найдите, со сколькими зельями оно может сочетаться, чтобы
+            добиться успеха.
+            Вернуть целочисленный массив, в котором i<sup>th</sup> элемент является ответом на i<sup>th</sup>
+            заклинание.
+        </p>
+
+        <p class="content">
+            Допустим, <span>n = spells.length</span> и <span>m = potions.length</span>. Подход грубой силы заключался бы
+            в переборе всех пар и
+            проверке того, какие из них имеют продукт, превышающий успех, что имеет временную сложность
+            О(n⋅m).
+        </p>
+
+        <p class="content">
+            Если заклинание имеет силу <span>x</span>, то оно образует успешную пару с любым зельем с силой не менее
+            <span>success / x</span>. Если
+            мы сортируем <span>potions</span>, то мы можем выполнить двоичный поиск по <span>success / x</span>, чтобы
+            найти индекс точки вставки.
+            Поскольку мы знаем длину <span>potions</span>, мы также знаем, сколько зелий имеют силу не менее
+            <span>success / x</span>. Если <span>i</span> — точка
+            вставки, то существует <span>m — i</span> зелий.
+        </p>
+
+        <details>
+            <summary>Нажмите для подробного объяснения</summary>
+            <p class="content">
+                Допустим, мы сортируем зелья и имеем <span>potions = [1, 2, 3, 4, 5]</span> и <span>success = 7</span>.
+            </p>
+
+            <p class="content">
+                У нас есть заклинание силой <span>3</span>. Для формирования удачной пары нам нужно зелье силой не ниже
+                <span>7 / 3=2,3333</span>.
+            </p>
+
+            <p class="content">
+                Если мы выполним двоичный поиск этого значения в <span>potions</span>, мы найдем индекс вставки, равный
+                <span>2</span>. Каждое
+                зелье по этому индексу и справа может образовать успешную пару. Всего индексов 3 (зелья силой <span>3,
+                    4, 5</span>).
+            </p>
+
+            <p class="content">
+                В общем случае, если имеется <span>m</span> зелий, окончательный индекс равен <span>m - 1</span>. Если
+                индекс вставки равен <span>i</span>, то
+                диапазон <span>[i, m - 1]</span> имеет размер <span>(m - 1) - i + 1 = m - i</span>.
+            </p>
+
+            <p class="content">
+                Мы можем перебирать заклинания и для каждого заклинания выполнять бинарный поиск по <span>success /
+                    spell</span>,
+                чтобы найти индекс вставки <span>i</span>, а затем использовать формулу, чтобы найти количество зелий,
+                которые могут
+                сформировать успешную пару.
+            </p>
+        </details>
+
+        <div class="code">
+            def successfulPairs(self, spells: List[int], potions: List[int], success: int) -> List[int]:
+            <p class="raw1">def binary_search(arr, target):</p>
+            <p class="raw2">left = 0</p>
+            <p class="raw2">right = len(arr) - 1</p>
+            <p class="raw2">while left <= right:</p>
+                    <p class="raw3">mid = (left + right) // 2</p>
+                    <p class="raw3">if arr[mid] < target:</p>
+                            <p class="raw4">left = mid + 1</p>
+                            <p class="raw3">else:</p>
+                            <p class="raw4">right = mid - 1</p>
+                            <br>
+                            <p class="raw2">return left</p>
+                            <br>
+                            <p class="raw1">potions.sort()</p>
+                            <p class="raw1">ans = []</p>
+                            <p class="raw1">m = len(potions)</p>
+                            <br>
+                            <p class="raw1">for spell in spells:</p>
+                            <p class="raw2">i = binary_search(potions, success / spell)</p>
+                            <p class="raw2">ans.append(m - i)</p>
+                            <br>
+                            <p class="raw1">return ans</p>
+        </div>
+
+        <p class="content">
+            Сортировка зелий стоит
+            О(m⋅logm). Затем мы повторяем
+            n раз, выполняя
+            Бинарный поиск O(logm) на каждой итерации. Это дает нам временную сложность
+            O((m+n)⋅logm), что намного быстрее, чем
+            O(m⋅n), потому что
+            логм небольшой. Поскольку мы сортируем входные данные, используется некоторое пространство в зависимости от
+            алгоритма сортировки, используемого вашим языком.
+        </p>
+
+        <p class="content">
+            Двоичный поиск в массиве — это простой инструмент, позволяющий значительно улучшить временную сложность
+            алгоритма. Каждый раз, когда у вас есть отсортированный массив (или вы можете отсортировать его без
+            каких-либо последствий), рассмотрите возможность использования двоичного поиска, чтобы быстро найти индекс
+            вставки нужного элемента. Попробуйте выполнить следующие практические задачи, прежде чем переходить к
+            следующему шаблону.
+        </p>
+
+        <hr>
+
+    </div>
+
+</body>
+
+</html>

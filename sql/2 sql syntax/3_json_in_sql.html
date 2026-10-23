@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>JSON in SQL
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../1 sql data structure/1_Schema.html">SQL Data Structure</a>
+            <a href="../2 sql syntax/1_select_insert_update_delete.html">SQL Syntax</a>
+            <a href="../3 sql relationship/1_ Relationships.html">SQL Relationship</a>
+            <a href="../4 intermediate sql/1_Foreign Key.html">Intermediate SQL</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="./1_select_insert_update_delete.html" class="">Select, Insert, Update, Delete</a>
+        <a href="./2_where.html" class="">Where</a>
+        <a href="./3_json_in_sql.html" class="">JSON in SQL</a>
+        <a href="./4_Auxiliary SELECT Statements.html" class="">Auxiliare Select Statements</a>
+        <a href="./5_aggregate_functions.html" class="">Aggregate functions</a>
+    </div>
+
+    <!-- <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div> -->
+
+    <div class="container">
+        <h1>JSON in SQL</h1>
+
+        <hr>
+        <h2>
+            Чему вы научитесь
+        </h2>
+
+        <ol>
+            <li>Что такое JSON.</li>
+            <li>Как читать, хранить и изменять данные в формате JSON.</li>
+        </ol>
+
+        <h2>
+            What is JSON?
+        </h2>
+
+        <p class="content">
+            Этот раздел познакомит вас с очень распространенным форматом данных в современной сетевой системе — JSON.
+        </p>
+
+        <p class="content">
+            Полное название JSON — Нотация объектов JavaScript, известная своей простотой, высокой гибкостью и высокой
+            совместимостью. Чтобы узнать больше о JSON, обратитесь к документации MDN.
+        </p>
+
+        <p class="content">
+            У JSON есть три важные характеристики: <br>
+            1. Заключайте данные в фигурные скобки {}. <br>
+            2. В качестве имени
+            столбца можно использовать текст в двойных кавычках, например «{»place»: «U.S»}, за которым следует значение
+            столбца. <br>
+            3. Квадратные скобки [] могут заключать в себе несколько похожих данных.
+        </p>
+
+        <h2>
+            JSON Data Sample
+        </h2>
+
+        <div class="code">
+            { <br>
+            <p class="raw1">"orderId": 54321,</p>
+            <p class="raw1">"info": [</p>
+            <p class="raw2">{</p>
+            <p class="raw3">"productID": 34,</p>
+            <p class="raw3">"productName": "productOne",</p>
+            <p class="raw3">"quantity": 1</p>
+            <p class="raw2">},</p>
+            <p class="raw2">{</p>
+            <p class="raw3">"productID": 56,</p>
+            <p class="raw3">"productName": "productTwo",</p>
+            <p class="raw3">"quantity": 3</p>
+            <p class="raw2">},</p>
+            <p class="raw1">],</p>
+            <p class="raw1">"orderCompleted": true</p>
+            }
+        </div>
+
+        <p class="content">
+            Мы можем заметить, что приведенный выше JSON описывает заказ с <span>order_id</span>, равным 54321; его
+            <span>info</span>
+            включает в себя два продукта: один с <span>id</span> 34, а другой с <span>id</span> 56.
+        </p>
+
+        <p class="content">
+            В современную эпоху, когда JSON становится все более распространенным, базы данных предоставляют функции
+            SQL, специально предназначенные для обработки формата JSON. Существуют даже базы данных, специально
+            разработанные для обработки таких структур данных, как JSON.
+        </p>
+
+        <p class="content">
+            Однако синтаксис использования JSON различается в разных системах баз данных, и эта разница более
+            значительна, чем разница в базовом синтаксисе, таком как SELECT и UPDATE.
+        </p>
+
+        <p class="content">
+            Основные системы баз данных MySQL, Oracle SQL и MsSQL имеют схожие методы использования, тогда как
+            PostgreSQL является более особенным. Здесь мы будем использовать стиль MySQL для каждого примера.
+        </p>
+
+
+        <h2>
+            Sample data
+        </h2>
+        <p class="content">
+            Прежде всего, тип данных столбца может быть установлен на «JSON», что удобно для использования синтаксиса,
+            связанного с JSON, для получения данных. Это написано так:
+        </p>
+
+        <div class="code">
+            ALTER TABLE `new_schema`.`users` <br>
+            ADD COLUMN `contact` JSON NULL AFTER `id`;
+        </div>
+
+        <p class="content">
+            Результаты поиска для этой главы будут относиться к этому примеру набора данных:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>contact</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>{"phone": "123-456", "address": "New York"}</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>{"phone": "888-99", "address": "LA"}</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tim</td>
+                <td>{"phone": "1236"}</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Jay</td>
+                <td>{"phone": "321-6", "address": "Boston"}</td>
+            </tr>
+        </table>
+
+
+        <h2>
+            Read Data
+        </h2>
+
+        <p class="content">
+            Первое, что нам нужно научиться, — это использовать <span>SELECT</span> для отображения столбцов JSON,
+            которые мы хотим
+            просмотреть. Как видно из примера данных, если структура данных JSON более сложная, читаемость может
+            значительно снизиться. Если мы хотим увидеть только данные столбца <span>phone</span>, мы можем использовать
+            следующий
+            запрос:
+        </p>
+
+        <div class="code">
+            SELECT `id`, JSON_EXTRACT(contact, '$.phone') AS phone <br>
+            FROM `new_schema`.`users`;
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>phone</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>"123-456"</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>"888-99"</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>"1236"</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>"321-6"</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Давайте разделим это на две части для анализа: <br>
+            1. <span>JSON_EXTRACT</span>: это ключевое слово необходимо объединить
+            парой круглых скобок, а слова, написанные внутри, разделяются запятыми. Первое слово — это имя внешнего
+            столбца, второе — имя столбца JSON (с префиксом <span>$.</span>). <br>
+            2. <span>AS</span>: на самом деле это дополнительное ключевое слово,
+            поскольку оно не используется исключительно для JSON. <span>AS</span> можно использовать для переименования
+            выбранного
+            столбца в телефон. Если бы мы не включили <span>AS</span>, то имя столбца в результате было бы
+            <span>JSON_EXTRACT(contact,
+                '$.phone')</span>.
+        </p>
+
+        <p class="content">
+            Однако вы заметите, что здесь есть ошибка в данных, то есть каждые данные имеют пару двойных кавычек,
+            поэтому я рекомендую использовать <span>JSON_UNQUOTE</span>, чтобы устранить ошибку:
+        </p>
+
+        <div class="code">
+            SELECT `id`, JSON_UNQUOTE(JSON_EXTRACT(contact, '$.phone')) AS phone <br>
+            FROM `new_schema`.`users`;
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>phone</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>123-456</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>888-99</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>1236</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>321-6</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            После решения проблемы формата данных у нас возникнет еще один вопрос: как найти квалифицированные данные по
+            <b>столбцу JSON</b>. Например, чтобы найти номера телефонов, содержащие <b>456</b>, мы могли бы написать
+            следующий запрос:
+        </p>
+
+        <div class="code">
+            SELECT `id`, JSON_UNQUOTE(JSON_EXTRACT(contact, '$.phone')) AS phone <br>
+            FROM `new_schema`.`users` <br>
+            WHERE JSON_EXTRACT(contact, '$.phone') like '%456%';
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>phone</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>123-456</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Мы видим, что <span>JSON_EXTRACT</span> можно использовать не только в <span>SELECT</span>, но и в
+            <span>WHERE</span> для фильтрации данных.
+        </p>
+
+        <h2>Add Data</h2>
+
+        <p class="content">
+            Если вы хотите добавить данные в столбец в формате JSON, вам не нужно записывать структуру данных JSON в
+            строковом формате, например <span>{"phone": "123123"}</span>. Вместо этого вы можете использовать
+            <span>JSON_OBJECT</span>, чтобы
+            сделать его более доступным и читаемым, обернув данные JSON, которые необходимо сохранить. Например:
+        </p>
+
+        <div class="code">
+            INSERT INTO `new_schema`.`users` (`id`, `name`, `contact`) VALUES (5, 'Harry', JSON_OBJECT('phone',
+            '1231123', 'address', 'Miami'));
+
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>contact</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>{"phone": "123-456", "address": "New York"}</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>{"phone": "888-99", "address": "LA"}</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tim</td>
+                <td>{"phone": "1236"}</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Jay</td>
+                <td>{"phone": "321-6", "address": "Boston"}</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Harry</td>
+                <td>{"phone": "1231123", "address": "Miami"}</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Передайте имена и значения столбцов в строковом формате и разделите их запятыми. Первые два представляют
+            собой пару: первый — это имя столбца JSON, а второй — соответствующее значение.
+        </p>
+
+        <h2>Updates</h2>
+
+        <p class="content">
+            Для обновления значения, если бы MySQL не предоставлял специфичный для JSON синтаксис операции, это было бы
+            особенно сложно написать, но через ключевое слово <span>JSON_SET</span> это выглядит очень приятно для
+            нашего мозга:
+        </p>
+
+        <div class="code">
+            UPDATE `new_schema`.`users` SET `contact` = JSON_SET(contact, '$.phone', '6666', '$.phone_2', '888') WHERE
+            `id` = 2;
+
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>contact</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>{"phone": "123-456", "address": "New York"}</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>{"phone": "6666", "address": "LA", "phone_2": "888"}</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tim</td>
+                <td>{"phone": "1236"}</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Jay</td>
+                <td>{"phone": "321-6", "address": "Boston"}</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Harry</td>
+                <td>{"phone": "1231123", "address": "Miami"}</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Обратите внимание: если столбец, для которого установлено значение <span>JSON_SET</span>, не входит в
+            исходное имя
+            столбца JSON, новая пара будет сгенерирована напрямую, что является очень удобной настройкой. Аналогично,
+            поскольку мы не включили «адрес» при обновлении JSON, предыдущий адрес был сохранен.
+        </p>
+
+
+
+    </div>
+
+
+</body>
+
+</html>

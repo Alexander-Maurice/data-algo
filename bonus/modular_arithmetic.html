@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Modular arithmetic</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../bonus/bonus.html">Difference array</a>
+        <a href="../bonus/tries.html">Tries</a>
+        <a href="../bonus/bit_manipulation.html">Bit manipulation</a>
+        <a href="../bonus/intervals.html">Intervals</a>
+        <a href="../bonus/modular_arithmetic.html">Modular arithmetic</a>
+        <a href="../bonus/dijkstra.html">Dijkstra</a>
+
+    </div>
+
+    <div class="container">
+        <h1>
+            Modular arithmetic
+        </h1>
+        <hr>
+        <p class="content">
+            Модульная арифметика — это то, что вам, скорее всего, не понадобится использовать на собеседовании, но это
+            простая концепция с большим эффектом, поэтому ее полезно знать на всякий случай. Помимо собеседований, это
+            важная концепция соревновательного программирования в целом и некоторые проблемы LeetCode.
+        </p>
+
+        <p class="content">
+            Иногда задача потребует от вас вернуть целочисленный ответ по модулю <span>x</span>. Если вы используете
+            LeetCode, обычно
+            <span>x</span> 10<sup>9</sup> + 7 = 1 000 000 007. Причина этого в том, что реальный ответ может быть
+            огромным, слишком большим, чтобы его
+            можно было сохранить в переменной. В этих задачах вы можете вычислить фактический массовый ответ, а затем в
+            конце вернуть <span>ans % MOD</span>. Это было бы правильно, но проблема в том, что работать с чрезвычайно
+            большими числами
+            очень неэффективно, поскольку стоимость арифметических операций, таких как сложение и вычитание, нельзя
+            игнорировать, когда количество цифр велико.
+        </p>
+
+        <p class="content">
+            В операторе по модулю интересно то, что вы можете использовать его на каждом этапе и при этом получать один
+            и тот же ответ. Например, предположим, что у вас есть <span>MOD = 7</span> и вы хотите найти произведение и
+            сумму <span>[11,
+                15, 26, 43, 62]</span>.
+        </p>
+
+        <p class="content">
+            Обычная операция для произведения: <span>11 * 15 * 26 * 43 * 62 = 11437140. 11437140 % 7 = 1</span>.
+        </p>
+
+        <p class="content">
+            Нормальная операция для суммы: <span>11 + 15 + 26 + 43 + 62 = 157. 157 % 7 = 3</span>.
+        </p>
+
+        <p class="content">
+            Теперь давайте возьмем модуль каждой операции.
+        </p>
+
+        <p class="content">
+            Умножение:
+        </p>
+        <ol>
+            <li><span>11 * 15 = 165 % 7 = 4</span></li>
+            <li><span>4 * 26 = 104 % 7 = 6</span></li>
+            <li><span>6 * 43 = 258 % 7 = 6</span></li>
+            <li><span>6 * 62 = 372 % 7 = 1</span></li>
+        </ol>
+
+        <p class="content">
+            Сумма:
+        </p>
+        <ol>
+            <li><span>11 + 15 = 26 % 7 = 5</span></li>
+            <li><span>5 + 26 = 31 % 7 = 3</span></li>
+            <li><span>3 + 43 = 46 % 7 = 4</span></li>
+            <li><span>4 + 62 = 66 % 7 = 3</span></li>
+        </ol>
+
+        <p class="content">
+            Как видите, ответы одинаковые! Фактически, ответ один и тот же, независимо от того, как рано вы остановитесь
+            или сколько еще чисел вы добавите. Используя модульную арифметику, мы гарантируем, что не храним массивные
+            числа и не выполняем операции с массивными числами. Если бы у вас были огромные входные данные, скажем,
+            миллион целых чисел, то результат мог бы получиться нелепым, скажем, 10<sup>1 000 000 000</sup>. В языке без
+            переполнения, таком как Python, если вам нужен модуль произведения 7, то выполнение умножения
+            чисел <span>от 0 до 6</span> выполняется намного быстрее, чем выполнение умножения чисел порядка
+            10<sup>1 000 000 000</sup>. В языке с переполнением лучше всего уменьшать числа, с которыми вы работаете,
+            независимо от скорости.
+        </p>
+
+        <hr>
+
+        <p class="important">
+            <a href="https://leetcode.com/problems/maximum-product-after-k-increments/">Example 1: 2233. Maximum Product
+                After K Increments</a>
+            <br>
+            <br>
+            Вам дан массив целых неотрицательных чисел <span>nums</span> и целое число <span>k</span>. За одну операцию
+            вы можете выбрать любой
+            элемент из nums и увеличить его на <span>1</span>. Вернуть максимальное произведение <span>nums</span> после
+            не более чем <span>k</span> операций
+            по модулю 10<sup>9</sup> + 7.
+        </p>
+
+
+        <p class="content">
+            Оптимальный способ выполнения приращений — жадно увеличивать наименьший элемент при каждой операции.
+            Математическое объяснение следующее:
+        </p>
+
+        <ul>
+            <li>У тебя есть <span>х > у</span></li>
+            <li>Если вы увеличите <span>x</span>, то <span>(x + 1) * y = xy + y</span></li>
+            <li>Если вы увеличите <span>y</span>, то <span>x * (y + 1) = xy + x</span></li>
+            <li>Второе произведение больше, поскольку <span>x > y</span></li>
+        </ul>
+
+
+        <p class="content">
+            Мы умеем непрерывно находить самый маленький элемент — с помощью кучи. Преобразуйте <span>nums</span> в
+            минимальную
+            кучу, извлеките из нее, прибавьте 1 к результату, а затем поместите его обратно. Сделайте это <span>k</span>
+            раз, а в
+            конце перемножьте все числа и получите ответ.
+        </p>
+
+        <div class="code">
+            def maximumProduct(nums: List[int], k: int) -> int:
+            <p class="raw1">heapq.heapify(nums)</p>
+            <br>
+            <p class="raw1">for _ in range(k):</p>
+            <p class="raw2">heapq.heappush(nums, heapq.heappop(nums) + 1)</p>
+            <br>
+            <p class="raw1">MOD = 1_000_000_007</p>
+            <p class="raw1">ans = 1</p>
+            <p class="raw1">for x in nums:</p>
+            <p class="raw2">ans *= x</p>
+            <br>
+            <p class="raw1">return ans % MOD</p>
+        </div>
+
+
+        <p class="content">
+            Хотя эта программа технически дает правильный ответ, она столкнется с сообщением о превышении лимита времени
+            или даже выдаст неправильный ответ в зависимости от используемого вами языка, поскольку продукт становится
+            слишком большим, чтобы его можно было обрабатывать даже в течение длительного времени. Если вместо этого мы
+            будем брать модуль при каждой операции, то он будет принят как принятый:
+        </p>
+
+        <div class="code">
+            def maximumProduct(nums: List[int], k: int) -> int:
+            <p class="raw1">heapq.heapify(nums)</p>
+            <br>
+            <p class="raw1">for _ in range(k):</p>
+            <p class="raw2">heapq.heappush(nums, heapq.heappop(nums) + 1)</p>
+            <br>
+            <p class="raw1">MOD = 1_000_000_007</p>
+            <p class="raw1">ans = 1</p>
+            <p class="raw1">for x in nums:</p>
+            <p class="raw2">ans = (ans * x) % MOD</p>
+            <br>
+            <p class="raw1">return ans</p>
+        </div>
+
+        <hr>
+
+        <p class="important">
+            <a href="https://leetcode.com/problems/find-the-divisibility-array-of-a-string/">Example 2: 2575. Find the
+                Divisibility Array of a String</a>
+            <br>
+            <br>
+            Вам дано строковое <span>word</span> длины <span>n</span> с нулевым индексом, состоящее из цифр, и целое
+            положительное число <span>m</span>.
+            <br>
+            <br>
+            Вернуть массив <span>div</span> длины <span>n</span>. Для каждого индекса <span>i</span>, если числовое
+            значение <span>word[0, ..., i]</span> делится на <span>m</span>, то
+            <span>div[i] = 1</span>. В противном случае <span>div[i] = 0</span>.
+        </p>
+
+        <p class="content">
+            Самый простой способ решить эту проблему — просто перебрать <span>word</span> и по каждому индексу
+            <span>i</span> преобразовать
+            строку префикса в целое число, а затем проверить, делится ли это целое число на <span>m</span>, используя
+            оператор по
+            модулю.
+        </p>
+
+        <p class="content">
+            Однако ограничения дают
+            n <= 10<sup>5</sup>. Это проблематично, поскольку преобразование строки в целое число стоит O(n),
+                где n — длина строки. Это означает, что только на строковые операции мы потратим 1 + 2 + 3 + . . . + n
+                1+2+3+...+n, что, как мы знаем, равно O(n<sup>2</sup>) операции.
+        </p>
+
+        <p class="content">
+            Обходной путь — начать с целого числа <span>curr = 0</span>, а затем «добавлять» цифры одну за другой. Когда
+            мы
+            «добавляем» цифру, величина увеличивается на единицу, затем последняя цифра становится добавляемой цифрой.
+            Это переводится как формула <span>curr = curr * 10 + digit</span>. Теперь нам нужно преобразовать только
+            строки длины 1.
+        </p>
+
+
+        <p class="content">
+            Этого все еще недостаточно. Поскольку каждая цифра увеличивает величину числа, итоговое целое число может
+            быть порядка 10<sup>10<sup>5</sup></sup>
+
+            . Это абсурдно велико, и выполнение любых операций с числами такого размера будет очень медленным. Вероятно,
+            вы даже не сможете сохранить его в памяти (<span>long long</span> в C++ даже невозможно хранить
+            10<sup>19</sup>, а мы
+            говорим о 10<sup>100 000</sup>).
+        </p>
+
+        <p class="content">
+            Здесь на помощь приходит модульная арифметика. Поскольку нас интересует только то, делится ли каждый префикс
+            на <span>m</span>, мы можем выполнять все операции по <span>mod m</span>. Вместо <span>curr = curr * 10 +
+                digit</span> мы можем сделать <span>curr =
+                (curr * 10 + digit) % m</span>. Как мы узнали выше, это не изменит ответа.
+        </p>
+
+        <div class="code">
+            def divisibilityArray(word: str, m: int) -> List[int]:
+            <p class="raw1">div = []</p>
+            <p class="raw1">curr = 0</p>
+            <br>
+            <p class="raw1">for digit in word:</p>
+            <p class="raw2">curr = (curr * 10 + int(digit)) % m</p>
+            <p class="raw2">if curr == 0:</p>
+            <p class="raw3">div.append(1)</p>
+            <p class="raw2">else:</p>
+            <p class="raw3">div.append(0)</p>
+            <br>
+            <p class="raw1">return div</p>
+        </div>
+
+        <p class="content">
+            Этот алгоритм дает нам временную сложность
+            O(n) и пространственная сложность
+            О(1), где
+            n — длина входной строки.
+        </p>
+
+        <hr>
+
+        <p class="content">
+            Опять же, вы вряд ли будете использовать модульную арифметику на собеседовании, но в той малой степени, что
+            сможете, эти знания очень важны. В любом сценарии (даже за пределами алгоритмической задачи), когда у вас
+            могут быть потенциально огромные числа, вам следует подумать о модульной арифметике. Это может быть
+            собеседование по проектированию системы или дополнительный вопрос к проблеме кодирования, если интервьюер
+            хочет обсудить практичность. В LeetCode вам следует думать об этом каждый раз, когда в описании задачи вам
+            дается явный модуль.
+        </p>
+
+        <hr>
+
+
+
+
+
+    </div>
+
+</body>
+
+</html>

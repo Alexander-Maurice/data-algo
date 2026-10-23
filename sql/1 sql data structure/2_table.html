@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Table
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../1 sql data structure/1_Schema.html">SQL Data Structure</a>
+            <a href="../2 sql syntax/1_select_insert_update_delete.html">SQL Syntax</a>
+            <a href="../3 sql relationship/1_ Relationships.html">SQL Relationship</a>
+            <a href="../4 intermediate sql/1_Foreign Key.html">Intermediate SQL</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="./1_Schema.html" class="schema">Schema</a>
+        <a href="./2_table.html" class="table">Table</a>
+        <a href="./3_column.html" class="column">Column</a>
+    </div>
+
+    <!-- <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div> -->
+
+    <div class="container">
+        <h1>Table</h1>
+
+        <hr>
+        <h2>
+            Чему вы научитесь
+        </h2>
+
+        <ol>
+            <li>Как создавать, читать, удалять и очищать таблицы.</li>
+            <li>Что делает таблица и за что она отвечает.</li>
+        </ol>
+
+        <h2>
+            Concept
+        </h2>
+
+        <p class="content">
+            Таблица — это няня всех данных и краеугольный камень базы данных. Можно сказать, что хороший дизайн таблиц
+            может значительно улучшить удобство обслуживания и скорость работы базы данных.
+        </p>
+
+        <p class="content">
+            Во-первых, давайте представим четыре характеристики таблиц: <br>
+            1. Таблицы записывают метаданные каждого
+            столбца, включая тип данных, значение по умолчанию, комментарии и т. д. <br>
+            2. Таблицы отвечают за управление
+            индексом, что может повысить скорость поиска. данные в таблице. <br>
+            3. Предоставьте определения отношений с
+            другими таблицами. Между таблицами данных будут ассоциации. Например, пользователь в таблице пользователей
+            может иметь множество записей заказов в таблице заказов, и этой частью принадлежности необходимо управлять в
+            таблице. <br>
+            4. Вы можете установить место фактического хранения данных на жестком диске компьютера.
+        </p>
+
+        <h2>
+            SQL Syntax
+        </h2>
+
+        <h3>
+            Create Table
+        </h3>
+
+        <p class="content">
+            Практическая таблица в SQL будет выглядеть так:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>40</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>30</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tim</td>
+                <td>25</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Чтобы создать таблицу (для простоты мы начнем с пустой таблицы), мы можем использовать следующий оператор:
+        </p>
+
+        <div class="code">
+
+            #Schema SQL <br>
+            CREATE SCHEMA `new_schema` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; <br> <br>
+
+            CREATE TABLE `new_schema`.`new_table` ( <br>
+            `id` INT NOT NULL COMMENT 'This is a primary index', <br>
+            PRIMARY KEY (`id`) <br>
+            ); <br> <br>
+
+            #Query SQL <br>
+
+
+
+        </div>
+
+        <p class="content">
+            Заявление можно разделить на три части:
+        </p>
+
+        <p class="content">
+            1. Первую часть легче всего понять, но синтаксис меняется со <span>SCHEMA</span> на <span>TABLE</span>; то
+            есть создание самого стола.
+            Также обратите внимание на оператор <span>new_schema</span>.<span>new_table</span>, поскольку в нашей
+            программе базы данных будет
+            много схем, и мы должны описать, в какой схеме база данных должна создать таблицу. Наконец,
+            <span>new_table</span> — это
+            имя таблицы, которую мы хотим создать.
+        </p>
+
+        <div class="code">
+            CREATE TABLE `new_schema`.`new_table` ( <br>
+            -- other settings <br>
+            );
+        </div>
+
+        <p class="content">
+            2. Вторая часть — определить детали каждого поля. Мы подробно объясним эту часть в следующей главе. Здесь
+            мы просто представим значение синтаксиса:
+        </p>
+
+        <div class="code">
+            `id` INT NOT NULL COMMENT 'This is a primary index';
+        </div>
+
+        <ul>
+            <li><span>id</span> — это имя столбца</li>
+            <li><span>INT</span> — это тип данных, который будет храниться в этом столбце.</li>
+            <li><span>NOT NULL</span> — это своего рода функция атрибута столбца. Мы рассмотрим это более подробно в
+                следующей главе.</li>
+            <li>Этот столбец имеет <span>COMMENT</span> с отображаемым текстом <span>This is a primary index</span>.
+            </li>
+        </ul>
+
+        <p class="content">
+            3. Последняя часть — объявить метаданные этой таблицы (не для столбца). Например, вот как установить
+            первичный ключ этой таблицы как <span>id</span>.
+        </p>
+
+        <div class="code">
+            PRIMARY KEY (`id`)
+        </div>
+
+        <div class="important">
+            <b>Что такое PRIMARY KEY?</b><br>
+            <br>
+            Первичный ключ является важной частью каждой таблицы в системе базы данных. Это может быть любой столбец или
+            группа из нескольких столбцов, и в таблице может быть только один первичный ключ. Значение не может
+            повторяться или быть нулевым. <br><br>
+
+            Это очень важное поле для объединения таблиц данных и повышения эффективности поиска данных
+        </div>
+
+
+        <h2>
+            Читать таблицу
+        </h2>
+
+        <p class="content">
+            После создания таблицы мы можем проверить, соответствуют ли настройки столбца нашим ожиданиям, или, если в
+            каком-либо из имен столбцов есть опечатка, мы можем использовать оператор <span>SHOW FULL COLUMNS</span> для
+            просмотра
+            содержимого определенной таблицы:
+        </p>
+
+        <div class="code">
+            SHOW FULL COLUMNS FROM `new_schema`.`new_table`;
+        </div>
+
+        <p class="content">
+            Результат должен быть:
+        </p>
+
+        <table>
+            <tr>
+                <td>Field</td>
+                <td>Type</td>
+                <td>Collation</td>
+                <td>Null</td>
+                <td>Key</td>
+                <td>Default</td>
+                <td>Extra</td>
+                <td>Privileges</td>
+                <td>Comment</td>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td>int(11)</td>
+                <td></td>
+                <td>NO</td>
+                <td>PRI</td>
+                <td></td>
+                <td></td>
+                <td>select, insert, update, references</td>
+                <td>This is a primary index</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Кстати, <span>SHOW</span> — очень распространенный оператор при получении информации с уровня системы базы
+            данных. Вот
+            ссылка на различные вещи, которые вы можете показать: Операторы MySQL SHOW.
+        </p>
+
+
+        <h3>Destroy Table</h3>
+        <p class="content">
+            Инструкция по удалению таблицы очень проста:
+        </p>
+
+        <div class="code">
+            DROP TABLE `new_schema`.`new_table`;
+        </div>
+
+        <p class="content">
+            Ключевое слово <span>DROP</span> означает удаление таблицы из базы данных, и это также очень опасное
+            утверждение. Если мы
+            не будем осторожны, мы можем потерять важные данные, поэтому в практических приложениях мы редко используем
+            это утверждение.
+        </p>
+        <br>
+
+        <h3>
+            Clean Table
+        </h3>
+        <p class="content">
+            Хотя мы редко удаляем таблицу, когда мы хотим протестировать наше приложение, мы можем сбросить состояние
+            данных внутри таблицы.
+        </p>
+
+        <p class="content">
+            Чтобы восстановить тестовые данные, мы часто очищаем таблицу, а затем используем оператор
+            <span>TRUNCATE</span>, чтобы
+            удалить все данные, но не таблицу. Обратите внимание, что это утверждение также следует использовать с
+            осторожностью:
+        </p>
+
+        <div class="code">
+            TRUNCATE `new_schema`.`new_table`;
+        </div>
+
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>

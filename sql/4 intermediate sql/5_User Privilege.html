@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>User Privilege
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../1 sql data structure/1_Schema.html">SQL Data Structure</a>
+            <a href="../2 sql syntax/1_select_insert_update_delete.html">SQL Syntax</a>
+            <a href="../3 sql relationship/1_ Relationships.html">SQL Relationship</a>
+            <a href="../4 intermediate sql/1_Foreign Key.html">Intermediate SQL</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="./1_Foreign Key.html" class="">Foreign Key</a>
+        <a href="./2_ Transaction.html" class="">Transactions</a>
+        <a href="./3_ACID.html" class="">ACID</a>
+        <a href="./4_ Index.html" class="">Index</a>
+        <a href="./5_User Privilege.html" class="">User Privilege</a>
+    </div>
+
+    <!-- <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div> -->
+
+    <div class="container">
+        <h1>User Privilege</h1>
+
+        <hr>
+        <h2>
+            Чему вы научитесь
+        </h2>
+
+        <ol>
+            <li>Как управлять пользователями программного обеспечения баз данных в SQL.</li>
+            <li>Как установить правильные разрешения для пользователей.</li>
+        </ol>
+
+        <p class="content">
+            Обычно, когда вы используете SQL, вы должны сначала войти в систему, и при входе в систему вы будете
+            использовать учетную запись пользователя SQL. Управление этими учетными записями пользователей является
+            неотъемлемой частью обеспечения безопасности базы данных. В этой главе показано, как управлять учетными
+            записями пользователей в SQL.
+        </p>
+
+        <h2>
+            Create a User
+        </h2>
+
+        <p class="content">
+            Прежде чем вы сможете управлять учетной записью, вы должны сначала управлять учетной записью. Синтаксис
+            создания пользователя следующий:
+        </p>
+
+        <div class="code">
+            CREATE USER 'john'@'localhost' IDENTIFIED BY 'password';
+        </div>
+
+        <p class="content">
+            Для анализа этот оператор можно разделить на 3 части: <br>
+            1. <span>CREATE USER</span>: ключевое слово, используемое SQL для
+            создания пользователя, аналогично концепции <span>CREATE SCHEMA</span>, <span>CREATE TABLE</span>. <br>
+            2. <span>'john'@'localhost'</span>: бывший <span>john</span>
+            — это учетная запись нашего пользователя, точно так же, как <span>root</span>-пользователь по умолчанию,
+            распространенный
+            в SQL; последний <span>localhost</span> относится к сетевому контексту, из которого учетная запись может
+            использовать
+            базу данных. Мы рассмотрим это подробно позже. <br>
+            3. <span>IDENTIFIED BY 'password'</span>: <span>IDENTIFIED BY</span> — это ключевое
+            слово, используемое SQL для установки пароля, <span>password</span> — это пароль, который мы установили для
+            пользователя
+            <span>john</span>.
+        </p>
+
+        <h2>
+            Network Context
+        </h2>
+
+        <p class="content">
+            Что касается сетевого контекста, упомянутого в предыдущем разделе, он относится к контексту того, как
+            пользователи подключаются к базе данных. Существует три основных типа: <br>
+            1. <span>localhost</span>: позвольте мне сначала
+            представить его. Часто возникает ситуация, когда сервер веб-сайта и сервер базы данных работают на одном
+            компьютере. <span>localhost</span> означает, что к базе данных можно подключиться только с одного и того же
+            компьютера.
+            Пользователи могут выполнять операторы SQL только с помощью функций, предоставляемых веб-приложением, но не
+            могут напрямую подключаться к базе данных у себя дома или в других местах. <br>
+            2. <span>110.78.9.12</span> (или любой IP):
+            Здесь 110.78.9.12 — это просто произвольный IP. Если вы укажете IP-адрес, вы ограничите право пользователя
+            подключаться к базе данных только с этого конкретного IP-адреса. <br>
+            3. <span>%</span>: Символ процента означает, что
+            пользователь может подключиться к базе данных из любого места. Это очень мощный параметр, и его следует
+            использовать с большой осторожностью. В противном случае возможно, что посторонние смогут подключиться к
+            нашей базе данных при утечке пароля.
+        </p>
+
+        <h2>
+            Show a User
+        </h2>
+
+        <p class="content">
+            Если мы хотим увидеть новых добавленных пользователей, мы можем выполнить:
+        </p>
+
+        <div class="code">
+            SELECT * FROM `mysql`.`user`
+        </div>
+
+        <p class="content">
+            Мы получим такие результаты:
+        </p>
+
+        <table>
+            <tr>
+                <td>Host</td>
+                <td>User</td>
+                <td>Select_priv</td>
+                <td>...other priv</td>
+            </tr>
+            <tr>
+                <td>localhost</td>
+                <td>root</td>
+                <td>Y</td>
+                <td>Y or N...</td>
+            </tr>
+            <tr>
+                <td>localhost</td>
+                <td>john</td>
+                <td>N</td>
+                <td>Y or N...</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Вы можете задаться вопросом: что такое <span>priv</span>? Следующий раздел объяснит это!
+        </p>
+
+        <h2>Grant a User</h2>
+
+        <p class="content">
+            После того, как пользователь будет установлен, мы снова установим разрешения. Давайте посмотрим на операторы
+            SQL, которые мы будем использовать при установке разрешений:
+        </p>
+
+        <div class="code">
+            GRANT ALL ON `new_schema`.`orders` TO 'john'@'localhost'; <br>
+            GRANT SELECT ON `new_schema`.* TO 'root'@'150.10.12.1';
+        </div>
+
+        <p class="content">
+            Здесь мы можем сосредоточиться на следующем синтаксисе: <br>
+            1. <span>GRANT [privilege] ON</span>: это синтаксис для
+            установки привилегий в SQL. <span>GRANT</span> и <span>ON</span> фиксированы, а <span>[privilege]</span>
+            можно заменить именем привилегии,
+            предоставленным SQL. Например, <span>ALL</span> относится ко всем привилегиям, а <span>SELECT</span>
+            относится к разрешениям
+            синтаксиса <span>SELECT</span> для пользователя. <br>
+            2. <span>TO</span>: Последний напрямую связан с пользователем, которому было
+            установлено разрешение.
+        </p>
+
+        <p class="content">
+            Названия привилегий в разных базах данных неодинаковы. Что касается MySQL, используемого в этой главе, если
+            вы хотите узнать больше, вы можете обратиться к разделу «Предоставленные привилегии MySQL».
+        </p>
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>

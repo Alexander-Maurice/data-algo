@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Binary search</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="binary_search.html" class="binary_search">Binary search</a>
+        <a href="on_arrays.html" class="on_arrays">On arrays</a>
+        <a href="on_solution_space.html" class="on_solution_space">On solution space</a>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#template">Шаблон реализации</a>
+        <a href="#double">Дублирующиеся элементы</a>
+
+    </div>
+
+    <div class="container">
+        <h1>
+            Binary Search
+        </h1>
+        <hr>
+        <p class="content">
+            Бинарный поиск – это алгоритм поиска, который работает в
+            O(logn) в худшем случае, где
+            n — размер пространства поиска. Чтобы двоичный поиск работал, пространство поиска обычно необходимо
+            отсортировать. Деревья двоичного поиска, которые мы рассмотрели в главе о деревьях и графах, основаны на
+            двоичном поиске.
+        </p>
+
+        <p class="content">
+            Обычно бинарный поиск выполняется по массиву отсортированных элементов, но вы можете использовать бинарный
+            поиск более творческими способами, как мы увидим в следующей статье. Сейчас мы поговорим только о
+            отсортированных массивах чисел.
+        </p>
+
+        <p class="content">
+            Если у вас есть отсортированный массив <span>arr</span> и элемент <span>x</span>, то в
+            O(log) время и
+            O(1) пространство, двоичный поиск может:
+            <br>
+            <br>
+            1. Найти индекс <span>x</span>, если он находится в <span>arr</span> <br>
+            2. Найти первый или последний индекс, в который можно вставить <span>x</span>, чтобы в противном случае
+            сохранить
+            сортировку.
+        </p>
+
+        <p class="content">
+            Вот идея двоичного поиска:
+            <br>
+            <br>
+            Допустим, есть отсортированный целочисленный массив <span>arr</span>, и вы знаете, что в нем находится число
+            <span>x</span>, но не
+            знаете, по какому индексу. Вы хотите найти положение <span>x</span>. Начните с проверки элемента в середине
+            <span>arr</span>. Если
+            этот элемент слишком мал, мы знаем, что каждый элемент в левой половине также будет слишком маленьким,
+            поскольку массив отсортирован. Аналогично, если элемент слишком велик, то каждый элемент в правой половине
+            также будет слишком большим.
+        </p>
+
+        <p class="content">
+            Мы можем отбросить половину, которая не может содержать <span>x</span>, а затем повторить процесс с другой
+            половиной. Мы
+            продолжаем этот процесс разрезания массива пополам, пока не найдем <span>x</span>.
+        </p>
+
+        <p class="content">
+            Вот как реализуется двоичный поиск:
+            <br>
+            <br>
+            1. Объявите <span>left = 0</span> и <span>right = arr.length - 1</span>. Эти переменные представляют
+            инклюзивные границы текущего
+            пространства поиска в любой момент времени. Первоначально мы рассматриваем весь массив.
+            <br>
+            2. Пока <span>left <= right</span>:
+                    <p class="raw1">Вычислить середину текущего пространства поиска, <span>middle = (left +
+                            right) // 2</span>(деление с округлением в меньшую сторону)</p><br>
+                    <p class="raw1">Проверьте <span>arr[mid]</span>. Есть 3 возможности:</p><br>
+                    <p class="raw2">Если <span>arr[mid] = x</span>, то элемент найден, return.</p><br>
+                    <p class="raw2">Если <span>arr[mid] > x</span>, то уменьшите пространство поиска вдвое, выполнив
+                        <span>right = middle - 1</span>. <br> <br>
+                    </p>
+                    <p class="raw2">Если <span>arr[mid] < x</span>, то уменьшите пространство поиска вдвое, выполнив
+                                <span>left = middle + 1</span>.
+                    </p>
+        </p>
+        <p class="content">
+            3. Если вы доберетесь до этой точки без <span>arr[mid] = x</span>, то поиск не увенчался успехом.
+            <br>
+            Левый указатель
+            будет находиться в индексе, куда нужно будет вставить <span>x</span>, чтобы сохранить сортировку
+            <span>arr</span>.
+        </p>
+
+
+
+        <p class="content">
+            Поскольку пространство поиска уменьшается вдвое на каждой итерации, временная сложность двоичного поиска в
+            наихудшем случае равна
+            О(logn). Это делает его чрезвычайно мощным алгоритмом, поскольку логарифмическое время очень быстрое по
+            сравнению с линейным временем.
+        </p>
+
+        <p class="important">
+            Вероятно, вы использовали двоичный поиск в реальной жизни, даже не осознавая этого. Например, если вы
+            когда-либо искали слово в словаре, то вы, вероятно, перелистнули примерно середину, посмотрели на первую
+            букву слова на странице, на которую перешли, а затем проверили либо левую, либо правую половину в
+            зависимости от первую букву искомого слова.
+        </p>
+
+        <hr>
+
+        <h3 id="template">
+            Шаблон реализации
+        </h3>
+
+        <p class="content">
+            Вот примеры реализации кода:
+        </p>
+
+        <div class="code">
+            def binary_search(arr, target):
+            <p class="raw1">left = 0</p>
+            <p class="raw1">right = len(arr) - 1</p>
+            <p class="raw1">while left <= right:</p>
+                    <p class="raw2">mid = (left + right) // 2</p>
+                    <p class="raw2">if arr[mid] == target:</p>
+                    <p class="raw3"># do something</p>
+                    <p class="raw3">return</p>
+                    <p class="raw2">if arr[mid] > target:</p>
+                    <p class="raw4">right = mid - 1</p>
+                    <p class="raw2">else:</p>
+                    <p class="raw4">left = mid + 1</p>
+                    <br>
+                    <p class="raw1"># target is not in arr, but left is at the insertion point</p>
+                    <p class="raw1">return left</p>
+        </div>
+
+
+        <hr>
+
+        <h3 id="double">
+            Дублирующиеся элементы
+        </h3>
+
+        <p class="content">
+            Если ваши входные данные имеют дубликаты, вы можете изменить шаблон двоичного поиска, чтобы найти первую или
+            последнюю позицию данного элемента. Если <span>target</span> появляется несколько раз, следующий шаблон
+            найдет самый левый
+            индекс:
+        </p>
+
+        <div class="code">
+            def binary_search(arr, target):
+            <p class="raw1">left = 0</p>
+            <p class="raw1">right = len(arr)</p>
+            <p class="raw1">while left < right:</p>
+                    <p class="raw2">mid = (left + right) // 2</p>
+                    <p class="raw2">if arr[mid] >= target:</p>
+                    <p class="raw3">right = mid</p>
+                    <p class="raw2">else:</p>
+                    <p class="raw3">left = mid + 1</p>
+                    <br>
+                    <p class="raw1">return left</p>
+        </div>
+
+
+        <p class="content">
+            Следующий шаблон найдет самую правую точку вставки (индекс самого правого элемента плюс один):
+        </p>
+
+        <div class="code">
+            def binary_search(arr, target):
+            <p class="raw1">left = 0</p>
+            <p class="raw1">right = len(arr)</p>
+            <p class="raw1">while left < right:</p>
+                    <p class="raw2">mid = (left + right) // 2</p>
+                    <p class="raw2">if arr[mid] > target:</p>
+                    <p class="raw3">right = mid</p>
+                    <p class="raw2">else:</p>
+                    <p class="raw3">left = mid + 1</p>
+                    <br>
+                    <p class="raw1">return left</p>
+        </div>
+
+        <p class="content">
+            Что касается обоих приведенных выше шаблонов, если элемент, который вы ищете, не существует, то слева будет
+            индекс, в который элемент должен быть вставлен для поддержания отсортированного порядка (как и в обычном
+            двоичном поиске).
+        </p>
+
+        <p class="content">
+            Давайте перейдем к примерам задач, чтобы увидеть, как можно использовать двоичный поиск.
+        </p>
+
+        <p class="important">
+            Вам следует думать о двоичном поиске каждый раз, когда проблема дает что-то отсортированное.
+            O(logn) чрезвычайно быстр, а двоичный поиск обычно требует огромной оптимизации.
+        </p>
+
+        <hr>
+    </div>
+
+</body>
+
+</html>

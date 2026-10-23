@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Multidimensional DP</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../../dynamic/dynamic_programming.html" class="dynamic_programming">Dynamic Programming</a>
+        <a href="../../dynamic/framework_for_dp.html" class="framework_for_dp">Framework for DP</a>
+        <a href="../../dynamic/1d_problems.html" class="1d_problems">1D Problems</a>
+        <a href="../../dynamic/multi_dimensional_problems.html" class="multi_dimensional_problems">Multi-dimensional
+            Problems</a>
+        <a href="../../dynamic/matrix_dp.html" class="matrix_dp">Matrix DP</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Longest Common Subsequence</a>
+        <a href="#ex2">#2 Best Time to Buy and Sell Stock IV </a>
+        <a href="#ex3">#3 Maximum Value of K Coins From Piles </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Multidimensional DP
+        </h1>
+        <hr>
+
+        <p class="content">
+            Размеры алгоритма DP относятся к количеству переменных состояния, используемых для определения каждого
+            состояния. До сих пор в этой карте исследования всем рассмотренным нами алгоритмам требовалась только одна
+            переменная состояния, поэтому они одномерны. В этом разделе мы поговорим о проблемах, требующих нескольких
+            измерений.
+        </p>
+
+        <p class="content">
+            Как правило, чем больше измерений имеет проблема DP, тем труднее ее решить. Двумерные проблемы
+            распространены, а иногда проблема может даже потребовать пяти измерений. Хорошей новостью является то, что
+            фреймворк работает независимо от количества измерений.
+        </p>
+
+        <p class="content">
+            Ниже приведены общие моменты, на которые следует обратить внимание при проблемах DP, для которых требуется
+            переменная состояния:
+        </p>
+
+        <ul>
+            <li>Индекс по некоторому входу. Обычно это используется, если входные данные задаются в виде массива или
+                строки. Это была единственная переменная состояния для всех проблем, которые мы рассматривали до сих
+                пор, и она представляла собой ответ на проблему, если входные данные рассматривались только до этого
+                индекса - например, если входные данные
+                nums = [0, 1, 2, 3, 4, 5, 6], тогда
+                dp(4) будет представлять собой ответ на проблему для ввода
+                числа = [0, 1, 2, 3, 4].</li>
+            <li>Второй индекс по некоторым входным данным. Иногда вам нужны две переменные состояния индекса, скажем
+                i и
+                j. В некоторых вопросах эти переменные представляют собой ответ на исходную задачу, если вы считаете,
+                что входные данные начинаются с индекса
+                i и заканчиваюсь индексом
+                j. Используя тот же пример выше,
+                dp(1, 3) решит проблему ввода
+                nums = [1, 2, 3], если исходный ввод был
+                [0, 1, 2, 3, 4, 5, 6].</li>
+            <li>В задаче заданы явные числовые ограничения. Например, «вам разрешено выполнять только
+                k транзакций», или «вам разрешено разбить до
+                k препятствий» и т. д.</li>
+            <li>Переменные, описывающие статусы в данном состоянии. Например, «истина, если в настоящее время
+                удерживается ключ, ложь, если нет», «в настоящее время удерживается
+                k пакетов» и т. д.</li>
+            <li>Некоторые данные, такие как кортеж или битовая маска, используемые для обозначения того, что «посещают»
+                или «используют». Например, "
+                битовая маска — это маска, в которой i-й бит указывает, был ли посещен i-й город». Обратите внимание,
+                что изменяемые структуры данных, такие как массивы, использовать нельзя — обычно хешировать и,
+                следовательно, запоминать можно только неизменяемые структуры данных, такие как числа и строки. .</li>
+        </ul>
+
+        <p class="content">
+            Многомерные проблемы заставляют нас больше думать о том, что будет представлять наша функция или массив, а
+            также о том, как должно выглядеть рекуррентное отношение. В следующей статье мы рассмотрим еще один пример
+            использования фреймворка с задачей 2D DP.
+        </p>
+
+
+        <hr>
+
+
+    </div>
+
+</body>
+
+</html>

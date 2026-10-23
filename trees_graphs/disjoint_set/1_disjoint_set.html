@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Disjoint set</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/dynamic_programming.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../trees_graphs.html" class="binary_trees">Binary trees</a>
+        <a href="../binary_trees_dfs.html" class="binary_trees_dfs">Binary trees DFS</a>
+        <a href="../binary_trees_bfs.html" class="binary_trees_bfs">Binary trees BFS</a>
+        <a href="../binary_search_trees.html" class="binary_search_trees">Binary search trees</a>
+        <a href="../graphs.html" class="graphs">Graphs</a>
+        <a href="../graphs_dfs.html" class="graphs_dfs">Graphs DFS</a>
+        <a href="../graphs_bfs.html" class="graphs_bfs">Graphs BFS</a>
+        <a href="../implicit_graphs.html" class="implicit_graphs">Implicit graphs</a>
+        <a href="../premium_graphs.html" class="premium_graphs">Premium graphs</a>
+        <a href="1_disjoint_set.html" class="disjoint_set">Disjoint set</a>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div>
+
+    <div class="container">
+        <h1>Overview of Disjoint Set</h1>
+
+        <hr>
+
+        <p class="content">
+            Учитывая количество вершин и ребер между ними, как мы можем быстро проверить, соединены ли две вершины?
+            Например, на рисунке 5 показаны ребра между вершинами, так как же мы можем эффективно проверить, соединен ли
+            0 с 3, 1 с 5 или 7 с 8? Мы можем сделать это, используя структуру данных «непересекающееся множество», также
+            известную как структура данных «объединенного поиска». Обратите внимание, что другие могут называть это
+            алгоритмом. В этой карточке исследования термин «несвязное множество» относится к структуре данных.
+        </p>
+
+        <img src="../../trees_graphs/tree_graphs_imgs/Disjoint_Set_1_edited.png" alt="">
+
+        <p class="content">
+            Рисунок 5. Каждый граф состоит из вершин и ребер. Корневые вершины выделены синим цветом.
+            <br> <br>
+            Основное использование непересекающихся наборов — это определение связности между компонентами сети. «Сеть»
+            здесь может быть компьютерной сетью или социальной сетью. Например, мы можем использовать непересекающееся
+            множество, чтобы определить, имеют ли два человека общего предка.
+        </p>
+
+
+        <h3>
+            Terminologies
+        </h3>
+        <hr>
+
+        <ul>
+            <li>Родительский узел: прямой родительский узел вершины. Например, на рисунке 5 родительский узел вершины 3
+                — 1, родительский узел вершины 2 — 0, а родительский узел вершины 9 — 9.</li>
+            <li>Корневой узел: узел без родительского узла; его можно рассматривать как родительский узел самого себя.
+                Например, на рисунке 5 корневой узел вершин 3 и 2 равен 0. Что касается 0, это собственный корневой узел
+                и родительский узел. Аналогично, корневой узел и родительский узел вершины 9 — это сама 9. Иногда
+                корневой узел называют головным узлом.</li>
+        </ul>
+
+
+        <h3>
+            Introduction to Disjoint Sets
+        </h3>
+        <hr>
+
+        <h4>
+            Summary of video content:
+        </h4>
+
+        <ol>
+            <li>Как работают «непересекающиеся множества».</li>
+            <li>Решение вопроса о связности на рисунке 5.</li>
+        </ol>
+
+        <p class="content">
+            Video: Introduction to Disjoint Sets Export v4_1080p
+        </p>
+
+
+        <h3>
+            Implementing “disjoint sets”
+        </h3>
+        <hr>
+        <h3>
+            Summary of video content:
+        </h3>
+
+        <ol>
+            <li>Как реализовать «непересекающееся множество».</li>
+            <li>Функция <span>find</span> непересекающегося множества.</li>
+            <li>Функция <span>union</span> непересекающегося множества.</li>
+        </ol>
+
+        <p class="content">
+            Video: Implementing Disjoint Sets Export v2 (1)_1080p
+        </p>
+
+
+        <h3>
+            The two important functions of a “disjoint set.”
+        </h3>
+        <hr>
+
+        <p class="content">
+            Во вводных видеороликах выше мы обсудили две важные функции в «непересекающемся наборе».
+        </p>
+
+        <ul>
+            <li>Функция find находит корневой узел заданной вершины. Например, на рисунке 5 выходные данные функции
+                поиска для вершины 3 равны 0.</li>
+            <li>Функция объединения объединяет две вершины и делает их корневые узлы одинаковыми. На рисунке 5, если мы
+                объединим вершину 4 и вершину 5, их корневой узел станет одинаковым, что означает, что функция
+                объединения изменит корневой узел вершины 4 или вершины 5 на один и тот же корневой узел.</li>
+        </ul>
+
+
+        <h3>
+            There are two ways to implement a “disjoint set”.
+        </h3>
+        <hr>
+        <ul>
+            <li>Реализация с быстрым поиском: в этом случае временная сложность функции поиска будет равна
+                О(1). Однако функция объединения займет больше времени из-за временной сложности
+                On).</li>
+            <li>Реализация с помощью Quick Union: по сравнению с реализацией Quick Find временная сложность функции
+                объединения лучше. Между тем функция поиска в этом случае займет больше времени.</li>
+        </ul>
+
+        <p class="content">
+            Next, we will learn these two implementations and two common strategies to optimize a disjoint set.
+        </p>
+
+
+
+    </div>
+
+
+</body>
+
+</html>

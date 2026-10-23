@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Overview of Breadth-First Search Algorithm
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/dynamic_programming.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../trees_graphs.html" class="binary_trees">Binary trees</a>
+        <a href="../binary_trees_dfs.html" class="binary_trees_dfs">Binary trees DFS</a>
+        <a href="../binary_trees_bfs.html" class="binary_trees_bfs">Binary trees BFS</a>
+        <a href="../binary_search_trees.html" class="binary_search_trees">Binary search trees</a>
+        <a href="../graphs.html" class="graphs">Graphs</a>
+        <a href="../graphs_dfs.html" class="graphs_dfs">Graphs DFS</a>
+        <a href="../graphs_bfs.html" class="graphs_bfs">Graphs BFS</a>
+        <a href="../implicit_graphs.html" class="implicit_graphs">Implicit graphs</a>
+        <a href="../premium_graphs.html" class="premium_graphs">Premium graphs</a>
+        <a href="../disjoint_set/1_disjoint_set.html" class="disjoint_set">Disjoint set</a>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div>
+
+    <div class="container">
+        <h1>Overview of Breadth-First Search Algorithm</h1>
+
+        <hr>
+        <p class="content">
+            Ранее мы обсуждали алгоритм «поиска в глубину». В этом разделе речь пойдет о тесно связанном и не менее
+            популярном алгоритме под названием «поиск в ширину». Аналогично, алгоритм «поиска в ширину» может проходить
+            все вершины «графа» и все пути между двумя вершинами. Однако наиболее выгодным вариантом использования
+            «поиска в ширину» является эффективный поиск кратчайшего пути между двумя вершинами в «графе», где все ребра
+            имеют равные и положительные веса.
+        </p>
+
+        <p class="content">
+            Хотя алгоритм «поиска в глубину» может найти кратчайший путь между двумя вершинами в «графе» с равными и
+            положительными весами, он должен пройти все пути между двумя вершинами, прежде чем найти самый короткий.
+            Алгоритм «поиска в ширину» в большинстве случаев позволяет найти кратчайший путь, не проходя все пути. Это
+            связано с тем, что при использовании «поиска в ширину», как только будет найден путь между исходной вершиной
+            и целевой вершиной, это гарантированно будет кратчайшим путем между двумя узлами.
+        </p>
+
+        <p class="content">
+            На рисунке 8 вершины — это <span>[A, C, D, B, E]</span>. Даны вершины <span>A</span> и <span>B</span>, между
+            ними есть два пути. Один путь — <span>[A, C,
+                D, B]</span>, а другой — <span>[A, E, B]</span>. Очевидно, <span>[A, E, B]</span> — кратчайший путь
+            между <span>A</span> и <span>B</span>.
+        </p>
+
+        <img src="../../trees_graphs/tree_graphs_imgs/An_Undirected_Graph (1).png" alt="">
+        <p class="content">
+            Figure 8. An undirected graph
+        </p>
+
+        <p class="content">
+            В теории графов основными вариантами использования алгоритма «поиска в ширину» («BFS») являются: <br>
+            1. Обход всех вершин «графа»; <br>
+            2. Нахождение кратчайшего пути между двумя вершинами графа, в котором все ребра имеют равные и положительные
+            веса.
+        </p>
+
+
+
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>

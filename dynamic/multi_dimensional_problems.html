@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Multi-dimensional problems</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../dynamic/dynamic_programming.html" class="dynamic_programming">Dynamic Programming</a>
+        <a href="../dynamic/framework_for_dp.html" class="framework_for_dp">Framework for DP</a>
+        <a href="../dynamic/1d_problems.html" class="1d_problems">1D Problems</a>
+        <a href="../dynamic/multi_dimensional_problems.html" class="multi_dimensional_problems">Multi-dimensional
+            Problems</a>
+        <a href="../dynamic/matrix_dp.html" class="matrix_dp">Matrix DP</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Longest Common Subsequence</a>
+        <a href="#ex2">#2 Best Time to Buy and Sell Stock IV </a>
+        <a href="#ex3">#3 Maximum Value of K Coins From Piles </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Multi-dimensional problems
+        </h1>
+        <hr>
+
+        <p class="content">
+            В предыдущей статье мы рассматривали проблемы только с одной переменной состояния. В этой статье мы
+            рассмотрим проблемы, в которых используются несколько переменных состояния, то есть многомерные алгоритмы
+            DP.
+        </p>
+
+        <p class="important" id="ex1">
+            <a href="https://leetcode.com/problems/longest-common-subsequence/">Example 1: 1143. Longest Common
+                Subsequence</a>
+            <br>
+            <br>
+            Даны две строки <span>text1</span> и <span>text2</span>, верните длину их самой длинной общей
+            подпоследовательности.
+            <br>
+            <br>
+            Например, если заданы <span>text1 = «abcde»</span> и <span>text2 = «ace»</span>, возвращается
+            <span>3</span>. Обе строки
+            используют <span>«ace»</span> в
+            качестве подпоследовательности.
+        </p>
+
+        <p class="content">
+            Откуда мы знаем, что эту проблему следует решить с помощью DP? Во-первых, он просит что-то самое длинное.
+            Во-вторых, решение использовать букву или не использовать букву влияет на то, какие буквы мы сможем
+            использовать в будущем.
+        </p>
+
+        <p class="content">
+            Поскольку проблема заключается в запросе длины самой длинной общей подпоследовательности (LCS), давайте
+            сделаем так, чтобы наша функция dp возвращала длину LCS. На этот раз нам нужны две индексные переменные, по
+            одной для каждой строки — <span>i</span> для <span>text1</span> и <span>j</span> для <span>text2</span>. У
+            нас <span>dp(i, j)</span> будет возвращать длину самой длинной
+            общей подпоследовательности, когда мы начинаем с
+            i<sup>ого</sup>
+            символа <span>text1</span> и
+            j<sup>ого</sup>
+            символа <span>text2</span>.
+        </p>
+
+        <p class="content">
+            У каждой пары <span>(i, j)</span> есть две возможности:
+        </p>
+        <ol>
+            <li><span>text1[i] = text2[j]</span>. Мы нашли совпадение в символах и должны использовать его для
+                увеличения длины.
+                После сопоставления символов нам нужно перейти к следующему символу в обеих строках. <span>dp(i, j) = 1
+                    + dp(i
+                    + 1, j + 1)</span>. Нет смысла не использовать совпадение, потому что мы не можем увеличить длину
+                более чем на
+                <span>1</span> на любом этапе, поэтому, когда у нас есть возможность, мы всегда должны ею
+                воспользоваться.
+            </li>
+            <li>
+                <span>text1[i] != text2[j]</span>. Теперь нам нужно принять решение. Мы можем либо перейти к следующему
+                символу в
+                тексте <span>text1</span>, либо перейти к следующему символу в <span>text2</span>. Мы также можем
+                попробовать и то, и другое - в
+                данном случае <span>dp(i, j) = max(dp(i + 1, j), dp(i, j + 1))</span>.
+            </li>
+        </ol>
+
+        <p class="content">
+            Эти два случая образуют наше рекуррентное отношение. А как насчет базовых случаев? Если <span>i =
+                text1.length</span> или
+            <span>j = text2.length</span>, то одна из строк исчерпана, и поскольку символов не осталось, общих символов
+            быть не
+            может. Вернуть <span>0</span>.
+        </p>
+
+        <div class="code">
+            def longestCommonSubsequence(text1: str, text2: str) -> int:
+            <p class="raw1">@cache</p>
+            <p class="raw1">def dp(i, j):</p>
+            <p class="raw2">if i == len(text1) or j == len(text2):</p>
+            <p class="raw3">return 0</p>
+            <br>
+            <p class="raw2">if text1[i] == text2[j]:</p>
+            <p class="raw3">return 1 + dp(i + 1, j + 1)</p>
+            <br>
+            <p class="raw2">return max(dp(i + 1, j), dp(i, j + 1))</p>
+            <br>
+            <p class="raw1">return dp(0, 0)</p>
+        </div>
+
+        <p class="content">
+            Снизу вверх не забудьте начать итерацию с базовых случаев:
+        </p>
+
+        <div class="code">
+            def longestCommonSubsequence(text1: str, text2: str) -> int:
+            <p class="raw1">n = len(text1)</p>
+            <p class="raw1">m = len(text2)</p>
+            <p class="raw1">dp = [[0] * (m + 1) for _ in range(n + 1)]</p>
+            <br>
+            <p class="raw1">for i in range(n - 1, -1, -1):</p>
+            <p class="raw2">for j in range(m - 1, -1, -1):</p>
+            <p class="raw3">if text1[i] == text2[j]:</p>
+            <p class="raw4">dp[i][j] = 1 + dp[i + 1][j + 1]</p>
+            <p class="raw3">else:</p>
+            <p class="raw4">dp[i][j] = max(dp[i + 1][j], dp[i][j + 1])</p>
+            <br>
+            <p class="raw1">return dp[0][0]</p>
+        </div>
+
+        <p class="content">
+            Поскольку работа, совершаемая в каждом состоянии, равна
+            O(1), этот алгоритм имеет временную и пространственную сложность
+            O(n⋅m), где <span>n = text1.length</span> и <span>m = text2.length</span>.
+        </p>
+
+        <hr>
+
+        <p class="important" id="ex2">
+            <a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/">Example 2: 188. Best Time to Buy
+                and Sell Stock IV</a>
+            <br>
+            <br>
+            Вам дан целочисленный массив <span>prices</span>, где <span>prices[i]</span> — цена данной акции на бирже.
+            i<sup>ый</sup>
+            день и целое число <span>k</span>. Вы можете купить акции и продать их, но в любой момент времени вы можете
+            удерживать
+            только одну единицу акций. Найдите максимальную прибыль, которую вы можете получить, совершив не более
+            <span>k</span>
+            транзакций.
+        </p>
+
+        <p class="content">
+            В этой проблеме нужно принять множество решений. Стоит ли покупать сегодня? Если да, то вы не сможете купить
+            завтра или вообще, пока не продадите. Стоит ли продавать? Если да, то вы не сможете продать, пока не купите
+            снова. Кроме того, каждый раз, когда вы покупаете или продаете, вы используете одну из ограниченного
+            количества транзакций. Учитывая все эти решения, DP — очевидный выбор.
+        </p>
+
+        <p class="content">
+            Опять же, наша функция <span>dp</span> должна возвращать ответ, поэтому давайте вернем максимальную прибыль,
+            которую
+            можно достичь. Какая информация нам нужна в каждом штате? Во-первых, нам, конечно, нужно знать, какой
+            сегодня день. Мы можем использовать нашу обычную индексную переменную <span>i</span>, чтобы отслеживать это.
+            Далее нам
+            нужно знать, имеем ли мы в настоящее время какие-либо акции. Пусть <span>holding</span> будет логическим
+            значением,
+            которое показывает, держим ли мы акции. Наконец, проблема имеет явное числовое ограничение — количество
+            разрешенных транзакций. Пусть <span>remain</span> целое число, которое показывает, сколько транзакций у нас
+            осталось.
+        </p>
+
+        <p class="content">
+            У нас будет <span>dp(i, holding, remain)</span> возвращать максимальную прибыль, которую мы можем получить,
+            если в
+            настоящее время мы находимся в дне <span>i</span> с <span>remain</span> транзакциями, и
+            <span>holding</span>, указывающее, держим ли мы в
+            настоящее время запасы. Ответом будет <span>dp(0, false, k)</span>, который вернет максимальную прибыль,
+            которую мы можем
+            получить, начиная с дня <span>0</span>, не владея запасами, с оставшимися <span>k</span> транзакциями.
+        </p>
+
+        <p class="content">
+            Какие решения мы принимаем в каждом состоянии? Если у нас нет запасов, мы можем либо купить сегодня, либо
+            пропустить. Если мы покупаем, то наша прибыль равна <span>-prices[i] + dp(i + 1, true, remain)</span>. Мы
+            тратим
+            <span>prices[i]</span>, чтобы купить акции. Затем мы переходим к следующему дню (<span>i + 1</span>), теперь
+            у нас есть запас (<span>true</span>),
+            и мы еще не завершили транзакцию, поэтому <span>remain</span>остается прежним.
+        </p>
+
+        <p class="content">
+            Если у нас есть акции, мы можем либо продать их сегодня, либо пропустить. Если мы продаем, то наша прибыль
+            равна <span>prices[i] + dp(i + 1, false, remain - 1)</span>. Мы получаем <span>prices[i]</span> денег. Затем
+            мы переходим
+            на следующий
+            день (<span>i + 1</span>), у нас больше нет запасов (<span>false</span>) и мы израсходовали одну из наших
+            транзакций (<span>remain - 1</span>).
+        </p>
+
+        <p class="content">
+            В обоих случаях, если мы решим пропустить, наша прибыль составит <span>dp(i + 1, holding, remain)</span>. Мы
+            просто
+            переходим к следующему дню, больше ничего не меняя. Следовательно, наше рекуррентное соотношение:
+        </p>
+
+        <p class="content">
+            <span>dp(i, holding, remain) = max(skip, buy, sell)</span> где
+        </p>
+
+        <p class="content">
+            <span>skip = dp(i + 1, holding, remain)</span>,
+        </p>
+
+        <p class="content">
+            <span>buy = -prices[i] + dp(i + 1, true, remain)</span> и учитывается только в том случае, если
+            <span>holding = false</span>,
+        </p>
+
+        <p class="content">
+            <span>sell = prices[i] + dp(i + 1, false, remain - 1)</span> и учитывается только в том случае, если
+            <span>holding = true</span>.
+        </p>
+
+        <p class="content">
+            Каковы базовые случаи? Если мы достигнем конца ввода (<span>i = prices.length</span>), то мы не сможем
+            совершать больше
+            транзакций, поэтому возвращаем <span>0</span>. Если у нас закончатся транзакции (<span>k = 0</span>), мы
+            также не сможем совершать
+            больше транзакций, поэтому возвращаем <span>0</span>.
+        </p>
+
+        <p class="important">
+            Для <span>holding</span> мы можем использовать <span>0</span> для обозначения <span>false</span> и
+            <span>1</span> для обозначения <span>true</span>.
+        </p>
+
+
+        <div class="code">
+            def maxProfit(k: int, prices: List[int]) -> int:
+            <p class="raw1">@cache</p>
+            <p class="raw1">def dp(i, holding, remain):</p>
+            <p class="raw2">if i == len(prices) or remain == 0:</p>
+            <p class="raw3">return 0</p>
+            <br>
+            <p class="raw2">ans = dp(i + 1, holding, remain)</p>
+            <p class="raw2">if holding:</p>
+            <p class="raw3">ans = max(ans, prices[i] + dp(i + 1, False, remain - 1))</p>
+            <p class="raw2">else:</p>
+            <p class="raw3">ans = max(ans, -prices[i] + dp(i + 1, True, remain))</p>
+            <br>
+            <p class="raw2">return ans</p>
+            <br>
+            <p class="raw1">return dp(0, False, k)</p>
+        </div>
+
+
+        <p class="content">
+            Вот реализация снизу вверх. Как видите, настройка циклов for может оказаться сложной задачей. Важно помнить,
+            что нам нужно начинать итерацию с базовых случаев, поэтому мы начинаем итерацию <span>i</span> с
+            <span>n</span> и <span>remain</span> с <span>1</span>, где <span>n
+                = prices.length</span>.
+        </p>
+
+        <div class="code">
+            def maxProfit(k: int, prices: List[int]) -> int:
+            <p class="raw1">n = len(prices)</p>
+            <p class="raw1">dp = [[[0] * (k + 1) for _ in range(2)] for __ in range(n + 1)]</p>
+            <p class="raw1">for i in range(n - 1, -1, -1):</p>
+            <p class="raw2">for remain in range(1, k + 1):</p>
+            <p class="raw3">for holding in range(2):</p>
+            <p class="raw4">ans = dp[i + 1][holding][remain]</p>
+            <p class="raw4">if holding:</p>
+            <p class="raw5">ans = max(ans, prices[i] + dp[i + 1][0][remain - 1])</p>
+            <p class="raw4">else:</p>
+            <p class="raw5">ans = max(ans, -prices[i] + dp[i + 1][1][remain])</p>
+            <br>
+            <p class="raw4">dp[i][holding][remain] = ans</p>
+            <br>
+            <p class="raw1">return dp[0][0][k]</p>
+        </div>
+
+
+        <p class="content">
+            Работа, совершаемая в каждом состоянии, равна
+            O(1), поэтому временная и пространственная сложность равна количеству состояний. Произведением диапазона
+            каждой из переменных состояния является количество состояний, что дает нам временную и пространственную
+            сложность
+            О(п⋅к). <span>holding</span> является постоянным, <span>n</span> происходит от <span>i</span>, а
+            <span>k</span> происходит от <span>remain</span>.
+        </p>
+
+
+        <hr>
+
+
+        <p class="important" id="ex3">
+            <a href="https://leetcode.com/problems/maximum-value-of-k-coins-from-piles/">Example 3: 2218. Maximum Value
+                of K Coins From Piles</a>
+            <br>
+            <br>
+            На столе лежит <span>n</span> стопок монет. Каждая стопка состоит из положительного количества монет
+            различного номинала.
+            Одним движением вы можете выбрать любую монету поверх любой стопки, убрать ее и добавить в свой кошелек. Дан
+            список <span>piles</span>, где <span>piles[i]</span> — это список целых чисел, обозначающих состав
+            i<sup>ой</sup>
+            стопки сверху вниз и положительное целое число <span>k</span>. Вернуть максимальную общую стоимость монет,
+            которые вы
+            можете иметь в своем кошельке, если оптимально выберете ровно <span>k</span> монет.
+        </p>
+
+
+        <p class="content">
+            Теперь вы знаете, как это сделать: мы будем использовать функцию <span>dp</span>, которая возвращает как
+            можно больше
+            денег, которые мы можем получить. У нас есть обычная переменная-индекс <span>i</span>, которая может
+            представлять текущую
+            стопку, в которой мы находимся, а также задача имеет явное числовое ограничение <span>k</span>, поэтому мы
+            будем
+            использовать другую переменную состояния, которая показывает, сколько еще монет мы можем взять. Итак, у нас
+            есть <span>dp(i, remain)</span>, который возвращает максимальную стоимость монет, которые мы можем взять,
+            начиная с
+            i-й
+            стопки с <span>remain</span> оставшихся ходов.
+        </p>
+
+        <p class="content">
+            На
+            i-й
+            стопке мы можем либо пропустить стопку, либо взять несколько монет. Если пропустить, то счет будет
+            <span>dp(i +
+                1, remain)</span>. Если мы не пропустим, мы сможем выбрать, сколько монет взять. Если мы возьмем монеты
+            до
+            j-й
+            монеты, то счет будет равен сумме <span>piles[i][:j]</span> плюс <span>dp(i + 1,remain-j-1)</span>. Нам
+            просто нужно убедиться, что
+            мы не берем больше, чем <span>remain</span> монет.
+        </p>
+
+        <p class="content">
+            В каждом состоянии нам нужно испробовать все возможности. В заданном состоянии мы можем использовать
+            целочисленную переменную <span>curr</span>, чтобы отслеживать стоимость монет, которые мы взяли из текущей
+            стопки, а
+            затем перебирать стопку и находить максимально возможное количество очков. Рекуррентное соотношение:
+        </p>
+
+        <p class="content">
+            <span>dp(i, remain) = max(skip, take)</span>, где
+        </p>
+
+        <p class="content">
+            <span>skip = dp(i + 1, remain)</span>, и
+        </p>
+
+        <p class="content">
+            <span>take = max( sum(piles[i][:j]) + dp(i + 1, remain - j - 1) for j from 0 to min(remain, piles[i].length)
+                )</span>
+        </p>
+
+        <p class="content">
+            Это выглядит пугающе, но становится проще, если рассматривать каждый термин отдельно.
+            <span>sum(piles[i][:j])</span> —
+            это стоимость монет, которые мы взяли в текущей стопке, <span>j + 1</span> — это количество монет, которые
+            мы взяли, так
+            что у нас <span>remain - j - 1 ходов</span>, и <span>min(remain, Pils[i].length)</span> просто для того,
+            чтобы убедиться, что мы не
+            берем больше монет, чем нам разрешено.
+        </p>
+
+        <p class="content">
+            Каковы наши базовые случаи? Если мы либо достигнем конца входных данных (кучек не осталось), либо
+            <span>remain
+                = 0</span> (не сможем взять больше монет), то максимальное количество очков, которое мы можем получить,
+            равно <span>0</span>.
+        </p>
+
+        <div class="code">
+            def maxValueOfCoins(piles: List[List[int]], k: int) -> int:
+            <p class="raw1">@cache</p>
+            <p class="raw1">def dp(i, remain):</p>
+            <p class="raw2">if i == len(piles) or remain == 0:</p>
+            <p class="raw3">return 0</p>
+            <br>
+            <p class="raw2">ans = dp(i + 1, remain) # skip this pile</p>
+            <p class="raw2">curr = 0</p>
+            <p class="raw2">for j in range(min(remain, len(piles[i]))):</p>
+            <p class="raw3">curr += piles[i][j]</p>
+            <p class="raw3">ans = max(ans, curr + dp(i + 1, remain - j - 1))</p>
+            <br>
+            <p class="raw2">return ans
+            </p>
+            <br>
+            <p class="raw1">return dp(0, k)</p>
+        </div>
+
+
+        <p class="content">
+            И решение снизу вверх: не забудьте выполнить итерацию, начиная с базовых случаев <span>i = n</span> и
+            <span>remain = 0</span>:
+        </p>
+
+        <div class="code">
+            def maxValueOfCoins(piles: List[List[int]], k: int) -> int:
+            <p class="raw1">n = len(piles)</p>
+            <p class="raw1">dp = [[0] * (k + 1) for _ in range(n + 1)]</p>
+            <p class="raw1">for i in range(n - 1, -1, -1):</p>
+            <p class="raw2">for remain in range(1, k + 1):</p>
+            <p class="raw3">dp[i][remain] = dp[i + 1][remain] # skip this pile</p>
+            <p class="raw3">curr = 0</p>
+            <p class="raw3">for j in range(min(remain, len(piles[i]))):</p>
+            <p class="raw4">curr += piles[i][j]</p>
+            <p class="raw4">dp[i][remain] = max(dp[i][remain], curr + dp[i + 1][remain - j - 1])</p>
+            <br>
+            <p class="raw1">return dp[0][k]</p>
+        </div>
+
+        <p class="content">
+            Допустим, среднее количество монет на стопку <span>piles[i].length</span> равно <span>x</span>. Есть
+            состояния O(n⋅k), где
+            n — количество стопок, и в каждом состоянии у нас есть цикл for, который повторяется <span>x</span> раз. Это
+            дает нам
+            временную сложность
+            O(n⋅k⋅x) и пространственная сложность
+            О(п⋅к).
+        </p>
+
+        <hr>
+
+        <p class="content">
+            Проблемы динамического программирования могут быть устрашающими, но, используя структуру и тщательно
+            продумывая каждый компонент, алгоритмы можно строить систематическим образом. Прежде чем двигаться дальше,
+            попробуйте решить следующие несколько практических задач.
+        </p>
+
+        <hr>
+
+    </div>
+
+</body>
+
+</html>

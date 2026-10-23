@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Improved Bellman-Ford Algorithm with Queue — SPFA Algorithm
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/dynamic_programming.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../trees_graphs.html" class="binary_trees">Binary trees</a>
+        <a href="../binary_trees_dfs.html" class="binary_trees_dfs">Binary trees DFS</a>
+        <a href="../binary_trees_bfs.html" class="binary_trees_bfs">Binary trees BFS</a>
+        <a href="../binary_search_trees.html" class="binary_search_trees">Binary search trees</a>
+        <a href="../graphs.html" class="graphs">Graphs</a>
+        <a href="../graphs_dfs.html" class="graphs_dfs">Graphs DFS</a>
+        <a href="../graphs_bfs.html" class="graphs_bfs">Graphs BFS</a>
+        <a href="../implicit_graphs.html" class="implicit_graphs">Implicit graphs</a>
+        <a href="../premium_graphs.html" class="premium_graphs">Premium graphs</a>
+        <a href="../disjoint_set/1_disjoint_set.html" class="disjoint_set">Disjoint set</a>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div>
+
+    <div class="container">
+        <h1>Improved Bellman-Ford Algorithm with Queue — SPFA Algorithm</h1>
+
+        <hr>
+        <p class="content">
+            Ранее мы представили «Алгоритм Беллмана-Форда» вместе с его усовершенствованием. Улучшение состоит в том,
+            что для графа без отрицательных циклов после расслабления каждого ребра N-1 раз мы можем получить
+            минимальное расстояние от начальной вершины до всех остальных вершин. Однако при ослаблении всех ребер N-1
+            раз могут возникнуть ненужные вычисления, что в некоторых случаях приводит к неоптимальной временной
+            сложности.
+        </p>
+
+        <h2>
+            Ограничения алгоритма Беллмана-Форда
+        </h2>
+        <hr>
+
+        <p class="content">
+            В следующем видео вы узнаете больше об ограничениях «алгоритма Беллмана-Форда».
+        </p>
+
+        <p class="content">
+            Video: Limitations of Bellman-Ford_1080p
+        </p>
+
+
+        <h2>
+            SPFA algorithm
+        </h2>
+        <hr>
+
+        <p class="content">
+            Чтобы устранить эти ограничения, мы представляем улучшенный вариант алгоритма Беллмана-Форда с
+            использованием очереди. Это усовершенствование известно как «алгоритм кратчайшего пути быстрее» (алгоритм
+            SPFA).
+        </p>
+
+        <p class="content">
+            Вместо выбора среди любых непройденных ребер, как это делается при использовании алгоритма «Беллмана-Форда»,
+            алгоритм «SPFA» использует «очередь» для поддержания следующей начальной вершины ребра, которое необходимо
+            пройти. Только когда кратчайшее расстояние вершины ослаблено и вершина не находится в «очереди», мы
+            добавляем вершину в очередь. Мы повторяем процесс до тех пор, пока очередь не станет пустой. На этом этапе
+            мы рассчитали минимальное расстояние от данной вершины до любых вершин.
+        </p>
+
+        <h2>Видеопояснение алгоритма SPFA
+
+        </h2>
+        <hr>
+        <p class="content">
+            Теперь пришло время взглянуть на «алгоритм кратчайшего пути быстрее» (SPFA) в действии.
+        </p>
+
+        <p class="content">
+            Video: SPFA_1080p
+        </p>
+
+
+        <h2>
+            Анализ сложности
+        </h2>
+        <hr>
+
+        <p class="content">
+            V представляет количество вершин, а
+            E представляет количество ребер.
+        </p>
+        <ul>
+            <li>Временная сложность: мы перебираем все вершины и на каждой итерации выполняем операцию релаксации для
+                каждого соответствующего ребра. Следовательно, временная сложность будет
+                О(V⋅E).</li>
+            <li>Космическая сложность:
+                О(В). Нам нужно хранить
+                V вершины.</li>
+        </ul>
+
+        <p class="content">
+            Обратите внимание, что временная сложность улучшенной версии алгоритма для наихудшего сценария такая же, как
+            и у стандартной версии алгоритма Беллмана-Форда. Однако в среднем SPFA имеет тенденцию работать быстрее.
+        </p>
+
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>

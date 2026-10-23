@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Example 62. Unique Paths
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../../dynamic/dynamic_programming.html" class="dynamic_programming">Dynamic Programming</a>
+        <a href="../../dynamic/framework_for_dp.html" class="framework_for_dp">Framework for DP</a>
+        <a href="../../dynamic/1d_problems.html" class="1d_problems">1D Problems</a>
+        <a href="../../dynamic/multi_dimensional_problems.html" class="multi_dimensional_problems">Multi-dimensional
+            Problems</a>
+        <a href="../../dynamic/matrix_dp.html" class="matrix_dp">Matrix DP</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Longest Common Subsequence</a>
+        <a href="#ex2">#2 Best Time to Buy and Sell Stock IV </a>
+        <a href="#ex3">#3 Maximum Value of K Coins From Piles </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Example 62. Unique Paths
+        </h1>
+        <hr>
+
+        <p class="important">
+            The bottom-up approach for pathing problems is often more intuitive than for other types of dynamic
+            programming problems - so this is a good chance for us to practice starting with a bottom-up approach.
+        </p>
+
+        <p class="content">
+            In this article, we'll use the framework to solve Unique Paths. This problem asks us to find the number of
+            distinct ways to do something, which is a hint that we should consider using dynamic programming, and we
+            discussed how to do so in the previous chapter. Let's get started:
+        </p>
+        <p class="content">
+            1. An array that answers the problem for a given state
+        </p>
+        <p class="content">
+            State variables are usually easy to find in pathing problems. Similar to how we need one index (
+            i
+            i) for 1D array inputs, with pathing problems on a 2D matrix, we need two indices (
+            row
+            row and
+            col
+            col) to denote position. Some problems have added constraints that will require additional state variables,
+            but there doesn't seem to be anything of the sort in this problem. Therefore, we will just use two state
+            variables
+            row
+            row which represents the current row, and
+            col
+            col which represents the current column.
+        </p>
+        <p class="content">
+            The problem is asking for the number of paths to the final square, so let's have
+            dp[row][col]
+            dp[row][col] represent how many paths there are from the start (top-left corner) to the square at
+            (row, col)
+            (row, col). We will return
+            dp[m - 1][n - 1]
+            dp[m - 1][n - 1] where
+            m
+            m and
+            n
+            n are the number of rows and columns respectively.
+        </p>
+        <p class="content">
+            2. A recurrence relation to transition between states
+        </p>
+        <p class="content">
+            The problem says that we are allowed to move down or right. That means, if we are at some square, we arrived
+            from either the square above or the square to the left. These two squares are
+            (row - 1, col)
+            (row - 1, col) and
+            (row, col - 1)
+            (row, col - 1). Since we can arrive at the current square from either of these squares, the number of ways
+            to get to the current square is the sum of the number of ways to get to these two squares. Either of these
+            may be out of the grid bounds, so we should make sure to check for that. This gives us our simple recurrence
+            relation:
+        </p>
+        <p class="content">
+            dp[row][col] = dp[row - 1][col] + dp[row][col - 1], where
+            dp[row - 1][col]
+            dp[row - 1][col] and
+            dp[row][col - 1]
+            dp[row][col - 1] is equal to 0 if out of bounds.
+        </p>
+        <p class="content">
+            3. Base cases
+        </p>
+        <p class="content">
+            In the previous chapter, when talking about counting DP problems, we said that the base cases need to be set
+            to nonzero values so that the terms in the recurrence relation don't just stay stuck at zero. In this
+            problem, we start in the top-left corner. How many ways are there for us to get to the first square? Only 1
+            - we start on it. Therefore, our base case is
+            dp[0][0] = 1
+            dp[0][0] = 1.
+        </p>
+
+        <p class="important">
+            Note: If you have trouble coming up with the recurrence relation, sometimes it helps to come up with the
+            base case(s) first. Then walk through how you would find the result for states that are slightly more
+            complicated than the base case(s), such as
+            dp[0][1]
+            dp[0][1],
+            dp[1][1]
+            dp[1][1], and
+            dp[2][1]
+            dp[2][1]. Often, this process of manually solving the problem for simple states can help you understand what
+            the recurrence relation should be.
+        </p>
+
+        <h2>
+            Bottom-up Implementation
+        </h2>
+
+        <p class="content">
+            Putting it all together for the final solution:
+        </p>
+
+        <div class="code">
+            def uniquePaths(self, m: int, n: int) -> int: <br>
+            <p class="raw1">dp = [[0] * n for _ in range(m)]</p>
+            <p class="raw1">dp[0][0] = 1 # Base case</p>
+            <br>
+            <p class="raw1">for row in range(m):</p>
+            <p class="raw2">for col in range(n):</p>
+            <p class="raw3">if row > 0:</p>
+            <p class="raw4">dp[row][col] += dp[row - 1][col]</p>
+            <p class="raw3">if col > 0:</p>
+            <p class="raw4">dp[row][col] += dp[row][col - 1]</p>
+            <br>
+            <p class="raw1">return dp[m - 1][n - 1]</p>
+        </div>
+
+        <h2>
+            Top-down Implementation
+        </h2>
+
+        <p class="content">
+            As we know, one of the advantages of top-down implementations is that they are usually easier to implement.
+            However, for some, bottom-up dynamic programming is more intuitive when it comes to pathing problems. As
+            such, we implemented the bottom-up approach first in this example. That said, it is rare to convert
+            bottom-up solutions to top-down solutions since the typical flow for dynamic programming problems is to come
+            up with a top-down DP solution first, and then convert it to a bottom-up DP solution, if the bottom-up
+            approach is more efficient. Below, for completeness, we have also included the top-down implementation.
+        </p>
+
+        <div class="code">
+            def uniquePaths(self, m: int, n: int) -> int: <br>
+            <p class="raw1">@lru_cache(None)</p>
+            <p class="raw1">def dp(row, col):</p>
+            <p class="raw2">if row + col == 0:</p>
+            <p class="raw3">return 1 # Base case</p>
+            <p class="raw2">ways = 0</p>
+            <p class="raw2">if row > 0:</p>
+            <p class="raw3">ways += dp(row - 1, col)</p>
+            <p class="raw2">if col > 0:</p>
+            <p class="raw3">ways += dp(row, col - 1)</p>
+            <br>
+            <p class="raw2">return ways</p>
+            <br>
+            <p class="raw1">return dp(m - 1, n - 1)</p>
+        </div>
+
+        <p class="content">
+            The time and space complexity of both solutions is
+            𝑂
+            (
+            𝑚
+            ⋅
+            𝑛
+            )
+            O(m⋅n). We visit each square only once and do a constant amount of work. Here's a challenge to do on your
+            own: try to use state reduction to improve the space complexity of the bottom-up approach to
+            𝑂
+            (
+            𝑛
+            )
+            O(n) without modifying the input.
+        </p>
+
+    </div>
+
+</body>
+
+</html>

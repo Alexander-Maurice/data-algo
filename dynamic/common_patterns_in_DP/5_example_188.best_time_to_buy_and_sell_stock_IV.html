@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Example 188. Best Time to Buy and Sell Stock IV</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../../dynamic/dynamic_programming.html" class="dynamic_programming">Dynamic Programming</a>
+        <a href="../../dynamic/framework_for_dp.html" class="framework_for_dp">Framework for DP</a>
+        <a href="../../dynamic/1d_problems.html" class="1d_problems">1D Problems</a>
+        <a href="../../dynamic/multi_dimensional_problems.html" class="multi_dimensional_problems">Multi-dimensional
+            Problems</a>
+        <a href="../../dynamic/matrix_dp.html" class="matrix_dp">Matrix DP</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Longest Common Subsequence</a>
+        <a href="#ex2">#2 Best Time to Buy and Sell Stock IV </a>
+        <a href="#ex3">#3 Maximum Value of K Coins From Piles </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Example 188. Best Time to Buy and Sell Stock IV
+        </h1>
+        <hr>
+
+        <p class="important">
+            For this one, we're back to starting with top-down.
+        </p>
+
+        <p class="content">
+            In this article, we'll be using the framework to solve Best Time to Buy and Sell Stock IV. This problem is
+            rated as "hard" and may seem daunting at first, but with the framework, the logic behind solving this
+            problem is very intuitive. We'll also make use of the pattern of "doing nothing". Like usual, let's use the
+            framework to develop an algorithm:
+
+        </p>
+
+        <p class="content">
+            1. <b>A function</b> that answers the problem for a given state
+        </p>
+
+        <p class="content">
+            <i>What information do we need at each state/decision?</i>
+        </p>
+
+        <p class="content">
+            We need to know what day it is (so we can look up the current price of the stock), and we need to know how
+            many transactions we have left. These two are directly related to the input.
+        </p>
+
+        <p class="content">
+            The note in the problem description says that we cannot engage in multiple transactions at the same time.
+            This means that at any moment, we are either holding one unit of stock or not holding any stock. We should
+            have a state variable that indicates if we are currently holding stock. This variable is fine as a boolean,
+            but for caching purposes, let's use an integer alternating between
+            0
+            0 and
+            1
+            1 (
+            0
+            0 means not holding,
+            1
+            1 means holding).
+        </p>
+
+        <p class="content">
+            To summarize, we have 3 state variables:
+        </p>
+
+        <ol>
+            <li>i, which represents we are on the
+                𝑖
+                𝑡
+                ℎ
+                i
+                th
+                day. The current price of the stock is
+                prices[i]
+                prices[i].</li>
+            <li>transactionsRemaining
+                transactionsRemaining, which represents how many transactions we have left. This number goes down by 1
+                whenever we sell a stock.</li>
+            <li>holding
+                holding, which is equal to
+                0
+                0 if we are not holding a stock, and
+                1
+                1 if we are holding a stock. If
+                holding
+                holding is
+                0
+                0, we have the option to buy a stock. Otherwise, we have the option to sell a stock.</li>
+        </ol>
+
+        <p class="content">
+            The problem is asking for a maximum achievable profit. Therefore, let's have a function
+            dp
+            dp where
+            dp(i, transactionsRemaining, holding)
+            dp(i, transactionsRemaining, holding) returns the maximum achievable profit starting from the
+            𝑖
+            𝑡
+            ℎ
+            i
+            th
+            day with
+            transactionsRemaining
+            transactionsRemaining transactions remaining, and
+            holding
+            holding indicating if we start with a stock or not. To answer the original problem, we would return
+            dp(0, k, 0)
+            dp(0, k, 0), as we start on day
+            0
+            0 with
+            k
+            k transactions remaining and not holding a stock.
+        </p>
+
+        <p class="content">
+            2. <b>A recurrence relation</b> to transition between states
+        </p>
+
+        <p class="content">
+            At each state, we need to make a decision that depends on what
+            holding
+            holding is. Let's split it up and look at our options one at a time:
+        </p>
+
+        <ul>
+            <li>If we are holding stock, we have two options. We can sell, or not sell. If we choose to sell, we gain
+                prices[i]
+                prices[i] money, and the next state will be
+                (i + 1, transactionsRemaining - 1, 0)
+                (i + 1, transactionsRemaining - 1, 0). This is because it is the next day (
+                i + 1
+                i + 1), we lose a transaction as we completed one by selling (
+                transactionsRemaining - 1
+                transactionsRemaining - 1), and we are no longer holding a stock (
+                0
+                0). In total, our profit is
+                prices[i] + dp(i + 1, transactionsRemaining - 1, 0)
+                prices[i] + dp(i + 1, transactionsRemaining - 1, 0). If we choose not to sell and do nothing, then we
+                just move onto the next day with the same number of transactions, while still holding the stock. Our
+                profit is
+                dp(i + 1, transactionsRemaining, holding)
+                dp(i + 1, transactionsRemaining, holding).</li>
+            <li>If we are not holding stock, we have two options. We can buy, or not buy. If we choose to buy, we lose
+                prices[i]
+                prices[i] money, and the next state will be
+                (i + 1, transactionsRemaining, 1)
+                (i + 1, transactionsRemaining, 1). This is because it is the next day, we have the same number of
+                transactions because transactions are only completed on selling, and we now hold a stock. In total, our
+                profit is
+                -prices[i] + dp(i + 1, transactionsRemaining, 1)
+                -prices[i] + dp(i + 1, transactionsRemaining, 1). If we choose not to buy and do nothing, then we just
+                move onto the next day with the same number of transactions, while still not having stock. Our profit is
+                dp(i + 1, transactionsRemaining, holding)
+                dp(i + 1, transactionsRemaining, holding).</li>
+        </ul>
+
+        <p class="important">
+            Note that you could also set up the solution so that transactions are completed upon buying a stock instead.
+        </p>
+
+        <p class="content">
+            Of course, we always want to make the best decision. We can see that in both scenarios, doing nothing is the
+            same -
+            dp(i + 1, transactionsRemaining, holding)
+            dp(i + 1, transactionsRemaining, holding). Therefore, we have a recurrence relation of:
+        </p>
+
+        <p class="content">
+            dp(i, transactionsRemaining, holding) = max(doNothing, sellStock) if holding == 1 otherwise max(doNothing,
+            buyStock)
+        </p>
+
+        <p class="content">
+            Where,
+        </p>
+
+        <p class="content">
+            doNothing = dp(i + 1, transactionsRemaining, holding),
+            sellStock = prices[i] + dp(i + 1, transactionsRemaining - 1, 0), and
+            buyStock = -prices[i] + dp(i + 1, transactionsRemaining, 1).
+        </p>
+
+        <img src="../../dynamic/dynamic_imgs/C3A5_1.png" alt="">
+
+        <p class="content">
+            3. <b>Base cases</b>
+        </p>
+
+        <p class="content">
+            Both base cases are very simple for this problem. If we are out of transactions (
+            transactionsRemaining = 0
+            transactionsRemaining = 0), then we should immediately return
+            0
+            0 as we cannot make any more money. If the stock is no longer on the market (
+            i = prices.length
+            i = prices.length), then we should also return
+            0
+            0, as we cannot make any more money.
+        </p>
+
+        <h2>
+            Top-down Implementation
+        </h2>
+
+        <div class="code">
+            def maxProfit(self, k: int, prices: List[int]) -> int: <br>
+            <p class="raw1">@lru_cache(None)</p>
+            <p class="raw1">def dp(i, transactions_remaining, holding):</p>
+            <p class="raw2"># Base case</p>
+            <p class="raw2">if transactions_remaining == 0 or i == len(prices): </p>
+            <p class="raw3">return 0</p>
+            <br>
+            <p class="raw2">do_nothing = dp(i + 1, transactions_remaining, holding)</p>
+            <p class="raw2">do_something = 0</p>
+            <br>
+            <p class="raw2">if holding:</p>
+            <p class="raw3"># Sell stock</p>
+            <p class="raw3">do_something = prices[i] + dp(i + 1, transactions_remaining - 1, 0)</p>
+            <p class="raw2">else:</p>
+            <p class="raw3"># Buy stock</p>
+            <p class="raw3">do_something = -prices[i] + dp(i + 1, transactions_remaining, 1)</p>
+            <br>
+            <p class="raw2"># Recurrence relation</p>
+            <p class="raw2">return max(do_nothing, do_something)</p>
+            <br>
+            <p class="raw1">return dp(0, k, 0)</p>
+        </div>
+
+        <h2>
+            Bottom-up Implementation
+        </h2>
+
+        <p class="content">
+            Again, the recurrence relation is the same with top-down, but we need to be careful about how we configure
+            our for loops. The base cases are automatically handled because the
+            dp
+            dp array is initialized with all values set to
+            0
+            0. For iteration direction and order, remember with bottom-up we start at the base cases. Therefore we will
+            start iterating from the end of the input and with only 1 transaction remaining.
+        </p>
+
+        <div class="code">
+            def maxProfit(self, k: int, prices: List[int]) -> int: <br>
+            <p class="raw1">n = len(prices)</p>
+            <p class="raw1">dp = [[[0] * 2 for _ in range(k + 1)] for __ in range(n + 1)]</p>
+            <br>
+            <p class="raw1">for i in range(n - 1, -1, -1):</p>
+            <p class="raw2">for transactions_remaining in range(1, k + 1):</p>
+            <p class="raw3">for holding in range(2):</p>
+            <p class="raw4">do_nothing = dp[i + 1][transactions_remaining][holding]</p>
+            <p class="raw4">if holding:</p>
+            <p class="raw5"># Sell stock</p>
+            <p class="raw5">do_something = prices[i] + dp[i + 1][transactions_remaining - 1][0]</p>
+            <p class="raw4">else:</p>
+            <p class="raw5"># Buy stock</p>
+            <p class="raw5">do_something = -prices[i] + dp[i + 1][transactions_remaining][1]</p>
+            <br>
+            <p class="raw4"># Recurrence relation</p>
+            <p class="raw4">dp[i][transactions_remaining][holding] = max(do_nothing, do_something)</p>
+            <br>
+            <p class="raw1">return dp[0][k][0]</p>
+        </div>
+
+        <p class="content">
+            The time and space complexity of this problem for both implementations is the number of states since the
+            recurrence relation is just a constant time formula. If
+            n = prices.length
+            n = prices.length, then this means the time and space complexity is
+            𝑂
+            (
+            𝑛
+            ⋅
+            𝑘
+            ⋅
+            2
+            )
+            =
+            𝑂
+            (
+            𝑛
+            ⋅
+            𝑘
+            )
+            O(n⋅k⋅2)=O(n⋅k).
+
+
+        </p>
+
+        <hr>
+
+
+
+    </div>
+
+</body>
+
+</html>

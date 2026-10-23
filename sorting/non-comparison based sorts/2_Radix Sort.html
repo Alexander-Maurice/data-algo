@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Radix Sort</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../../dynamic/dynamic_programming.html" class="dynamic_programming">Dynamic Programming</a>
+        <a href="../../dynamic/framework_for_dp.html" class="framework_for_dp">Framework for DP</a>
+        <a href="../../dynamic/1d_problems.html" class="1d_problems">1D Problems</a>
+        <a href="../../dynamic/multi_dimensional_problems.html" class="multi_dimensional_problems">Multi-dimensional
+            Problems</a>
+        <a href="../../dynamic/matrix_dp.html" class="matrix_dp">Matrix DP</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Longest Common Subsequence</a>
+        <a href="#ex2">#2 Best Time to Buy and Sell Stock IV </a>
+        <a href="#ex3">#3 Maximum Value of K Coins From Piles </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Radix Sort
+        </h1>
+        <hr>
+
+        <p class="content">A problem we encounter with counting sort is that it can’t easily handle strings where the
+            alphabet size could be unconstrained. Additionally, when the maximum value of the array is extraordinarily
+            large, counting sort will lose its appeal since the additional memory overhead can cause things to slow down
+            quite a bit.
+        </p>
+        <p class="content">
+            Radix sort is an extension of counting sort that handles these problems. It works well with collections of
+            strings and collections of integers (especially when the maximum value is large).
+            There are a couple of variations of radix sort, but let’s focus on Least Significant Digit (LSD) Radix Sort.
+        </p>
+        <p class="content">
+            Let’s use the example array
+            A=[256,336,736,443,831,907]
+        </p>
+
+        <h2>
+            LSD Radix Sort
+        </h2>
+
+        <p class="content">
+            The basic principle of LSD radix sort is to start with the rightmost, least significant, digit (in the case
+            of strings, the rightmost character) of each integer and perform a counting sort on just that digit. Since
+            counting sort is a stable sort, it will keep elements in their relative order in the case of ties.
+        </p>
+        <p class="content">
+            After the first step of sorting we get the following array (focus on the last digit here):
+        </p>
+        <p class="content">
+            [83<b>1</b>, 44<b>3</b>, 25<b>6</b>, 33<b>6</b>, 73<b>6</b>, 90<b>7</b>]
+        </p>
+        <p class="content">
+            We repeat the process on the second digit to get the following array:
+        </p>
+        <p class="content">
+            [9<b>0</b>7, 8<b>3</b>1, 3<b>3</b>6, 7<b>3</b>6, 4<b>4</b>3, 2<b>5</b>6]
+        </p>
+        <p class="content">
+            And finally, the last step involves the leftmost digit, which then gives us our sorted array:
+        </p>
+        <p class="content">
+            [<b>2</b>56, <b>3</b>36, <b>4</b>43, <b>7</b>36, <b>8</b>31, <b>9</b>07]
+        </p>
+        <p class="content">
+            In the case where Radix sort has to deal with integers that have a different number of digits, the leftmost
+            digits in smaller numbers will be treated as 0 anyways, so the sorting algorithm will still work. In the
+            case of strings, a common practice is to pad the smaller length strings with special characters that are
+            treated as the minimum values in an alphabet until the smaller length strings match the length of the
+            longest string.
+        </p>
+        <p class="content">
+            Here is the full LSD radix sort algorithm for integers. 1. Find the number of digits in the maximum integer.
+            Let that be W. 2. For each integer, loop through digits from 1 to W in right to left order (least
+            significant to most significant digit). On each group of digits, perform counting sort.
+        </p>
+        <p class="content">
+            Below is the implementation of LSD Radix Sort (note that it uses a modified implementation of counting
+            sort):
+        </p>
+
+        <p class="content">
+            Video: RadixSort.mp4_1080p
+        </p>
+
+        <div class="code">
+            def counting_sort(lst: List[int], place_val: int, K: int = 10) -> None: <br>
+            <p class="raw1">"""Sorts a list of integers where minimum value is 0 and maximum value is K"""</p>
+            <p class="raw1"># intitialize count array of size K</p>
+            <p class="raw1">counts = [0] * K</p>
+            <br>
+            <p class="raw1">for elem in lst:</p>
+            <p class="raw2">digit = (elem // place_val) % 10</p>
+            <p class="raw2">counts[digit] += 1</p>
+            <br>
+            <p class="raw1"># we now overwrite our original counts with the starting index</p>
+            <p class="raw1"># of each digit over our group of digits</p>
+            <p class="raw1">starting_index = 0</p>
+            <p class="raw1">for i, count in enumerate(counts):</p>
+            <p class="raw2">counts[i] = starting_index</p>
+            <p class="raw2">starting_index += count</p>
+            <br>
+            <p class="raw1">sorted_lst = [0] * len(lst)</p>
+            <p class="raw1">for elem in lst:</p>
+            <p class="raw2">digit = (elem // place_val) % 10</p>
+            <p class="raw2">sorted_lst[counts[digit]] = elem</p>
+            <p class="raw2"># since we have placed an item in index counts[digit],</p>
+            <p class="raw2"># we need to increment counts[digit] index by 1 so the</p>
+            <p class="raw2"># next duplicate digit is placed in appropriate index</p>
+            <p class="raw2">counts[digit] += 1</p>
+            <br>
+            <p class="raw1"># common practice to copy over sorted list into original lst</p>
+            <p class="raw1"># it's fine to just return the sorted_lst at this point as well</p>
+            <p class="raw1">for i in range(len(lst)):</p>
+            <p class="raw2">lst[i] = sorted_lst[i]</p> <br>
+
+            def radix_sort(self, lst: List[int]) -> None: <br>
+            <p class="raw1"># shift the minimum value in lst to be 0</p>
+            <p class="raw1">shift = min(lst)</p>
+            <p class="raw1">lst[:] = [num - shift for num in lst]</p>
+            <p class="raw1">max_elem = max(lst)</p>
+
+            <p class="raw1"># apply the radix sort algorithm</p>
+            <p class="raw1">place_val = 1</p>
+            <p class="raw1">while place_val &lt;= max_elem:</p>
+            <p class="raw2">counting_sort(lst, place_val)</p>
+            <p class="raw2">place_val *= 10</p>
+
+            <p class="raw1"># undo the original shift</p>
+            <p class="raw1">lst[:] = [num + shift for num in lst]</p>
+        </div>
+
+        <p class="content">
+            The running time of LSD Radix sort requires a few parameters. Let
+            𝑊
+            W be the maximum digit length within the list of integers. Let
+            𝑁
+            N be the size of the original input integer array. And lastly, since we are using counting sort, we must
+            also be aware of the alphabet size
+            𝐾
+            K. In the case of digits, it’s a constant 10, but when applied to other inputs, this alphabet size may
+            change.
+        </p>
+        <p class="content">
+            With these parameters defined, the running time of LSD radix sort is
+            𝑂
+            (
+            𝑊
+            (
+            𝑁
+            +
+            𝐾
+            )
+            )
+            O(W(N+K)) as a result of at most
+            𝑊
+            W calls to counting sort. The amount of extra space needed is the same as counting sort –
+            𝑂
+            (
+            𝑁
+            +
+            𝐾
+            )
+            O(N+K)
+        </p>
+        <p class="content">
+            The advantage of LSD Radix sort is that for a set of integers and strings with a reasonable
+            𝑊
+            W and
+            𝐾
+            K. It can be extraordinarily fast, sorting in close to linear time (when
+            𝑊
+            W is small). It is also a stable sort.
+        </p>
+        <p class="content">
+            The disadvantages are that LSD radix sort does require some overhead memory, which when
+            𝑁
+            N and/or
+            𝐾
+            K is large, can cause major performance hits when compared to other sorts. Additionally, it does require
+            looking at all digits due to the fact that more significant digits later down the line have more impact on
+            the final sorted result. Another type of radix sort that’s commonly used that uses similar ideas looks at
+            the most significant digit (MSD) first and is called MSD radix sort. This approach has a better average case
+            and best case performance than LSD radix sort, though the implementation is significantly trickier.
+        </p>
+
+
+
+
+
+
+
+    </div>
+
+</body>
+
+</html>

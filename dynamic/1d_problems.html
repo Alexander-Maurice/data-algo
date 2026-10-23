@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>1D problems</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../dynamic/dynamic_programming.html" class="dynamic_programming">Dynamic Programming</a>
+        <a href="../dynamic/framework_for_dp.html" class="framework_for_dp">Framework for DP</a>
+        <a href="../dynamic/1d_problems.html" class="1d_problems">1D Problems</a>
+        <a href="../dynamic/multi_dimensional_problems.html" class="multi_dimensional_problems">Multi-dimensional
+            Problems</a>
+        <a href="../dynamic/matrix_dp.html" class="matrix_dp">Matrix DP</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 House Robber</a>
+        <a href="#ex2">#2 Longest Increasing Subsequence </a>
+        <a href="#ex3">#3 Solving Questions With Brainpower </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            1D problems
+        </h1>
+        <hr>
+
+        <p class="content">
+            В этой статье мы рассмотрим примеры задач DP, которые можно решить с помощью только одной переменной
+            состояния. Для решения всех задач мы начнем с подхода «сверху вниз», а затем включим реализацию «снизу
+            вверх».
+        </p>
+
+        <p class="important" id="ex1">
+            <a href="https://leetcode.com/problems/house-robber/">Example 1: 198. House Robber</a>
+            <br>
+            <br>
+            Вы планируете грабить дома на улице.
+            В i<sup>ом</sup> доме есть <span>nums[i]</span> денег. Если вы ограбите два дома рядом друг с другом,
+            сработает система
+            сигнализации и
+            предупредит полицию. Какую максимальную сумму денег вы можете украсть, не предупредив полицию?
+        </p>
+
+        <p class="content">
+            Перво-наперво: что вернет наша функция и какие аргументы она примет? Возвращаемое значение должно быть
+            максимальной суммой денег, которую можно украсть, поскольку именно этого требует задача. А как насчет
+            переменных состояния? Нам определенно нужен <span>i</span> — максимальная сумма денег, которую можно
+            украсть, если
+            рассматривать только дом <span>i</span> включительно. Поскольку нам не разрешено грабить предыдущий дом,
+            следует ли нам
+            также включить логическое значение <span>prev</span>, указывающее, ограбили ли мы предыдущий дом? Мы,
+            конечно, могли бы
+            это включить, но в этом нет необходимости.
+        </p>
+
+        <p class="content">
+            В нашем рекуррентном отношении мы можем рассмотреть случай ограбления предыдущего дома. В доме
+            <span>i</span>, какой у
+            нас есть выбор? Есть две возможности:
+        </p>
+
+        <ol>
+            <li>Грабим дом. Это означает, что мы получаем <span>nums[i]</span> денег, но не можем ограбить предыдущий
+                дом. Если нам
+                нужно пропустить предыдущий дом, это означает, что мы должны были прийти на два дома назад. Сумма денег,
+                которая у нас была 2 дома назад, равна <span>dp(i - 2)</span>. Поэтому, если мы ограбим
+                i<sup>ый</sup>
+                дом, у нас будет <span>dp(i - 2) + nums[i]</span> денег.</li>
+            <li>Мы не грабим дом. Это означает, что мы не получаем никаких денег, но мы могли прийти из предыдущего
+                дома, а значит, у нас будет <span>dp(i - 1)</span> денег.</li>
+        </ol>
+
+        <p class="content">
+            Мы всегда должны выбирать максимальную прибыль. Следовательно, наше рекуррентное соотношение: <span>dp(i) =
+                max(dp(i - 1), dp(i - 2) + nums[i])</span>.
+        </p>
+
+        <p class="content">
+            Каковы базовые случаи? Если есть только один дом, мы можем его ограбить. Если есть два дома, мы можем
+            ограбить только один, поэтому нам следует ограбить тот, у которого больше денег. Базовые случаи:
+        </p>
+
+        <p class="content">
+            <span>dp(0) = nums[0] and dp(1) = max(nums[0], nums[1])</span>
+        </p>
+
+        <p class="content">
+            Нам нужны два базовых случая, потому что для повторения <span>dp(1)</span> потребуется <span>dp(-1)</span>,
+            если мы не обрабатываем
+            <span>dp(1)</span> как базовый случай.
+        </p>
+
+        <div class="code">
+            def rob(nums: List[int]) -> int:
+            <p class="raw1">if len(nums) == 1:</p>
+            <p class="raw2"># to prevent out of bounds error</p>
+            <p class="raw2">return nums[0]</p>
+            <br>
+            <p class="raw1">def dp(i):</p>
+            <p class="raw2"># Base cases</p>
+            <p class="raw2">if i == 0:</p>
+            <p class="raw3">return nums[0]</p>
+            <p class="raw2">if i == 1:</p>
+            <p class="raw3">return max(nums[0], nums[1])</p>
+            <br>
+            <p class="raw2">if i in memo:</p>
+            <p class="raw3">return memo[i]</p>
+            <br>
+            <p class="raw2"># Recurrence relation</p>
+            <p class="raw2">memo[i] = max(dp(i - 1), dp(i - 2) + nums[i])</p>
+            <p class="raw2">return memo[i]</p>
+            <br>
+            <p class="raw1">memo = {}</p>
+            <p class="raw1">return dp(len(nums) - 1)</p>
+        </div>
+
+        <p class="content">
+            В Python модуль functools предоставляет очень полезные оболочки, которые автоматически запоминают для нас
+            функции. Нам просто нужно добавить <span>cache</span> над функцией.
+        </p>
+
+        <div class="code">
+            from functools import cache
+            <br>
+            class Solution:
+            <p class="raw1">def rob(self, nums: List[int]) -> int:</p>
+            <p class="raw2">@cache</p>
+            <p class="raw2">def dp(i):</p>
+            <p class="raw3"># Base cases</p>
+            <p class="raw3">if i == 0:</p>
+            <p class="raw4">return nums[0]</p>
+            <p class="raw3">if i == 1:</p>
+            <p class="raw4">return max(nums[0], nums[1])</p>
+            <br>
+            <p class="raw3"># Recurrence relation</p>
+            <p class="raw3">return max(dp(i - 1), dp(i - 2) + nums[i])</p>
+            <br>
+            <p class="raw2">return dp(len(nums) - 1)</p>
+        </div>
+
+        <p class="content">
+            Временная сложность этого алгоритма составляет
+            O(n), где
+            n — длина входного массива, поскольку мы посещаем каждое состояние только один раз. В каждом состоянии
+            применение рекуррентного соотношения равно
+            О(1). Пространственная сложность также
+            O(n), потому что именно столько места нам нужно для кэширования результатов для каждого состояния.
+        </p>
+
+        <p class="content">
+            Вот реализация снизу вверх:
+        </p>
+
+        <div class="code">
+            def rob(nums: List[int]) -> int:
+            <p class="raw1"># To avoid out of bounds error from setting base case</p>
+            <p class="raw1">if len(nums) == 1:</p>
+            <p class="raw2">return nums[0]</p>
+            <br>
+            <p class="raw1">n = len(nums)</p>
+            <p class="raw1">dp = [0] * n</p>
+            <br>
+            <p class="raw1"># Base cases</p>
+            <p class="raw1">dp[0] = nums[0]</p>
+            <p class="raw1">dp[1] = max(nums[0], nums[1])</p>
+            <br>
+            <p class="raw1">for i in range(2, n):</p>
+            <p class="raw2"># Recurrence relation</p>
+            <p class="raw2">dp[i] = max(dp[i - 1], dp[i - 2] + nums[i])</p>
+            <br>
+            <p class="raw1">return dp[n - 1]</p>
+        </div>
+
+
+        <h4>
+            Уменьшение размера пространства
+        </h4>
+
+        <p class="content">
+            На самом деле, мы можем добиться большего, чем
+            O(n) пространство. Когда мы находимся в состоянии <span>i</span>, <b>нас интересуют только два предыдущих
+                состояния</b>. Чтобы
+            добраться до состояния <span>100</span>, нам нужно пройти через <span>2–99</span>, но как только мы
+            действительно достигнем <span>100</span>, нас
+            не будут волновать <span>2–97</span>. В восходящей реализации мы можем заменить массив двумя переменными,
+            которые просто
+            следите за двумя предыдущими состояниями. <span>arr[0]</span> устареет, как только мы доберемся до
+            <span>arr[3]</span> и т. д.
+        </p>
+
+        <div class="code">
+            def rob(nums: List[int]) -> int:
+            <p class="raw1"># To avoid out of bounds error from setting base case</p>
+            <p class="raw1">if len(nums) == 1:</p>
+            <p class="raw2">return nums[0]</p>
+            <br>
+            <p class="raw1">n = len(nums)</p>
+            <br>
+            <p class="raw1"># Base cases</p>
+            <p class="raw1">back_two = nums[0]</p>
+            <p class="raw1">back_one = max(nums[0], nums[1])</p>
+            <br>
+            <p class="raw1">for i in range(2, n):</p>
+            <p class="raw2"># back_two becomes back_one, and back_one gets updated</p>
+            <p class="raw2">back_one, back_two = max(back_one, back_two + nums[i]), back_one</p>
+            <br>
+            <p class="raw1">return back_one</p>
+        </div>
+
+        <p class="important">
+            Этот алгоритм имеет такую же временную сложность, но
+            O(1) пространственная сложность!
+        </p>
+
+        <p class="content">
+            Эта оптимизация возможна, когда рекуррентное отношение статично — оно не меняется между входными данными и
+            заботится только о статическом количестве состояний. К сожалению, такая оптимизация возможна только снизу
+            вверх — стек рекурсивных вызовов использует
+            O(n) пространства, и его нельзя избежать, даже если нам не нужна хеш-карта.
+        </p>
+
+        <hr>
+
+        <p class="important" id="ex2">
+            <a href="https://leetcode.com/problems/longest-increasing-subsequence/">Example 2: 300. Longest Increasing
+                Subsequence</a>
+            <br>
+            <br>
+            Дан целочисленный массив <span>nums</span>, верните длину самой длинной строго возрастающей
+            подпоследовательности.
+        </p>
+
+        <p class="content">
+            Как мы можем сказать, что эта проблема должна быть решена с помощью DP? Во-первых, он запрашивает
+            максимальную длину. Во-вторых, всякий раз, когда мы решаем взять элемент как часть подпоследовательности,
+            это меняет числа, которые мы можем использовать в будущем. Если у нас есть <span>nums = [1, 2, 5, 3,
+                4]</span> и мы
+            итерируем слева направо, как мы решим, следует ли нам брать <span>5</span> или нет? Если мы возьмем его,
+            наша длина
+            увеличится, чего мы и хотим, но тогда это не позволит нам взять <span>3</span> и <span>4</span>.
+        </p>
+
+        <p class="content">
+            Шаг 1: выяснить, что должна возвращать функция и какие переменные она должна принимать. Проблема заключается
+            в запросе самой длинной возрастающей подпоследовательности (LIS), поэтому давайте сделаем так, чтобы функция
+            возвращала длину LIS. Для переменных состояния в задаче нет никаких входных данных, кроме <span>nums</span>,
+            поэтому
+            давайте просто остановимся на индексной переменной <span>i</span>. Наша функция <span>dp(i)</span> будет
+            возвращать LIS, который
+            заканчивается
+            i<sup>ый</sup>
+            элемент.
+        </p>
+
+        <p class="content">
+            Если мы находимся в
+            i<sup>ый</sup>
+            элемент, как мы можем использовать информацию о предыдущих состояниях, чтобы определить ЛИС, которая
+            использует текущий элемент? Прежде всего, мы можем использовать текущий элемент только в том случае, если
+            предыдущий элемент был меньше текущего числа. Поэтому мы будем рассматривать индексы <span>j</span> только в
+            диапазоне
+            <span>[0, i]</span>, где <span>nums[i] > nums[j]</span>. Поскольку <span>dp(j)</span> возвращает LIS,
+            заканчивающийся
+            j<sup>ый</sup>
+            element и <span>nums[i] > nums[j]</span>, это означает, что мы можем взять любую подпоследовательность,
+            заканчивающуюся
+            на <span>j</span>, и просто добавить к ней <span>nums[i]</span>, что даст нам длину <span>dp(j) + 1</span>.
+            Это дает нам нашу рекуррентную связь:
+        </p>
+
+        <p class="content">
+            <span>dp(i) = max(dp(j) + 1) for all j: [0, i], if nums[i] > nums[j]</span>
+        </p>
+
+        <p class="content">
+            Каковы базовые случаи? Каждый элемент сам по себе технически является возрастающей подпоследовательностью
+            длины <span>1</span>.
+        </p>
+
+        <p class="content">
+            Объединив эти три компонента, мы можем найти длину LIS, которая заканчивается в каждом индексе. Ответом на
+            исходную задачу будет максимум из них.
+        </p>
+
+        <details>
+            <summary>Нажмите для подробного объяснения</summary>
+            <p class="content">
+                Допустим, мы находимся на индексе <span>7</span>, а текущее значение равно <span>5</span>. Мы
+                заинтересованы в формировании строго
+                возрастающей подпоследовательности, где <span>5</span> является конечным значением.
+            </p>
+
+            <p class="content">
+                Поскольку <span>5</span> должно быть окончательным значением, давайте проверим значения перед текущим
+                индексом, с
+                индексами от <span>0</span> до <span>6</span>.
+            </p>
+
+            <p class="content">
+                Мы обнаруживаем, что <span>nums[5] = 4</span>, что, конечно, меньше текущего значения. Мы также находим,
+                что <span>dp[5] =
+                    3</span>. По определению <span>dp</span> это означает, что существует возрастающая
+                подпоследовательность длины <span>3</span>, которая
+                заканчивается на <span>nums[5]</span>.
+            </p>
+
+            <p class="content">
+                Поскольку <span>nums[7] > nums[5]</span>, мы можем взять эту подпоследовательность и просто добавить к
+                ней <span>nums[7]</span>,
+                образуя возрастающую подпоследовательность длины <span>4</span>. Теперь нам не нужно знать, какая
+                подпоследовательность заканчивается на <span>nums[5]</span> есть, но нас это не волнует — нас интересует
+                только
+                длина.
+            </p>
+
+            <p class="content">
+                Чтобы вычислить <span>dp[7]</span>, нам нужно проверить все индексы от <span>0</span> до <span>6</span>.
+            </p>
+
+            <p class="content">
+                Откуда мы узнали значение <span>dp[5]</span>? Потому что это была меньшая подзадача. Мы начинаем с
+                решения <span>dp[0]</span>
+                (который должен быть базовым случаем <span>1</span>), затем <span>dp[1]</span> (которое мы можем
+                вычислить из <span>dp[0]</span>) и так далее.
+            </p>
+
+
+        </details>
+
+        <div class="code">
+            def lengthOfLIS(nums: List[int]) -> int:
+            <p class="raw1">@cache</p>
+            <p class="raw1">def dp(i):</p>
+            <p class="raw2">ans = 1 # Base case</p>
+            <br>
+            <p class="raw2"># Recurrence relation</p>
+            <p class="raw2">for j in range(i):</p>
+            <p class="raw3">if nums[i] > nums[j]:</p>
+            <p class="raw4">ans = max(ans, dp(j) + 1)</p>
+            <br>
+            <p class="raw2">return ans</p>
+            <br>
+            <p class="raw1">return max(dp(i) for i in range(len(nums)))</p>
+        </div>
+
+        <p class="content">
+            И реализация снизу вверх:
+        </p>
+
+        <div class="code">
+            def lengthOfLIS(nums: List[int]) -> int:
+            <p class="raw1">dp = [1] * len(nums)</p>
+            <p class="raw1">for i in range(len(nums)):</p>
+            <p class="raw2">for j in range(i):</p>
+            <p class="raw3">if nums[i] > nums[j]:</p>
+            <p class="raw4">dp[i] = max(dp[i], dp[j] + 1)</p>
+
+            <p class="raw1">return max(dp)</p>
+        </div>
+
+        <p class="content">
+            Из-за вложенного цикла временная сложность этого алгоритма составляет
+            O(n<sup>2</sup>), где
+            n — длина входного массива. Обратите внимание, что это связано с тем, что работа, совершаемая в каждом
+            состоянии, линейна с <span>n</span>, и имеем <span>n</span> состояний. Пространственная сложность равна
+            числу состояний,
+            O(n) и не может быть улучшено снизу вверх, поскольку рекуррентное отношение не является статичным.
+        </p>
+
+        <hr>
+
+        <p class="important" id="ex3">
+            <a href="https://leetcode.com/problems/solving-questions-with-brainpower/">Example 3: 2140. Solving
+                Questions With Brainpower</a>
+            <br>
+            <br>
+            Вам дан двумерный целочисленный массив <span>questions</span> с индексом 0, где <span>questions[i] =</span>
+            [points<sub>i</sub>,
+            brainpower<sub>i</sub>]. Вам нужно обработать вопросы по порядку. Решение вопроса i принесет вам
+            points<sub>i</sub> очков,
+            но вы не сможете решить каждую из следующих brainpower<sub>i</sub> вопросов. Если Вы пропустите
+            question<sub>i</sub>, Вам предстоит решить следующий вопрос.
+            Вернуть максимум очков, которые Вы можете заработать.
+        </p>
+
+        <p class="content">
+            Как мы можем сказать, что эта проблема должна быть решена с помощью DP? Во-первых, он просит максимальный
+            балл. Во-вторых, по каждому вопросу нам нужно принять решение: взять или пропустить, и эти решения влияют на
+            будущие решения. Если мы решаем ответить на вопрос, это мешает нам отвечать на некоторые вопросы в будущем.
+        </p>
+
+        <p class="content">
+            Как вы уже могли догадаться, мы можем определить функцию <span>dp</span>, которая возвращает максимальный
+            результат,
+            которого мы можем достичь. Какая информация нам нужна в каждом состоянии (кроме индексной переменной
+            <span>i</span>,
+            указывающей на текущий вопрос, над которым мы находимся)? Мы могли бы включить целое число, которое
+            показывает, сколько еще вопросов нам нужно пропустить, прежде чем мы сможем снова начать решать вопросы, но,
+            как и в случае с грабителем дома, мы можем закодировать эту информацию в нашем рекуррентном отношении,
+            поэтому мы просто будем придерживаться <span>dp(i)</span>, возвращающий максимальный балл.
+        </p>
+
+        <p class="content">
+            Если мы находимся в
+            i<sup>ом</sup>
+            вопросе, у нас есть два варианта:
+        </p>
+
+        <ul>
+            <li>Решите вопрос. Мы набираем <span>questions[i][0]</span> баллов, но не можем решить следующие
+                <span>i</span> вопросов. Следующий
+                вопрос, который мы можем решить, находится под индексом <span>j = i + questions[i][1] + 1</span>. Таким
+                образом,
+                общий результат равен <span>questions[i][0] + dp(j)</span>.
+            </li>
+            <li>Пропустите вопрос. Как сказано в задаче, это означает, что мы переходим к следующему вопросу и принимаем
+                там другое решение. Оценка равна <span>dp(i + 1)</span>.</li>
+        </ul>
+
+        <p class="content">
+            Это дает нам наше рекуррентное соотношение:
+        </p>
+
+        <p class="content">
+            <span>dp(i) = max(questions[i][0] + dp(j), dp(i + 1))</span>, where <span>j = i + questions[i][1] + 1</span>
+        </p>
+
+        <p class="content">
+            Поскольку на самом деле мы движемся по массиву вперед, а не назад, это означает, что базовый вариант должен
+            быть в конце. Если <span>i >= questions.length</span>, это означает, что экзамен окончен, и мы больше не
+            можем набирать
+            баллы. Таким образом, базовый случай:
+        </p>
+
+        <p class="content">
+            <span>dp(i) = 0, when i >= n</span>
+        </p>
+
+        <div class="code">
+            def mostPoints(self, questions: List[List[int]]) -> int:
+            <p class="raw1">@cache</p>
+            <p class="raw1">def dp(i):</p>
+            <p class="raw2">if i >= len(questions):</p>
+            <p class="raw3">return 0</p>
+
+            <p class="raw2">j = i + questions[i][1] + 1</p>
+            <p class="raw2">return max(questions[i][0] + dp(j), dp(i + 1))</p>
+
+            <p class="raw1">return dp(0)</p>
+        </div>
+
+        <p class="content">
+            И реализация снизу вверх:
+        </p>
+
+
+        <div class="code">
+            def mostPoints(questions: List[List[int]]) -> int:
+            <p class="raw1">n = len(questions)</p>
+            <p class="raw1">dp = [0] * (n + 1) # n + 1 to avoid out of bounds</p>
+            <br>
+            <p class="raw1">for i in range(n - 1, -1, -1):</p>
+            <p class="raw2">j = i + questions[i][1] + 1</p>
+            <p class="raw2"># need to make sure we don't go out of bounds</p>
+            <p class="raw2">dp[i] = max(questions[i][0] + dp[min(j, n)], dp[i + 1])</p>
+            <br>
+            <p class="raw1">return dp[0]/p>
+        </div>
+
+        <p class="content">
+            Есть
+            O(n) состояния, где
+            n — длина входного массива, а стоимость каждого состояния
+            O(1) для вычислений, что снова дает нам временную и пространственную сложность
+            О(n). Поскольку рекуррентное отношение не является статичным (оно зависит от <span>questions[i][1]</span>),
+            мы не можем
+            улучшить пространственную сложность в восходящей реализации.
+        </p>
+
+        <p class="content">
+            Во всех этих примерах единственной переменной состояния, которая нам была нужна, был индекс <span>i</span>
+            для
+            перемещения по входным данным. Помня об этом, попробуйте решить следующие несколько практических задач.
+        </p>
+
+        <hr>
+
+    </div>
+
+</body>
+
+</html>

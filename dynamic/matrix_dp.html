@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Matrix DP</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../dynamic/dynamic_programming.html" class="dynamic_programming">Dynamic Programming</a>
+        <a href="../dynamic/framework_for_dp.html" class="framework_for_dp">Framework for DP</a>
+        <a href="../dynamic/1d_problems.html" class="1d_problems">1D Problems</a>
+        <a href="../dynamic/multi_dimensional_problems.html" class="multi_dimensional_problems">Multi-dimensional
+            Problems</a>
+        <a href="../dynamic/matrix_dp.html" class="matrix_dp">Matrix DP</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Unique Paths</a>
+        <a href="#ex2">#2 Minimum Path Sum </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Matrix DP
+        </h1>
+
+        <hr>
+
+        <p class="content">
+            Динамическое программирование на матрице — распространенный шаблон. Обычно матрицу можно смоделировать в
+            виде графа, точно так же, как те, которые мы видели в главе о деревьях и графах. Мы можем рассматривать
+            каждый квадрат как узел, и вдоль соседних квадратов будут ребра. Давайте посмотрим на несколько примеров.
+        </p>
+
+        <p class="important" id="ex1">
+            <a href="https://leetcode.com/problems/unique-paths/">Example 1: 62. Unique Paths</a>
+            <br>
+            <br>
+            На сетке <span>m x n</span> находится робот. Изначально робот находится в верхнем левом углу и хочет
+            переместиться в
+            правый нижний угол. Робот может двигаться только вниз или вправо. Учитывая <span>m и n</span>, верните
+            количество
+            возможных уникальных путей, по которым робот может добраться до правого нижнего угла.
+        </p>
+
+        <p class="content">
+            Как и ожидалось при использовании фреймворка, мы можем заставить функцию <span>dp</span> возвращать
+            количество уникальных
+            путей. Какие переменные нам нужны для описания состояния? Нам просто нужно знать свою позицию — скажем,
+            <span>row</span> и <span>col</span>. Таким образом, <span>dp(row, col)</span> вернет количество путей,
+            которые можно использовать для
+            достижения <span>(row, col)</span> из <span>(0, 0)</span>. Мы хотим достичь правого нижнего угла, то есть
+            <span>(m - 1, n - 1)</span>, поэтому
+            ответ будет <span>dp(m - 1, n - 1)</span>.
+        </p>
+
+        <p class="content">
+            Если мы находимся в (строка, столбец), как мы могли сюда попасть? Нам разрешено двигаться только вниз или
+            вправо, поэтому мы должны были прийти либо слева, либо сверху. Квадрат над нами это <span>row — 1,
+                col</span>, а квадрат
+            слева от нас <span>row, col — 1</span>. Следовательно, количество способов добраться до <span>row col</span>
+            — это сумма
+            количества способов добраться до <span>row — 1, col</span> и <span>col, row — 1</span>.
+        </p>
+
+        <p class="content">
+            Это дает нам наше рекуррентное соотношение:
+        </p>
+
+        <p class="content">
+            <span>dp(row, col) = dp(row - 1, col) + dp(row, col - 1)</span>, следя за тем, чтобы оставаться в пределах
+        </p>
+
+        <p class="content">
+            Каков базовый случай? Есть только один «способ» добраться до <span>(0, 0)</span> — начать оттуда. Базовый
+            случай:
+        </p>
+
+        <p class="content">
+            <span>dp(0, 0) = 1</span>
+        </p>
+
+        <div class="code">
+            def uniquePaths(m: int, n: int) -> int:
+            <p class="raw1">@cache</p>
+            <p class="raw1">def dp(row, col):</p>
+            <p class="raw2">if row + col == 0:</p>
+            <p class="raw3">return 1 # Base case</p>
+            <p class="raw2">ways = 0</p>
+            <p class="raw2">if row > 0:</p>
+            <p class="raw3">ways += dp(row - 1, col)</p>
+            <p class="raw2">if col > 0:</p>
+            <p class="raw3">ways += dp(row, col - 1)</p>
+            <br>
+            <p class="raw2">return ways</p>
+            <br>
+            <p class="raw1">return dp(m - 1, n - 1)</p>
+        </div>
+
+        <p class="content">
+            Снизу вверх:
+        </p>
+
+        <div class="code">
+            def uniquePaths(m: int, n: int) -> int:
+            <p class="raw1">dp = [[0] * n for _ in range(m)]</p>
+            <p class="raw1">dp[0][0] = 1</p>
+            <br>
+            <p class="raw1">for row in range(m):</p>
+            <p class="raw2">for col in range(n):</p>
+            <p class="raw3">if row > 0:</p>
+            <p class="raw4">dp[row][col] += dp[row - 1][col]</p>
+            <p class="raw3">if col > 0:</p>
+            <p class="raw4">dp[row][col] += dp[row][col - 1]</p>
+            <br>
+            <p class="raw1">return dp[m - 1][n - 1]</p>
+        </div>
+
+        <p class="content">
+            Как и ожидалось, временная и пространственная сложность
+            O(n⋅m), поскольку работа, совершаемая в каждом состоянии, равна
+            О(1).
+        </p>
+
+
+        <p class="content">
+            Однако, используя восходящий подход, мы можем улучшить сложность пространства до
+            О(н). Это работает, потому что у нас есть статическое рекуррентное отношение, которое зависит только от
+            предыдущей строки и столбца. Мы можем перебирать одну строку за раз, сохраняя предыдущую строку. Чтобы найти
+            <span>dp[row - 1][col]</span> мы просто ссылаемся на сохраненную строку, а чтобы найти <span>dp[row][col -
+                1]</span> мы просто
+            ссылаемся на предыдущий квадрат в текущей строке.
+        </p>
+
+        <div class="code">
+            def uniquePaths(m: int, n: int) -> int:
+            <p class="raw1">dp = [0] * n</p>
+            <p class="raw1">dp[0] = 1</p>
+            <br>
+            <p class="raw1">for _ in range(m):</p>
+            <p class="raw2">next_row = [0] * n</p>
+            <p class="raw2">for col in range(n):</p>
+            <p class="raw3">next_row[col] += dp[col]</p>
+            <p class="raw3">if col > 0:</p>
+            <p class="raw4">next_row[col] += next_row[col - 1]</p>
+            <br>
+            <p class="raw2">dp = next_row</p>
+            <br>
+            <p class="raw1">return dp[n - 1]</p>
+        </div>
+
+        <hr>
+
+        <p class="important" id="ex2">
+            <a href="https://leetcode.com/problems/minimum-path-sum/">Example 2: 64. Minimum Path Sum</a>
+            <br>
+            <br>
+            Дан <span>m x n grid</span>, заполненную неотрицательными числами, найдите путь сверху слева вниз вправо,
+            который
+            минимизирует сумму всех чисел на этом пути. Верните эту сумму. Вы можете двигаться только вниз или вправо.
+        </p>
+
+        <p class="content">
+            Как и в предыдущем примере, у нас есть матрица, которая начинается с верхнего левого угла, хочет достичь
+            правого нижнего и может двигаться только вниз или вправо (это очень распространенный сценарий). На этот раз
+            мы хотим минимизировать сумму посещенных нами чисел.
+        </p>
+
+        <p class="content">
+            Давайте сделаем нашу функцию <span>dp</span> похожей на предыдущий пример. Пусть <span>dp(row, col)</span>
+            возвращает минимальную
+            сумму пути от <span>(0, 0)</span> до <span>(row, col)</span>. Тогда ответ снова будет <span>dp(m - 1, n -
+                1)</span>. Если мы находимся в <span>(row,
+                col)</span>, мы, должно быть, прибыли из <span>(row - 1, col)</span> или <span>(row, col - 1)</span>.
+            Следовательно, до
+            достижения <span>row, col</span> у нас уже была сумма <span>dp(row - 1, col)</span> или <span>dp(row, col -
+                1)</span>. Находясь в <span>(row, col)</span>, мы
+            также добавляем <span>grid[row][col]</span> к нашей текущей сумме. Таким образом, мы имеем рекуррентность:
+        </p>
+
+        <p class="content">
+            <span>dp(row, col) = grid[row][col] + min(dp(row - 1, col), dp(row, col - 1))</span>, стараясь оставаться в
+            пределах границ.
+        </p>
+
+
+        <p class="content">
+            Базовый случай снова является стартовым квадратом. Мы начинаем с <span>(0, 0)</span> с суммы путей
+            <span>grid[0][0]</span>.
+        </p>
+
+        <div class="code">
+            def minPathSum(grid: List[List[int]]) -> int:
+            <p class="raw1">@cache</p>
+            <p class="raw1">def dp(row, col):</p>
+            <p class="raw2">if row + col == 0:</p>
+            <p class="raw3">return grid[row][col]</p>
+            <br>
+            <p class="raw2">ans = float("inf")</p>
+            <p class="raw2">if row > 0:</p>
+            <p class="raw3">ans = min(ans, dp(row - 1, col))</p>
+            <p class="raw2">if col > 0:</p>
+            <p class="raw3">ans = min(ans, dp(row, col - 1))</p>
+            <br>
+            <p class="raw2">return grid[row][col] + ans</p>
+            <br>
+            <p class="raw1">m = len(grid)</p>
+            <p class="raw1">n = len(grid[0])</p>
+            <p class="raw1">return dp(m - 1, n - 1)</p>
+        </div>
+
+        <p class="content">
+            Снизу вверх:
+        </p>
+
+        <div class="code">
+            def minPathSum(grid: List[List[int]]) -> int:
+            <p class="raw1">m = len(grid)</p>
+            <p class="raw1">n = len(grid[0])</p>
+            <p class="raw1">dp = [[0] * n for _ in range(m)]</p>
+            <p class="raw1">dp[0][0] = grid[0][0]</p>
+            <br>
+            <p class="raw1">for row in range(m):</p>
+            <p class="raw2">for col in range(n):</p>
+            <p class="raw3">if row + col == 0:</p>
+            <p class="raw4">continue</p>
+            <br>
+            <p class="raw3">ans = float("inf")</p>
+            <p class="raw3">if row > 0:</p>
+            <p class="raw4">ans = min(ans, dp[row - 1][col])</p>
+            <p class="raw3">if col > 0:</p>
+            <p class="raw4">ans = min(ans, dp[row][col - 1])</p>
+            <br>
+            <p class="raw3">dp[row][col] = grid[row][col] + ans</p>
+            <br>
+            <br>
+
+            <p class="raw1">return dp[m - 1][n - 1]</p>
+        </div>
+
+        <p class="content">
+            Ситуация с временной и пространственной сложностью одинакова для обоих примеров. Это
+            O(m⋅n), но мы можем улучшить его до
+            O(n), используя восходящий метод, поскольку мы повторяем строку за строкой.
+        </p>
+
+
+        <div class="code">
+            def minPathSum(grid: List[List[int]]) -> int:
+            <p class="raw1">m = len(grid)</p>
+            <p class="raw1">n = len(grid[0])</p>
+            <p class="raw1">dp = [float("inf")] * n</p>
+            <p class="raw1">dp[0] = 0</p>
+            <br>
+            <p class="raw1">for row in range(m):</p>
+            <p class="raw2">next_row = [0] * n</p>
+            <p class="raw2">for col in range(n):</p>
+            <p class="raw3">next_row[col] = dp[col]</p>
+            <p class="raw3">if col > 0:</p>
+            <p class="raw4">next_row[col] = min(next_row[col], next_row[col - 1])</p>
+            <br>
+            <p class="raw3">next_row[col] += grid[row][col]</p>
+            <br>
+            <p class="raw2">dp = next_row</p>
+            <br>
+            <p class="raw1">return dp[n - 1]</p>
+        </div>
+
+
+        <hr>
+
+        <p class="content">
+            Это все проблемы DP, которые мы рассмотрим в этой главе. Прежде чем переходить к тесту DP, попробуйте
+            выполнить следующие практические задачи. Опять же, проблемы с DP не очень распространены на собеседованиях,
+            но самое главное, чтобы вы понимали, как к ним подойти (фреймворк действительно помогает!).
+        </p>
+
+        <hr>
+
+
+    </div>
+
+</body>
+
+</html>

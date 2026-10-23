@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Difference array</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../bonus/bonus.html">Difference array</a>
+        <a href="../bonus/tries.html">Tries</a>
+        <a href="../bonus/bit_manipulation.html">Bit manipulation</a>
+        <a href="../bonus/intervals.html">Intervals</a>
+        <a href="../bonus/modular_arithmetic.html">Modular arithmetic</a>
+        <a href="../bonus/dijkstra.html">Dijkstra</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Car Pooling </a>
+        <a href="#ex2">#2 Lights </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Difference array
+        </h1>
+
+        <hr>
+
+        <p class="content">
+            Разностные массивы не очень распространены, но их полезно иметь под рукой, потому что на собеседовании будет
+            сложно сразу понять идею.
+        </p>
+
+        <p class="content">
+            Массивы разностей используются, когда у вас есть проблема, связанная с интервалами событий. Вы можете думать
+            о событиях, происходящих вдоль числовой прямой. Эта числовая линия может обозначать время или положение.
+            События происходят на этой числовой прямой, имеющей начальную и конечную точку.
+        </p>
+
+        <p class="content">
+            На входе будет либо 2D-массив, где каждый внутренний массив имеет формат <span>[left, right, value]</span>,
+            либо
+            какая-либо эквивалентная форма. История проблемы обычно сводится к чему-то вроде «между <span>left</span> и
+            <span>right</span> есть
+            что-то <span>value</span>. Давайте посмотрим на несколько примеров.
+        </p>
+
+        <p class="important" id="ex1">
+            <a href="https://leetcode.com/problems/car-pooling/">Example 1: 1094. Car Pooling</a>
+            <br>
+            <br>
+            В автомобиле есть место для <span>capacity</span> пассажиров и предусмотрен список <span>trips</span>.
+            Каждая поездка
+            представлена как <span>[numPassengers, from, to]</span>, что означает, что в точке <span>from</span> она
+            забирает <span>numPassengers</span>, а
+            затем выгружает их в <span>to</span>. Может ли он совершить все рейсы, не вмещая в любой момент больше
+            пассажиров, чем
+            <span>capacity</span>?
+        </p>
+
+        <p class="content">
+            В этой задаче числовая прямая — это дорога. Каждая поездка является событием и отображается на числовой
+            строке в месте <span>from</span> и оставляет числовую строку в месте <span>to</span>. Во время мероприятия в
+            машине
+            находится
+            <span>numPassengers</span>. Что касается формата ввода, о котором мы упоминали выше, у нас есть значение
+            <span>from</span> as <span>left</span>, <span>to</span>
+            as <span>right</span> и <span>numPassengers</span> as <span>value</span>.
+        </p>
+
+
+        <p class="content">
+            Что мы можем сделать, так это построить числовую линию с помощью массива. Во-первых, нам нужно найти
+            максимальное значение <span>to</span>, назовем его <span>farthest</span>. Затем мы можем инициализировать
+            дорогу как массив <span>arr</span> с
+            длиной <span>farthest + 1</span>.
+        </p>
+
+
+        <p class="content">
+            Теперь для каждого события мы знаем, что <span>numPassengers</span> входят в машину в указанном
+            <span>from</span>. Таким образом, мы
+            можем выполнить <span>arr[from] += numPassengers</span>. В месте <span>to</span> <span>numPassengers</span>
+            покинет машину, поэтому мы
+            можем выполнить <span>arr[to] -= numPassengers</span>.
+        </p>
+
+        <p class="content">
+            После обработки всех событий значения <span>arr</span> будут указывать изменение количества пассажиров на
+            каждой позиции.
+            Теперь мы можем просто рассчитать сумму префикса на дороге и проверить, превышает ли в какой-либо момент
+            количество пассажиров (сумма префикса) <span>capacity</span>.
+        </p>
+
+        <div class="code">
+            def carPooling(trips: List[List[int]], capacity: int) -> bool:
+            <p class="raw1">arr = [0] * (max(trip[2] for trip in trips) + 1)</p>
+            <p class="raw1">for (value, left, right) in trips:</p>
+            <p class="raw2">arr[left] += value</p>
+            <p class="raw2">arr[right] -= value</p>
+            <br>
+            <p class="raw1">curr = 0</p>
+            <p class="raw1">for i in range(len(arr)):</p>
+            <p class="raw2">curr += arr[i]</p>
+            <p class="raw2">if curr > capacity:</p>
+            <p class="raw3">return False</p>
+            <br>
+            <p class="raw1">return True</p>
+        </div>
+
+        <p class="content">
+            Этот алгоритм дает нам временную и пространственную сложность
+            O(n+m), где <span>m = max(trip[2] for trip in trips)</span>. Без этого метода нам пришлось бы сортировать
+            <span>trips</span>,
+            что дало бы временную сложность
+            О(n⋅logn).
+        </p>
+
+        <p class="content">
+            Метод массива разностей строит этот массив, представляющий изменение количества пассажиров в каждой позиции,
+            а затем использует сумму префикса.
+        </p>
+
+        <hr>
+
+        <p class="content">
+            Выше мы говорили, что формат ввода должен быть <span>[left, right, value]</span> или эквивалентная форма.
+            Что подразумевается под эквивалентной формой?
+        </p>
+
+        <p class="important" id="ex2">
+            Пример 2. Вы находитесь на улице с уличными фонарями, представленными массивом <span>lights</span>. Каждый
+            источник
+            света задается как <span>[position, radius]</span>, что означает, что источник света расположен в
+            определенной <span>position</span> и
+            светит влево и вправо на расстоянии <span>radius</span>. Допустим, самое яркое место на улице — это место,
+            где светится
+            больше всего огней. Верните любую такую позицию.
+            <br>
+            <br>
+            Обратите внимание, что улица очень длинная — <span>position <= 10^18</span>.
+        </p>
+
+        <p class="content">
+            Вот пример эквивалентной формы. В задаче не упоминается, что источники света имеют разную яркость, поэтому
+            <span>value = 1</span> для всех источников света. <span>left</span> можно рассчитать как <span>position -
+                radius</span>, а <span>right</span> можно
+            рассчитать как <span>position + radius</span>.
+        </p>
+
+        <p class="content">
+            Поскольку в задаче упоминается, что улица очень длинная, было бы слишком дорого использовать тот же метод,
+            что и в первом примере, где мы «строим» улицу, а затем идем по ней. Вместо этого мы можем создать
+            массив <span>change</span>, где каждый элемент имеет значение <span>[position, value]</span>, указывая, что
+            яркость изменяется на <span>value</span>
+            в <span>position</span>. Логика здесь идентична оригинальному методу — когда мы вводим освещение
+            <span>left</span>,
+            яркость
+            увеличивается на <span>value</span>. Когда мы выходим из зоны освещения <span>right</span>, яркость
+            уменьшается на
+            <span>value</span>. Затем
+            мы можем отсортировать массив и пройти по нему с помощью префиксной суммы.
+        </p>
+
+
+        <div class="code">
+            def find_brightest_position(lights: List[List[int]]) -> int:
+            <p class="raw1">change = []</p>
+            <p class="raw1">for position, radius in lights:</p>
+            <p class="raw2">change.append([position - radius, 1])</p>
+            <p class="raw2">change.append([position + radius + 1, -1])</p>
+            <br>
+            <p class="raw1">change.sort()</p>
+            <p class="raw1">ans = curr = brightest = 0</p>
+            <p class="raw1">for position, value in change:</p>
+            <p class="raw2">curr += value</p>
+            <p class="raw2">if curr > brightest:</p>
+            <p class="raw3">brightest = curr</p>
+            <p class="raw3">ans = position</p>
+            <br>
+            <p class="raw1">return ans</p>
+        </div>
+
+        <p class="content">
+            Как упоминалось в первом примере, при сортировке временная сложность становится
+            О(n⋅logn). Это было необходимо, потому что улица очень длинная — использование первого метода было бы
+            слишком медленным, поскольку <span>position</span> может быть до 10<sup>18</sup>.
+        </p>
+
+        <p class="content">
+            Важно понимать, когда использовать первый или второй подход к методу. Логика «прогулки» очень похожа —
+            отличается только часть «строительства», и правильное решение будет зависеть от ограничений задачи.
+        </p>
+
+        <hr>
+
+
+
+
+
+    </div>
+
+</body>
+
+</html>

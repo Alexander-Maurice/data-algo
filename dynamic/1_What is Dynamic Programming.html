@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>What is Dynamic Programming?</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../dynamic/dynamic_programming.html" class="dynamic_programming">Dynamic Programming</a>
+        <a href="../dynamic/framework_for_dp.html" class="framework_for_dp">Framework for DP</a>
+        <a href="../dynamic/1d_problems.html" class="1d_problems">1D Problems</a>
+        <a href="../dynamic/multi_dimensional_problems.html" class="multi_dimensional_problems">Multi-dimensional
+            Problems</a>
+        <a href="../dynamic/matrix_dp.html" class="matrix_dp">Matrix DP</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Longest Common Subsequence</a>
+        <a href="#ex2">#2 Best Time to Buy and Sell Stock IV </a>
+        <a href="#ex3">#3 Maximum Value of K Coins From Piles </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            What is Dynamic Programming?
+        </h1>
+        <hr>
+
+        <p class="content">
+            Динамическое программирование (ДП) — это парадигма программирования, которая позволяет систематически и
+            эффективно исследовать все возможные решения проблемы. Таким образом, он способен решать широкий спектр
+            задач, которые часто имеют следующие характеристики:
+        </p>
+
+        <ol>
+            <li>Проблему можно разбить на «перекрывающиеся подзадачи» — уменьшенные версии исходной проблемы, которые
+                используются повторно несколько раз.</li>
+            <li>Проблема имеет «оптимальную подструктуру» — оптимальное решение может быть сформировано из оптимальных
+                решений перекрывающихся подзадач исходной задачи.</li>
+        </ol>
+
+        <p class="content">
+            Новичку может быть сложно усвоить эти теоретические определения. Но не волнуйтесь: в конце этой главы мы
+            поговорим о том, как практически определить, когда DP применим. А пока давайте посмотрим немного глубже на
+            обе характеристики.
+        </p>
+
+        <p class="content">
+            Последовательность Фибоначчи — классический пример, используемый для объяснения ДП. Для тех, кто не знаком с
+            последовательностью Фибоначчи, это последовательность чисел, которая начинается с 0, 1, и каждое последующее
+            число получается сложением двух предыдущих чисел.
+        </p>
+
+        <p class="content">
+            Если вы хотите найти n-е число Фибоначчи
+            F(n), вы можете разбить ее на более мелкие подзадачи — вместо этого найдите F(n−1) и F(n−2). Затем сложение
+            решений этих подзадач дает ответ на исходный вопрос: F(n−1)+F(n−2)=F(n), что означает, что проблема имеет
+            оптимальную подструктуру, поскольку решение F(n ) исходной задачи могут быть сформированы из решений
+            подзадач. Эти подзадачи также перекрываются — например, нам понадобится F(4) для вычисления как F(5), так и
+            F(6).
+        </p>
+
+        <p class="content">
+            Эти атрибуты могут показаться вам знакомыми. Жадные задачи имеют оптимальную подструктуру, но не
+            перекрывающиеся подзадачи. Алгоритмы «разделяй и властвуй» разбивают проблему на подзадачи, но эти подзадачи
+            не перекрываются (именно поэтому DP и «разделяй и властвуй» часто путают друг с другом).
+        </p>
+
+        <p class="content">
+            Динамическое программирование — мощный инструмент, поскольку оно позволяет разбить сложную задачу на
+            управляемые подзадачи, избежать ненужного перерасчета перекрывающихся подзадач и использовать результаты
+            этих подзадач для решения исходной сложной задачи. DP не только помогает нам решать сложные проблемы, но
+            также значительно сокращает временную сложность по сравнению с решениями методом грубой силы. Например,
+            решение методом грубой силы для вычисления последовательности Фибоначчи имеет экспоненциальную временную
+            сложность, в то время как решение динамического программирования будет иметь линейную временную сложность,
+            поскольку оно повторно использует результаты подзадач, а не пересчитывает результаты для ранее рассмотренных
+            подзадач. Разница в работе, требуемой методом грубой силы, по сравнению с подходом динамического
+            программирования, наглядно продемонстрирована на следующей странице.
+        </p>
+
+        <p class="content">
+            Из этой карты-исследования вы лучше поймете, что делает DP таким мощным. В следующем разделе мы обсудим два
+            основных метода реализации алгоритма DP.
+        </p>
+
+        <hr>
+    </div>
+
+</body>
+
+</html>

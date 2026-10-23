@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>More hashing examples</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../hashing/hashing.html" class="hashing">Hashing</a>
+        <a href="../hashing/checking_for_existence.html" class="checking_for_existence">Checking for existence</a>
+        <a href="../hashing/counting.html" class="counting">Counting</a>
+        <a href="../hashing/more_hashing_examples.html" class="more_hashing_examples">More hashing examples</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#primer1">#1 Group Anagrams</a>
+        <a href="#primer2">#2 Minimum cards to pick up</a>
+        <a href="#primer3">#3 Max Sum of a Pair With Equal Sum of Digits </a>
+        <a href="#primer4">#4 Equal Row and Column Pairs </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            More hashing examples
+        </h1>
+
+        <hr>
+
+        <p class="content">
+            Хэш-карты практически повсеместно распространены. Мы поговорили о некоторых наиболее распространенных
+            шаблонах, но существует неограниченное количество способов включения хэш-карт в алгоритм. Учитывая важность
+            хэш-карт, мы рассмотрим еще пару примеров того, как хеш-карты можно использовать в различных задачах. Крайне
+            важно, чтобы вы хорошо владели хэш-картами, если хотите пройти собеседование.
+        </p>
+
+        <hr>
+
+        <p class="important" id="primer1">
+            <a href="https://leetcode.com/problems/group-anagrams/">Example 1: 49. Group Anagrams</a>
+            <br>
+            <br>
+            Учитывая массив строк <span>strs</span>, сгруппируйте анаграммы вместе.
+            <br>
+            <br>
+            Например, учитывая <span>strs = ["eat","tea","tan","ate","nat","bat"]</span>, return
+            <span>[["bat"],["nat","tan"], ["ate", "eat", "tea"]]</span>.
+        </p>
+
+        <p class="content">
+            Как мы можем проверить, являются ли две строки анаграммами друг друга? Мы могли бы использовать две
+            хеш-карты, посчитать все символы в каждой строке, а затем сравнить, одинаковы ли хэш-карты. Это очень сложно
+            реализовать, а также не помогает нам группировать строки, если в группе более двух строк. Для каждой группы
+            нам нужен способ уникальной идентификации группы.
+        </p>
+
+        <p class="content">
+            Самый простой способ узнать, являются ли две строки анаграммами друг друга, — проверить, равны ли они после
+            сортировки. Кроме того, все строки в группе будут одинаковыми при сортировке, поэтому мы можем использовать
+            отсортированную версию в качестве ключа. Мы можем сопоставить эти ключи с самими группами в хэш-карте, и
+            тогда нашим ответом будут только значения хеш-карты.
+        </p>
+
+        <p class="content">
+            По сути, каждая группа имеет свой собственный «идентификатор» (отсортированную строку), и мы можем
+            использовать этот идентификатор, чтобы легко группировать их в хеш-карте.
+        </p>
+
+        <details>
+            <summary>Нажмите для подробного объяснения</summary>
+            <p class="content">
+                В группе может быть много строк. Нам нужен способ легко определить, какие строки к какой группе
+                относятся.
+            </p>
+
+            <p class="content">
+                Две строки являются анаграммами друг друга тогда и только тогда, когда они отсортированы. Это имеет
+                смысл, поскольку при сортировке строки символы должны располагаться в четко определенном порядке. По
+                определению, анаграммы состоят из одинаковых букв, поэтому, когда эти буквы встречаются в одном и том же
+                порядке, они должны быть равны.
+            </p>
+
+            <p class="content">
+                Если у нас есть строка «bcab», то сортируем ее, у нас есть «abbc». Это его «идентификатор», поскольку
+                каждая анаграмма «bcab» при сортировке также приводит к «abbc». Мы можем использовать идентификатор
+                каждой строки в качестве ключа хеш-карты, чтобы легко сгруппировать все анаграммы вместе.
+            </p>
+        </details>
+
+        <div class="code">
+            from collections import defaultdict
+            <br> <br>
+            class Solution:
+            <p class="raw1">def groupAnagrams(self, strs: List[str]) -> List[List[str]]:</p>
+            <p class="raw2">groups = defaultdict(list)</p>
+            <p class="raw2">for s in strs:</p>
+            <p class="raw3">key = "".join(sorted(s))</p>
+            <p class="raw3">groups[key].append(s)</p>
+            <br>
+            <p class="raw2">return groups.values()</p>
+        </div>
+
+        <p class="important">
+            Примечание для Python: <span>dictionary.values()</span> на самом деле возвращает не список, а объект
+            представления.
+            Однако
+            LeetCode принимает его как действительный формат.
+        </p>
+
+        <p class="content">
+            Данный
+            n как длина <span>strs</span> и
+            m как среднюю длину строк, мы перебираем каждую строку и сортируем ее, что стоит
+            О(n⋅m⋅logm). Затем нам нужно перебрать ключи. В худшем случае, когда совпадающих анаграмм нет, будут
+            n групп, а это значит, что это будет стоить
+            O(n), что дает общую временную сложность
+            O(n⋅m⋅logm) (конечный +n доминирует). Пространственная сложность
+            O(n⋅m), поскольку каждая строка будет помещена в массив внутри хэш-карты.
+        </p>
+
+        <p class="important">
+            Другой способ решить эту проблему — использовать кортеж длиной 26, представляющий количество каждого символа
+            в качестве ключа, вместо отсортированной строки. Это технически решило бы проблему в
+            O(n⋅m), поскольку 26 — это константа, определенная задачей, но для тестовых случаев с меньшими строками это
+            будет медленнее из-за постоянного коэффициента, который скрыт большим O.
+            <br>
+            <br>
+            Также предполагается, что строки могут содержать только 26 различных символов, что здесь допустимо, но менее
+            общее и менее устойчивое к последующим действиям.
+        </p>
+
+        <hr>
+
+        <p class="important" id="primer2">
+            <a href="https://leetcode.com/problems/minimum-consecutive-cards-to-pick-up/">Example 2: 2260. Minimum
+                Consecutive Cards to Pick Up</a>
+            <br>
+            <br>
+            Учитывая целочисленный массив <span>cards</span>, найдите длину кратчайшего подмассива, содержащего хотя бы
+            один
+            дубликат. Если в массиве нет дубликатов, верните <span>-1</span>.
+        </p>
+
+        <p class="content">
+            На самом деле мы можем решить эту проблему с помощью скользящего окна, но давайте взглянем на другой подход,
+            в котором больший упор делается на хеш-карту. Этот вопрос эквивалентен: каково кратчайшее расстояние между
+            любыми двумя одинаковыми элементами? Если мы пройдемся по массиву и воспользуемся хэш-картой для записи
+            индексов для каждого элемента, мы сможем перебрать эти индексы, чтобы найти кратчайшее расстояние. Например,
+            если <span>cards = [1, 2, 6, 2, 1]</span>, мы отобразим <span>1: [0, 4]</span>, <span>2: [1, 3]</span> и
+            <span>6: [2]</span>. Затем мы можем перебрать значения
+            и увидеть, что минимальная разница может быть достигнута путем подбора двоек.
+        </p>
+
+        <details>
+            <summary>Нажмите для подробного объяснения</summary>
+            <p class="content">
+                В самом коротком подмассиве, содержащем дубликат, первый и последний элементы будут дубликатом, иначе
+                элементы можно будет безболезненно обрезать по краям. Поэтому нам просто нужно найти кратчайшее
+                расстояние
+                между любыми двумя одинаковыми элементами.
+            </p>
+
+            <p class="content">
+                Выполните итерацию по массиву один раз и запишите положение каждого элемента в хеш-карте. Ключами к
+                хеш-карте будут элементы, а значением — массив всех индексов, в которых он появляется.
+            </p>
+
+            <p class="content">
+                Поскольку мы перебираем индексы в порядке возрастания, каждый массив в хэш-карте также будет
+                отсортирован по возрастанию.
+            </p>
+
+            <p class="content">
+                Теперь мы можем проверить каждый элемент индивидуально. Чтобы найти минимальное расстояние, нам просто
+                нужно проверить все соседние пары, потому что массив отсортирован.
+            </p>
+        </details>
+
+        <div class="code">
+            from collections import defaultdict
+            <br> <br>
+            class Solution:
+            <p class="raw1">def minimumCardPickup(self, cards: List[int]) -> int:</p>
+            <p class="raw2">dic = defaultdict(list)</p>
+            <p class="raw2">for i in range(len(cards)):</p>
+            <p class="raw3">dic[cards[i]].append(i)</p>
+            <br>
+            <p class="raw2">ans = float("inf")</p>
+            <p class="raw2">for key in dic:</p>
+            <p class="raw3">arr = dic[key]</p>
+            <p class="raw3">for i in range(len(arr) - 1):</p>
+            <p class="raw4">ans = min(ans, arr[i + 1] - arr[i] + 1)</p>
+            <br>
+            <p class="raw2">return ans if ans < float("inf") else -1</p>
+        </div>
+
+        <p class="content">
+            Временная сложность все еще
+            O(n), хотя в алгоритме есть вложенный цикл. Это связано с тем, что внутренний цикл во вложенном цикле может
+            выполнять только итерацию.
+            Всего n раз, поскольку он перебирает индексы элементов массива, где n — длина входного массива.
+        </p>
+
+        <p class="content">
+            На самом деле мы можем немного улучшить этот алгоритм, заметив, что нам не нужно хранить все индексы, а
+            только самый последний, который мы видели для каждого числа. Это улучшает среднюю сложность пространства.
+            Текущий алгоритм имеет
+            O(n) пространственная сложность всегда, но с улучшением это всего лишь
+            O(n) в худшем случае, когда дубликатов нет.
+        </p>
+
+        <div class="code">
+            from collections import defaultdict
+            <br> <br>
+            class Solution:
+            <p class="raw1">def minimumCardPickup(self, cards: List[int]) -> int:</p>
+            <p class="raw2">dic = defaultdict(int)</p>
+            <p class="raw2">ans = float("inf")</p>
+            <p class="raw2">for i in range(len(cards)):</p>
+            <p class="raw3">if cards[i] in dic:</p>
+            <p class="raw4">ans = min(ans, i - dic[cards[i]] + 1)</p>
+            <br>
+            <p class="raw3">dic[cards[i]] = i</p>
+            <br>
+            <p class="raw2">return ans if ans < float("inf") else -1</p>
+        </div>
+
+        <p class="content">
+            Этот алгоритм также работает быстрее, поскольку мы экономим на итерации, хотя временная сложность обоих
+            алгоритмов равна
+            O(n), где
+            n — длина входного массива.
+        </p>
+
+        <hr>
+
+        <p class="important" id="primer3">
+            <a href="https://leetcode.com/problems/max-sum-of-a-pair-with-equal-sum-of-digits/">Example 3: 2342. Max Sum
+                of a Pair With Equal Sum of Digits</a>
+            <br>
+            <br>
+            Учитывая массив целых чисел <span>nums</span>, найдите максимальное значение <span>nums[i] + nums[j]</span>,
+            где <span>nums[i]</span> и <span>nums[j]</span>
+            имеют одинаковую сумму цифр (сумму их отдельных цифр). Верните <span>-1</span>, если нет пары чисел с
+            одинаковой суммой
+            цифр.
+        </p>
+
+        <p class="content">
+            Эта проблема аналогична первому примеру с группировкой анаграмм, который мы рассмотрели. В первом примере
+            группы идентифицировались по их отсортированной строке. В этой задаче мы можем идентифицировать группу по
+            сумме ее цифр. Мы перебираем массив и группируем все числа с одинаковой суммой цифр в хэш-карте. Затем мы
+            можем перебрать эту хэш-карту и для каждой группы, содержащей как минимум 2 элемента, путем сортировки найти
+            2 максимальных элемента.
+        </p>
+
+        <details>
+            <summary>Нажмите для подробного объяснения</summary>
+            <p class="content">
+                Вспомните задачу о групповых анаграммах: в группе могло быть много разных строк, поэтому нам нужен был
+                простой способ определить, какие строки принадлежат какой группе. Мы использовали отсортированные строки
+                в качестве «идентификатора» для каждой строки.
+            </p>
+
+            <p class="content">
+                В этой задаче многие числа могут иметь одинаковую сумму цифр. Мы можем просто использовать сумму цифр в
+                качестве идентификатора для каждого числа. Для каждой суммы цифр мы можем просто взять два максимальных
+                элемента в группе и найти их сумму.
+            </p>
+        </details>
+
+        <div class="code">
+            from collections import defaultdict
+            <br> <br>
+            class Solution:
+            <p class="raw1">def maximumSum(self, nums: List[int]) -> int:</p>
+            <p class="raw2">def get_digit_sum(num):</p>
+            <p class="raw3">digit_sum = 0</p>
+            <p class="raw3">while num:</p>
+            <p class="raw4">digit_sum += num % 10</p>
+            <p class="raw4">num //= 10</p>
+            <br>
+            <p class="raw3">return digit_sum</p>
+            <br>
+            <p class="raw2">dic = defaultdict(list)</p>
+            <p class="raw2">for num in nums:</p>
+            <p class="raw3">digit_sum = get_digit_sum(num)</p>
+            <p class="raw3">dic[digit_sum].append(num)</p>
+            <br>
+            <p class="raw2">ans = -1</p>
+            <p class="raw2">for key in dic:</p>
+            <p class="raw3">curr = dic[key]</p>
+            <p class="raw3">if len(curr) > 1:</p>
+            <p class="raw4">curr.sort(reverse=True)</p>
+            <p class="raw4">ans = max(ans, curr[0] + curr[1])</p>
+            <br>
+            <p class="raw2">return ans</p>
+        </div>
+
+        <p class="content">
+            Этот алгоритм неэффективен из-за сортировки, которая потенциально может стоить
+            O(n⋅logn), если каждое число во входных данных имеет одинаковую сумму цифр, где
+            n — длина входного массива. Как и в предыдущей задаче, нам не нужно хранить все числа в группе. Мы можем
+            улучшить временную сложность и среднюю пространственную сложность, сохраняя для каждой суммы цифр только
+            наибольшее число, наблюдаемое на данный момент.
+        </p>
+
+        <div class="code">
+            from collections import defaultdict
+            <br> <br>
+            class Solution:
+            <p class="raw1">def maximumSum(self, nums: List[int]) -> int:</p>
+            <p class="raw2">def get_digit_sum(num):</p>
+            <p class="raw3">digit_sum = 0</p>
+            <p class="raw3">while num:</p>
+            <p class="raw4">digit_sum += num % 10</p>
+            <p class="raw4">num //= 10</p>
+            <br>
+            <p class="raw3">return digit_sum</p>
+            <br>
+            <p class="raw2">dic = defaultdict(int)</p>
+            <p class="raw2">ans = -1</p>
+            <p class="raw2">for num in nums:</p>
+            <p class="raw3">digit_sum = get_digit_sum(num)</p>
+            <p class="raw3">if digit_sum in dic:</p>
+            <p class="raw4">ans = max(ans, num + dic[digit_sum])</p>
+            <p class="raw3">dic[digit_sum] = max(dic[digit_sum], num)</p>
+            <br>
+            <p class="raw2">return ans</p>
+        </div>
+
+        <p class="content">
+            Как и в последнем примере, первый алгоритм всегда использует
+            O(n) пространства, поскольку мы храним все элементы в значениях хеш-карты, но с улучшением средний случай
+            будет использовать гораздо меньше места, поскольку каждый ключ хранит только целое число. Мы также экономим
+            на дополнительной итерации и сортировке на каждой итерации, что дает нам временную сложность
+            O(n), где
+            n — длина входного массива.
+        </p>
+
+        <hr>
+
+        <p class="important" id="primer4">
+            <a href="https://leetcode.com/problems/equal-row-and-column-pairs/">Example 4: 2352. Equal Row and Column
+                Pairs</a>
+            <br>
+            <br>
+            Учитывая матричную сетку размера <span>n x n</span>, верните количество пар <span>(R, C)</span>, где
+            <span>R</span> — строка, а <span>C</span> — столбец, а <span>R</span> и
+            <span>C</span> равны, если мы рассматриваем их как одномерные массивы.
+        </p>
+
+        <p class="content">
+            Как посчитать количество равных пар? Допустим, есть три строки, которые выглядят как <span>[1, 2, 3]</span>,
+            и есть два
+            столбца, которые выглядят одинаково. Для каждой из трех строк есть два столбца для сопряжения, то есть
+            <span>3 * 2
+                = 6</span> пар. Мы можем использовать хеш-карту, чтобы подсчитать, сколько раз встречается каждая
+            строка. Мы можем
+            использовать вторую хэш-карту, чтобы сделать то же самое со столбцами. Затем мы можем перебирать хеш-карту
+            строк и для каждой строки проверять, появился ли тот же массив в виде столбца. Если да, то к нашему ответу
+            прибавляется произведение количества появлений.
+        </p>
+
+        <p class="content">
+            Проблема в том, что массивы нельзя поместить в хэш-карту в качестве ключа, поскольку они изменяемы. Нам
+            нужно преобразовать строки и столбцы в хешируемую форму, например строку или кортеж. Лучший выбор будет
+            зависеть от языка, который вы используете.
+        </p>
+
+        <details>
+            <summary>Нажмите для подробного объяснения</summary>
+            <p class="content">
+                Если есть <span>x</span> строк, идентичных столбцам <span>y</span>, то для каждой из строк
+                <span>x</span> она может соответствовать любому из
+                столбцов <span>y</span>. Это означает, что существует <span>x * y</span> пар.
+            </p>
+
+            <p class="content">
+                Используя отдельные хэш-карты для строк и столбцов, мы можем легко определить для любой строки/столбца,
+                сколько раз она отображается в виде строки и столбца. Затем мы просто берем их продукт и добавляем его к
+                ответу.
+            </p>
+
+            <p class="content">
+                Единственная проблема — преобразование строк/столбцов в хешируемый формат. В Python мы можем легко
+                преобразовать их в кортежи. В Java и JavaScript мы преобразуем их в строки, разделенные запятой. В C++
+                структура данных <span>map</span> позволяет нам использовать изменяемые ключи.
+            </p>
+        </details>
+
+        <div class="code">
+            from collections import defaultdict
+            <br> <br>
+            class Solution:
+            <p class="raw1">def equalPairs(self, grid: List[List[int]]) -> int:</p>
+            <p class="raw2">def convert_to_key(arr):</p>
+            <p class="raw3"># Python is quite a nice language for coding interviews!</p>
+            <p class="raw3">return tuple(arr)</p>
+            <br>
+            <p class="raw2">dic = defaultdict(int)</p>
+            <p class="raw2">for row in grid:</p>
+            <p class="raw3">dic[convert_to_key(row)] += 1</p>
+            <br>
+            <p class="raw2">dic2 = defaultdict(int)</p>
+            <p class="raw2">for col in range(len(grid[0])):</p>
+            <p class="raw3">current_col = []</p>
+            <p class="raw3">for row in range(len(grid)):</p>
+            <p class="raw4">current_col.append(grid[row][col])</p>
+            <br>
+            <p class="raw3">dic2[convert_to_key(current_col)] += 1</p>
+            <br>
+            <p class="raw2">ans = 0</p>
+            <p class="raw2">for arr in dic:</p>
+            <p class="raw3">ans += dic[arr] * dic2[arr]</p>
+            <br>
+            <p class="raw2">return ans</p>
+        </div>
+
+        <hr>
+
+        <p class="content">
+            Если сетка имеет размер
+            n⋅n, этот алгоритм имеет временную сложность O(n<sup>2</sup>) - есть n<sup>2</sup>
+            элементы, и каждый элемент изначально повторяется дважды (один раз для строки, которую он занимает, и один
+            раз для столбца, который он занимает). При этом будет доминировать заполнение и последующая итерация
+            хеш-карт. Пространственная сложность
+            О(n<sup>2</sup>) — если все строки и столбцы уникальны, то каждая из двух хэш-карт вырастет до размера
+            n, причем каждый ключ имеет длину n
+        </p>
+
+        <h2>
+            Closing notes
+        </h2>
+
+        <p class="content">
+            Мы могли бы потратить остаток курса на решение проблем с хэш-картами, но у нас есть и другие темы для
+            рассмотрения! Если вам нравятся хэш-карты, хорошая новость заключается в том, что мы продолжим использовать
+            их до конца курса. Как мы уже говорили, они почти вездесущи — удивительно, как хэш-карта может найти
+            применение во многих алгоритмах. Прежде чем двигаться дальше, попробуйте решить следующие несколько
+            практических задач и пройти тест по хешированию, чтобы проверить свои знания.
+        </p>
+
+        <hr>
+
+    </div>
+
+</body>
+
+</html>

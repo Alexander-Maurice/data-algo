@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Selection Sort</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../../dynamic/dynamic_programming.html" class="dynamic_programming">Dynamic Programming</a>
+        <a href="../../dynamic/framework_for_dp.html" class="framework_for_dp">Framework for DP</a>
+        <a href="../../dynamic/1d_problems.html" class="1d_problems">1D Problems</a>
+        <a href="../../dynamic/multi_dimensional_problems.html" class="multi_dimensional_problems">Multi-dimensional
+            Problems</a>
+        <a href="../../dynamic/matrix_dp.html" class="matrix_dp">Matrix DP</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Longest Common Subsequence</a>
+        <a href="#ex2">#2 Best Time to Buy and Sell Stock IV </a>
+        <a href="#ex3">#3 Maximum Value of K Coins From Piles </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Selection Sort
+        </h1>
+        <hr>
+
+        <p class="content">
+            Suppose you had to sort a pile of books by their weight, with the heaviest book on the bottom and the
+            lightest book on the top. One reasonable method of sorting is to go through your books, find the heaviest
+            book, and then place that at the bottom. After that, you can then find the next heaviest book in the
+            remaining pile of books and place that on top of the heaviest book. You can continue this approach until you
+            have a sorted pile of books. This concept is exactly what the selection sort does.
+        </p>
+        <p class="content">
+            Suppose we had a collection of elements where every element is an integer. Selection sort will build up the
+            sorted list by repeatedly finding the minimum element in that list and moving it to the front of the list
+            through a swap. It will proceed to swap elements appropriately until the entire list is sorted.
+        </p>
+        <p class="content">
+            In terms of simplicity, it is a highly intuitive algorithm and not too difficult to write. Unfortunately, it
+            is pretty slow, requiring
+            O(n<sup>2</sup>
+            ) time to sort the list in the worst case. In the worst case, we have to search the entire array to find the
+            minimum element, meaning we can have up to
+            𝑛
+            +
+            (
+            𝑛
+            −
+            1
+            )
+            +
+            (
+            𝑛
+            −
+            2
+            )
+            +
+            …
+            +
+            1
+            n+(n−1)+(n−2)+…+1 total operations, which is
+            𝑂
+            (
+            𝑛
+            2
+            )
+            O(n<sup>2</sup>
+            ). The space complexity of selection sort is
+            𝑂
+            (
+            1
+            )
+            O(1) since we do not use any additional space during the algorithm (all operations are in-place).
+        </p>
+        <p class="content">
+            It also is not a stable sorting algorithm. For example consider the collection [4, 2, 3, 4, 1]. After the
+            first round of selection sort, we get the array [1, 2, 3, 4, 4]. This array is sorted, but it does not
+            preserve the ordering of equal elements.
+        </p>
+        <p class="content">
+            Below is the implementation of selection sort:
+        </p>
+
+        <p class="content">
+            Video: SelectionSort_1080p
+        </p>
+
+        <div class="code">
+            def selection_sort(self, lst: List[int]) -> None: <br>
+            <p class="raw1">""" Mutates lst so that it is sorted via selecting the minimum element and</p>
+            <p class="raw1">swapping it with the corresponding index"""</p>
+            <br>
+            <p class="raw1">for i in range(len(lst)):</p>
+            <p class="raw2">min_index = i</p>
+            <p class="raw2">for j in range(i + 1, len(lst)):</p>
+            <p class="raw3"># Update minimum index</p>
+            <p class="raw3">if lst[j] < lst[min_index]:</p>
+                    <p class="raw4">min_index = j</p>
+                    <br>
+                    <p class="raw2"># Swap current index with minimum element in rest of list</p>
+                    <p class="raw2">lst[min_index], lst[i] = lst[i], lst[min_index]</p>
+        </div>
+
+
+
+
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Union by Rank - Disjoint Set</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/dynamic_programming.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../trees_graphs.html" class="binary_trees">Binary trees</a>
+        <a href="../binary_trees_dfs.html" class="binary_trees_dfs">Binary trees DFS</a>
+        <a href="../binary_trees_bfs.html" class="binary_trees_bfs">Binary trees BFS</a>
+        <a href="../binary_search_trees.html" class="binary_search_trees">Binary search trees</a>
+        <a href="../graphs.html" class="graphs">Graphs</a>
+        <a href="../graphs_dfs.html" class="graphs_dfs">Graphs DFS</a>
+        <a href="../graphs_bfs.html" class="graphs_bfs">Graphs BFS</a>
+        <a href="../implicit_graphs.html" class="implicit_graphs">Implicit graphs</a>
+        <a href="../premium_graphs.html" class="premium_graphs">Premium graphs</a>
+        <a href="1_disjoint_set.html" class="disjoint_set">Disjoint set</a>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div>
+
+    <div class="container">
+        <h1>Union by Rank - Disjoint Set</h1>
+
+        <hr>
+
+        <h2>
+            Disjoint Set - Union by Rank
+        </h2>
+        <hr>
+
+        <p class="content">
+            На данный момент мы реализовали два типа «непересекающихся множеств», и оба они имеют вызывающую
+            беспокойство неэффективность. В частности, реализация быстрого поиска всегда будет тратить время O(n) на
+            операцию объединения, а в реализации быстрого объединения, как показано на рисунке 6, все вершины могут
+            образовать линию после их соединения с помощью <span>union</span>, что приводит к <span>find</span>в худшем
+            случае. Есть ли способ оптимизировать эти реализации?
+        </p>
+
+        <p class="content">
+            Есть конечно; это объединение по рангам. Слово «ранг» означает упорядочение по определенным критериям.
+            Раньше для функции <span>union</span> мы всегда выбирали корневой узел <span>x</span> и устанавливали его в
+            качестве нового
+            корневого узла для другой вершины. Однако, выбирая родительский узел на основе определенных критериев (по
+            рангу), мы можем ограничить максимальную высоту каждой вершины.
+        </p>
+
+        <p class="content">
+            Говоря конкретнее, «ранг» относится к высоте каждой вершины. Когда мы <span>union</span> две вершины, вместо
+            того,
+            чтобы всегда выбирать корень <span>x</span> (или <span>y</span>, это не имеет значения, если мы
+            последовательны) в качестве нового
+            корневого узла, мы выбираем корневой узел вершины с большим «рангом». ». Мы объединим более короткое дерево
+            с более высоким деревом и назначим корневой узел более высокого дерева корневым узлом для обеих вершин.
+            Таким образом мы эффективно избегаем возможности соединения всех вершин в прямую линию. Эта оптимизация
+            называется «непересекающимся множеством» с объединением по рангу.
+        </p>
+
+        <img src="../../trees_graphs/tree_graphs_imgs/A_Line_Graph.png" alt="">
+        <p class="content">
+            Figure 6. A line graph
+        </p>
+
+        <h2>
+            Video Explanation
+        </h2>
+        <hr>
+
+        <p class="content">
+            В этом видео вы узнаете, как на самом деле реализовать «непересекающееся множество» с объединением по рангу.
+        </p>
+
+        <p class="content">
+            Video: Disjoing Sets - Union by Rank_1080p
+        </p>
+
+        <details>
+            <summary>Уточняющие примечания</summary>
+            <p class="content">
+                В момент времени 0:52 мы фактически построили связанный список узлов с 5 в качестве корневого узла, где
+                4 указывает на 5, 3 на 4, 2 на 3, 1 на 2 и 0 на 1. Это демонстрирует основную неэффективность Quick
+                Union. Внимательный наблюдатель заметит, что <span>union(x, y)</span> в нашей предыдущей реализации
+                Quick Union
+                всегда будет указывать <span>rootY</span> на <span>rootX</span>. Таким образом, фактический порядок
+                операций для создания
+                «дерева», показанного на 0:52, будет следующим: <span>union(1, 0)</span>, <span>union(2, 0)</span>,
+                <span>union(3,
+                    0)</span>, <span>union(4, 0)</span>, <span>union(5, 0))</span>. . Тем не менее, ключевая идея
+                остается прежней: Quick Union
+                рискует сформировать перекошенное дерево.
+            </p>
+        </details>
+
+        <h2>
+            Algorithm
+        </h2>
+        <hr>
+
+        <p class="content">
+            Вот пример реализации объединения по рангу.
+        </p>
+
+        <div class="code">
+            # UnionFind class <br>
+            class UnionFind: <br>
+            <p class="raw1">def __init__(self, size):</p>
+            <p class="raw2">self.root = [i for i in range(size)]</p>
+            <p class="raw2">self.rank = [1] * size</p>
+            <br>
+            <p class="raw1">def find(self, x):</p>
+            <p class="raw2">while x != self.root[x]:</p>
+            <p class="raw3">x = self.root[x]</p>
+            <p class="raw2">return x</p>
+            <br>
+            <p class="raw1">def union(self, x, y):</p>
+            <p class="raw2">rootX = self.find(x)</p>
+            <p class="raw2">rootY = self.find(y)</p>
+            <p class="raw2">if rootX != rootY:</p>
+            <p class="raw3">if self.rank[rootX] > self.rank[rootY]:</p>
+            <p class="raw4">self.root[rootY] = rootX</p>
+            <p class="raw3">elif self.rank[rootX] < self.rank[rootY]:</p>
+                    <p class="raw4">self.root[rootX] = rootY</p>
+                    <p class="raw3">else:</p>
+                    <p class="raw4">self.root[rootY] = rootX</p>
+                    <p class="raw4">self.rank[rootX] += 1</p>
+                    <br>
+                    <p class="raw1">def connected(self, x, y):</p>
+                    <p class="raw2">return self.find(x) == self.find(y)</p>
+                    <br><br>
+
+                    # Test Case <br>
+                    uf = UnionFind(10) <br>
+                    # 1-2-5-6-7 3-8-9 4 <br>
+                    uf.union(1, 2)<br>
+                    uf.union(2, 5)<br>
+                    uf.union(5, 6)<br>
+                    uf.union(6, 7)<br>
+                    uf.union(3, 8)<br>
+                    uf.union(8, 9)<br>
+                    print(uf.connected(1, 5)) # true<br>
+                    print(uf.connected(5, 7)) # true<br>
+                    print(uf.connected(4, 9)) # false<br>
+                    # 1-2-5-6-7 3-8-9-4<br>
+                    uf.union(9, 4)<br>
+                    print(uf.connected(4, 9)) # true
+
+        </div>
+
+        <h2>
+            Time Complexity
+        </h2>
+        <hr>
+
+        <table>
+            <tr>
+                <td></td>
+                <td>Union-find Constructor</td>
+                <td>Find</td>
+                <td>Union</td>
+                <td>Connected</td>
+            </tr>
+            <tr>
+                <td>Time Complexity</td>
+                <td>O(N)</td>
+                <td>O(logN)</td>
+                <td>O(logN)</td>
+                <td>O(logN)</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Примечание:
+            N — количество вершин в графе.
+        </p>
+
+        <ul>
+            <li>Для конструктора <span>union-find</span> нам нужно создать два массива размером
+                N каждый.</li>
+            <li>Для операции <span>find</span> в худшем случае, когда мы неоднократно объединяем компоненты одинакового
+                ранга, высота дерева будет не более
+                log(N)+1, поэтому операция <span>find</span> требует
+                O(logN) время.</li>
+            <li>Для операций <span>union</span> и <span>connected</span> нам также понадобится
+                O(logN) времени, поскольку в этих операциях доминирует операция <span>find</span>.</li>
+        </ul>
+
+
+        <h2>
+            Space Complexity
+        </h2>
+        <hr>
+
+        <p class="content">
+            Нам нужно
+            O(N) пространство для хранения массива размером
+            𝑁
+        </p>
+
+
+
+    </div>
+
+
+</body>
+
+</html>

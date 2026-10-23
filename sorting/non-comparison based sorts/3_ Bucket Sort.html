@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Bucket Sort
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../../dynamic/dynamic_programming.html" class="dynamic_programming">Dynamic Programming</a>
+        <a href="../../dynamic/framework_for_dp.html" class="framework_for_dp">Framework for DP</a>
+        <a href="../../dynamic/1d_problems.html" class="1d_problems">1D Problems</a>
+        <a href="../../dynamic/multi_dimensional_problems.html" class="multi_dimensional_problems">Multi-dimensional
+            Problems</a>
+        <a href="../../dynamic/matrix_dp.html" class="matrix_dp">Matrix DP</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Longest Common Subsequence</a>
+        <a href="#ex2">#2 Best Time to Buy and Sell Stock IV </a>
+        <a href="#ex3">#3 Maximum Value of K Coins From Piles </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Bucket Sort
+
+        </h1>
+        <hr>
+
+        <p class="content">
+            Bucket sort is another non-comparison sorting method similar to counting sort and radix sort. The
+            overarching idea in bucket sort is to place every element of the input into a bucket, where each bucket
+            accepts a range of values. Each bucket is then sorted using a traditional sorting algorithm and then the
+            outputs of the buckets are put together to create one sorted list.
+        </p>
+        <p class="content">
+            Let's consider a simple example using the array
+            A=[22,50,32,28,41,12].
+        </p>
+        <p class="content">
+            Suppose we used
+            𝐾
+            =
+            5
+            K=5 buckets. Since the max value of the array is 50, what bucket sort will do is place elements in the array
+            into the following 5 buckets: <br>
+            [0, 9] -> elements: [] <br>
+            [10, 19] -> elements: [12] <br>
+            [20, 29] -> elements: [22, 28] <br>
+            [30, 39] -> elements: [32] <br>
+            [40, 50] -> elements: [50, 41]
+        </p>
+        <p class="content">
+            The next step involves sorting each bucket using a traditional sort such as insertion sort. Finally, bucket
+            sort will go through each of the sorted buckets in proper order and put together the buckets into the final
+            sorted list.
+        </p>
+        <p class="content">
+            The steps of bucket sort can be broken down into four distinct parts. Given an array
+            𝐴
+            A: 1. Create an initial array of
+            𝑘
+            k empty buckets. 2. Distribute each element of the array into its respective bucket. A common way to map
+            values to buckets is via the following function:
+            floor(K∗A[i]/max(A)). 3. Sort each bucket using insertion sort or some other sorting algorithm. 4.
+            Concatenate the sorted buckets in order to create the sorted list.
+        </p>
+        <p class="content">
+            Below is an implementation of the algorithm along with an animation of the concept:
+        </p>
+
+        <p class="content">
+            Video: BucketSort_1080p
+        </p>
+
+        <div class="code">
+            def bucket_sort(self, lst: List[int], K) -> None: <br>
+            <p class="raw1">"""Sorts a list of integers using K buckets"""</p>
+            <p class="raw1">buckets = [[] for _ in range(K)]</p>
+            <br>
+            <p class="raw1"># place elements into buckets</p>
+            <p class="raw1">shift = min(lst)</p>
+            <p class="raw1">max_val = max(lst) - shift</p>
+            <p class="raw1">bucket_size = max(1, max_val / K)</p>
+            <p class="raw1">for i, elem in enumerate(lst):</p>
+            <p class="raw2"># same as K * lst[i] / max(lst)</p>
+            <p class="raw2">index = (elem - shift) // bucket_size</p>
+            <p class="raw2"># edge case for max value</p>
+            <p class="raw2">if index == K:</p>
+            <p class="raw3"># put the max value in the last bucket</p>
+            <p class="raw3">buckets[K - 1].append(elem)</p>
+            <p class="raw2">else:</p>
+            <p class="raw3">buckets[index].append(elem)</p>
+            <br>
+            <p class="raw1"># sort individual buckets</p>
+            <p class="raw1">for bucket in buckets:</p>
+            <p class="raw2">bucket.sort()</p>
+            <br>
+            <p class="raw1"># convert sorted buckets into final output</p>
+            <p class="raw1">sorted_array = []</p>
+            <p class="raw1">for bucket in buckets:</p>
+            <p class="raw2">sorted_array.extend(bucket)</p>
+            <br>
+            <p class="raw1"># common practice to mutate original array with sorted elements</p>
+            <p class="raw1"># perfectly fine to just return sorted_array instead</p>
+            <p class="raw1">for i in range(len(lst)):</p>
+            <p class="raw2">lst[i] = sorted_array[i]</p>
+        </div>
+
+        <p class="content">
+            The worst-case time complexity of bucket sort is
+            O(N<sup>2</sup>
+            ) if the sorting algorithm used on the bucket is insertion sort, which is the most common use case since the
+            expectation is that buckets will not have too many elements relative to the entire list. In the worst case,
+            all elements are placed in one bucket, causing the running time to reduce to the worst-case complexity of
+            insertion sort (all elements are in reverse order). If the worst-case running time of the intermediate sort
+            used is
+            O(NlogN), then the worst-case running time of bucket sort will also be
+            O(NlogN)
+        </p>
+        <p class="content">
+            On average, when the distribution of elements across buckets is reasonably uniform, it can be shown that
+            bucket sort runs on average
+            O(N+K) for
+            K buckets.
+        </p>
+        <p class="content">
+            The space complexity is
+            O(N+K) since we have to initialize an array of size
+            𝐾
+            K. The total number of elements stored in this additional array is
+            𝑁
+            N, since all
+            𝑁
+            N elements have to go inside a bucket.
+        </p>
+
+        <hr>
+
+
+
+
+    </div>
+
+</body>
+
+</html>

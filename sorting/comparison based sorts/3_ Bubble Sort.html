@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Bubble Sort</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../../dynamic/dynamic_programming.html" class="dynamic_programming">Dynamic Programming</a>
+        <a href="../../dynamic/framework_for_dp.html" class="framework_for_dp">Framework for DP</a>
+        <a href="../../dynamic/1d_problems.html" class="1d_problems">1D Problems</a>
+        <a href="../../dynamic/multi_dimensional_problems.html" class="multi_dimensional_problems">Multi-dimensional
+            Problems</a>
+        <a href="../../dynamic/matrix_dp.html" class="matrix_dp">Matrix DP</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Longest Common Subsequence</a>
+        <a href="#ex2">#2 Best Time to Buy and Sell Stock IV </a>
+        <a href="#ex3">#3 Maximum Value of K Coins From Piles </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Bubble Sort
+        </h1>
+        <hr>
+
+        <p class="content">
+            Conceptually, bubble sort is an implementation of a rather simple idea. Suppose we have a collection of
+            integers that we want to sort in ascending order. Bubble sort proceeds to consider two adjacent elements at
+            a time. If these two adjacent elements are out of order (in this case, the left element is strictly greater
+            than the right element), bubble sort will swap them. It then proceeds to the next pair of adjacent elements.
+            In the first pass of bubble sort, it will process every set of adjacent elements in the collection once,
+            making swaps as necessary. The core idea of bubble sort is it will repeat this process until no more swaps
+            are made in a single pass, which means the list is sorted.
+        </p>
+
+        <p class="content">
+            Video: BubbleSort.mp4_1080p
+        </p>
+
+        <p class="content">In terms of the running time of the algorithm, bubble sort’s runtime is entirely based on the
+            number of passes it must make in the array until it’s sorted. If the array has
+            𝑛
+            n elements, each pass will consider
+            (
+            𝑛
+            −
+            1
+            )
+            (n−1) pairs. In the worst case, when the minimum element is at the end of the list, it will take
+            (
+            𝑛
+            −
+            1
+            )
+            (n−1) passes to get it to the proper place at the front of the list, and then one more additional pass to
+            determine that no more swaps are needed. Bubble sort, as a result, has worst case runtime of
+            𝑂
+            (
+            𝑛
+            2
+            )
+            O(n<sup>2</sup>
+            ). The space complexity of bubble sort is
+            𝑂
+            (
+            1
+            )
+            O(1). All sorting operations involve swapping adjacent elements in the original input array, so no
+            additional space is required.</p>
+        <p class="content">
+            Bubble sort is also a stable sorting algorithm since equal elements will never have swapped places, so their
+            relative ordering will be preserved.
+        </p>
+        <p class="content">
+            Overall, bubble sort is fairly simple to implement, and it’s stable, but outside of that, this algorithm
+            does not have many desirable features. It’s fairly slow for most inputs and, as a result, it is rarely used
+            in practice.
+        </p>
+        <p class="content">
+            Below is the implementation of bubble sort:
+        </p>
+
+        <div class="code">
+            def bubble_sort(self, lst: List[int]) -> None: <br>
+            <p class="raw1">"""Mutates lst so that it is sorted via swapping adjacent elements until</p>
+            <p class="raw1">the entire lst is sorted."""</p>
+            <br>
+            <p class="raw1">has_swapped = True</p>
+            <p class="raw1"># if no swap occurred, lst is sorted</p>
+            <p class="raw1">while has_swapped:</p>
+            <p class="raw2">has_swapped = False</p>
+            <p class="raw2">for i in range(len(lst) - 1):</p>
+            <p class="raw3">if lst[i] > lst[i + 1]:</p>
+            <p class="raw4"># Swap adjacent elements</p>
+            <p class="raw4">lst[i], lst[i + 1] = lst[i + 1], lst[i]</p>
+            <p class="raw4">has_swapped = True</p>
+        </div>
+
+        <hr>
+
+
+
+    </div>
+
+</body>
+
+</html>

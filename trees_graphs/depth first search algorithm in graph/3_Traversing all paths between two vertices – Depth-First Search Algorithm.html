@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Traversing all paths between two vertices – Depth-First Search Algorithm
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/dynamic_programming.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../trees_graphs.html" class="binary_trees">Binary trees</a>
+        <a href="../binary_trees_dfs.html" class="binary_trees_dfs">Binary trees DFS</a>
+        <a href="../binary_trees_bfs.html" class="binary_trees_bfs">Binary trees BFS</a>
+        <a href="../binary_search_trees.html" class="binary_search_trees">Binary search trees</a>
+        <a href="../graphs.html" class="graphs">Graphs</a>
+        <a href="../graphs_dfs.html" class="graphs_dfs">Graphs DFS</a>
+        <a href="../graphs_bfs.html" class="graphs_bfs">Graphs BFS</a>
+        <a href="../implicit_graphs.html" class="implicit_graphs">Implicit graphs</a>
+        <a href="../premium_graphs.html" class="premium_graphs">Premium graphs</a>
+        <a href="../disjoint_set/1_disjoint_set.html" class="disjoint_set">Disjoint set</a>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div>
+
+    <div class="container">
+        <h1>Traversing all paths between two vertices – Depth-First Search Algorithm</h1>
+
+        <hr>
+
+        <h2>
+            Video Introduction
+        </h2>
+        <hr>
+
+        <p class="content">
+            В следующем видео мы объясним, как найти все пути между двумя вершинами, используя подход поиска в глубину
+            (DFS).
+        </p>
+
+        <p class="content">
+            Video: Traversing all Paths DFS Export v2 (1)_1080p
+        </p>
+
+        <h2>Complexity Analysis</h2>
+        <hr>
+
+        <p class="content">
+            Временная сложность:
+            O((V−1))!) Приведенный выше пример относится к неориентированному графу. Наихудший сценарий при попытке
+            найти все пути — это полный граф. Полный граф — это граф, в котором каждая вершина соединена с каждой другой
+            вершиной.
+        </p>
+
+        <p class="content">
+            В полном графе будет
+            V-1 уникальных путей длиной один, начинающихся в исходной вершине; один из этих путей пойдет к цели и
+            закончится. Каждый из оставшихся путей будет иметь
+            V−2 уникальных путей, исходящих из нее (поскольку ни один из них не вернется к исходной вершине, которая уже
+            была посещена). Этот процесс будет продолжаться и приведет примерно к
+            (V-1)! суммарные пути. Помните: как только путь достигает целевой вершины, он заканчивается, поэтому общее
+            количество путей будет меньше
+            (V-1)!.
+        </p>
+
+        <p class="content">
+            Точное общее количество путей в наихудшем сценарии эквивалентно количеству расположений подмножества вершин,
+            исключая исходный и целевой узел, что равно
+            е⋅(V−2)!.
+        </p>
+
+        <p class="content">
+            Находя все пути, на каждой итерации мы добавляем в стек все допустимые пути из текущей вершины, как показано
+            на видео. Каждый раз, когда мы добавляем путь в стек, требуется
+            Время O(V) для создания копии текущего пути, добавления к ней вершины и помещения ее в стек. Поскольку путь
+            каждый раз увеличивается на одну вершину, путь длиной
+            V должно быть скопировано и помещено в стек.
+            V раз, прежде чем достигнет текущей длины. Поэтому интуитивно понятно, что каждый путь должен требовать
+            О (V<sup>2</sup>
+            ) общее время. Однако в нашей логике есть изъян. Рассмотрим пример выше; в 2:50 добавляем в стек
+            <span>ADE</span>. Затем
+            в 3:20 мы добавляем в стек <span>ADEC</span>, <span>ADEB</span> и <span>ADEF</span>. <span>ADE</span> — это
+            подпуть <span>ADEC</span>, <span>ADEB</span> и <span>ADEF</span>, но <span>ADE</span> создавался только
+            один раз. Таким образом, время, необходимое для каждого пути создания <span>ADE</span>, можно представить
+            как
+            O(V), разделенное на количество путей, исходящих из <span>ADE</span>. Учитывая это, время, затрачиваемое на
+            создание
+            пути, равно
+            В плюс
+            V-1, разделенное на количество путей, исходящих из этого подпути, плюс
+            V−2 раза... Для полного графа со многими узлами это в среднем составляет
+            O(2⋅V)=O(V) время на путь.
+        </p>
+
+        <p class="content">
+            Таким образом, временная сложность поиска всех путей в неориентированном графе в худшем случае равна
+            количеству найденных путей.
+            В O((V−2)) раз среднее время поиска пути
+            O(V), что упрощается до
+            О((V−1)!).
+        </p>
+
+
+
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Insertion Sort</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../../dynamic/dynamic_programming.html" class="dynamic_programming">Dynamic Programming</a>
+        <a href="../../dynamic/framework_for_dp.html" class="framework_for_dp">Framework for DP</a>
+        <a href="../../dynamic/1d_problems.html" class="1d_problems">1D Problems</a>
+        <a href="../../dynamic/multi_dimensional_problems.html" class="multi_dimensional_problems">Multi-dimensional
+            Problems</a>
+        <a href="../../dynamic/matrix_dp.html" class="matrix_dp">Matrix DP</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Longest Common Subsequence</a>
+        <a href="#ex2">#2 Best Time to Buy and Sell Stock IV </a>
+        <a href="#ex3">#3 Maximum Value of K Coins From Piles </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Insertion Sort
+        </h1>
+        <hr>
+
+        <p class="content">Going back to our pile of books analogy, where we attempted to sort by weight, let's explore
+            another approach to sorting the pile of books. We'll start at the top of the pile and iterate over the books
+            one by one. Every time we encounter a book that is lighter than the book above it, we'll move the book up
+            until it is in its appropriate place. Repeating this for the entire pile of books, we will get the books in
+            sorted order.</p>
+        <p class="content">This is the core intuition behind insertion sort. Given a collection of integers, you can
+            sort the list by proceeding from the start of the list, and every time you encounter an element that is out
+            of order, you can continuously swap places with previous elements until it is inserted in its correct
+            relative location based on what you’ve processed thus far. This process is best understood with a visual
+            example.</p>
+
+
+        <p class="content">
+            Video: InsertionSort_1080p
+        </p>
+
+        <p class="content">In terms of efficiency of this approach, the worst possible input is a reversed list, where
+            every element has to be inserted at the very beginning of the list, which leads to a total of
+            1
+            +
+            2
+            +
+            …
+            +
+            (
+            𝑛
+            −
+            1
+            )
+            1+2+…+(n−1) or
+            𝑂
+            (
+            𝑛
+            2
+            )
+            O(n<sup>2</sup>
+            ) swaps. The space complexity of insertion sort is
+            𝑂
+            (
+            1
+            )
+            O(1). All operations are performed in-place.</p>
+        <p class="content">
+            Despite the
+            O(n<sup>2</sup>
+            ) time complexity, in practice, there are a couple of advantages to insertion sort.
+        </p>
+        <p class="content">
+            For one, it is a stable sort. By design of its implementation, we will never swap an element later in the
+            list with an equal element earlier in the list. But more importantly, there are cases where insertion sort
+            may actually be the best sort.
+        </p>
+        <p class="content">
+            Generally, on almost sorted arrays where the number of inversions is relatively small compared to the size
+            of the array, insertion sort will be quite fast since the number of swaps required will be low on almost
+            sorted arrays.
+        </p>
+        <p class="content">
+            Next, insertion sort can also be the best choice on small arrays. This is more of an empirical observation
+            based on experiments, but it is one that you should be aware of. Many sorting functions have a quick check
+            for the size of the collection and if that value is below a threshold, the program will default to insertion
+            sort. Java's official implementation of Arrays.sort() performs such a check before performing more
+            theoretically optimal sorts.
+        </p>
+        <p class="content">
+            In terms of disadvantages, on larger collections with many inversions, other sorts will generally outperform
+            insertion sort. However, of all the sorts we have covered thus far, insertion sort is the first that is
+            practically used, depending on the context.
+        </p>
+        <p class="content">Below is the implementation of insertion sort:</p>
+
+        <div class="code">
+            def insertion_sort(self, lst: List[int]) -> None: <br>
+            <p class="raw1">"""Mutates elements in lst by inserting out of place elements into appropriate</p>
+            <p class="raw1">index repeatedly until lst is sorted"""</p>
+            <br>
+            <p class="raw1">for i in range(1, len(lst)):</p>
+            <p class="raw2">current_index = i</p>
+            <br>
+            <p class="raw2">while current_index > 0 and lst[current_index - 1] > lst[current_index]:</p>
+            <p class="raw3"># Swap elements that are out of order</p>
+            <p class="raw3">lst[current_index], lst[current_index - 1] = lst[current_index - 1], lst[current_index]</p>
+            <p class="raw3">current_index -= 1</p>
+        </div>
+
+
+
+
+    </div>
+
+</body>
+
+</html>

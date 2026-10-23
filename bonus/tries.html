@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Tries</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../bonus/bonus.html">Difference array</a>
+        <a href="../bonus/tries.html">Tries</a>
+        <a href="../bonus/bit_manipulation.html">Bit manipulation</a>
+        <a href="../bonus/intervals.html">Intervals</a>
+        <a href="../bonus/modular_arithmetic.html">Modular arithmetic</a>
+        <a href="../bonus/dijkstra.html">Dijkstra</a>
+
+    </div>
+
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Search Suggestions System </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Tries
+        </h1>
+
+        <hr>
+
+        <p class="content">
+            Дерево — это древовидная структура данных, также известная как префиксное дерево. Обычно дерево хранит
+            символы строки в каждом узле. Все пути от корня до узла представляют собой строку символов на пути (идея,
+            которую мы подробно рассматривали в этом курсе). Например:
+        </p>
+
+        <img src="../bonus/bonus_imgs/55_1.png" alt="">
+
+
+        <p class="content">
+            Tries можно использовать для эффективной реализации алгоритмов поиска/сопоставления строк. Допустим, у вас
+            есть огромный список слов и поток символов (как будто кто-то печатает). Построив дерево, вы можете
+            отслеживать, какие слова имеют эти символы в качестве префикса. Следующий код можно использовать для
+            построения дерева (для массива строковых <span>words</span>):
+        </p>
+
+
+        <p class="important">
+            Существует несколько способов создания trie, и это только один из них.
+        </p>
+
+        <div class="code">
+            # note: using a class is only necessary if you want to store data at each node.
+            # otherwise, you can implement a trie using only hash maps.
+            class TrieNode:
+            <p class="raw1">def __init__(self):</p>
+            <p class="raw2"># you can store data at nodes if you wish</p>
+            <p class="raw2">self.data = None</p>
+            <p class="raw2">self.children = {}</p>
+            <br>
+            def build_trie(words):
+            <p class="raw1">root = TrieNode()</p>
+            <p class="raw1">for word in words:</p>
+            <p class="raw2">curr = root</p>
+            <p class="raw2">for c in word:</p>
+            <p class="raw3">if c not in curr.children:</p>
+            <p class="raw4">curr.children[c] = TrieNode()</p>
+            <p class="raw3">curr = curr.children[c]</p>
+            <p class="raw2"># at this point, you have a full word at curr</p>
+            <p class="raw2"># you can perform more logic here to give curr an attribute if you want</p>
+            <br>
+            <p class="raw1">return root</p>
+        </div>
+
+
+        <p class="content">
+            Построение попытки занимает
+            Время O(n⋅k), где n — длина слов, а k — средняя длина строк в словах. Имея дерево, вы можете реализовать
+            очень эффективные алгоритмы поиска строк. Приведенный выше код создает дерево, как на изображении выше.
+        </p>
+
+
+        <hr>
+
+        <p class="important" id="ex1">
+            <a href="https://leetcode.com/problems/search-suggestions-system/">Example: 1268. Search Suggestions
+                System</a>
+            <br>
+            <br>
+            Вам дан массив строк <span>products</span> и строка <span>searchWord</span>. Разработайте систему, которая
+            предлагает не
+            более трех названий из <span>products</span> после ввода каждого символа <span>searchWord</span>.
+            Предлагаемые продукты должны
+            иметь общий префикс с <span>searchWord</span>. Если продуктов с общим префиксом более трёх, выбирают три
+            лексикографических минимума. Вернуть список списков предлагаемых продуктов после ввода каждого символа
+            <span>searchWord</span>.
+        </p>
+
+
+        <p class="content">
+            При вводе <span>searchWord</span> формируется префикс. Например, если <span>searchWord = «abcde»</span>, то
+            префиксами после каждого
+            символа будут <span>«a», «ab», «abc», «abcd», «abcde»</span>. Для каждого префикса нам нужно найти (до) 3
+            лексикографически наименьших слов из <span>products</span>, которые имеют этот префикс.
+        </p>
+
+        <p class="content">
+            Подход «грубой силы» заключался бы в переборе <span>products</span> для каждого префикса и проверке того,
+            какие из них совпадают.
+            Это будет иметь временную сложность O(n * m<sup>2</sup>), где <span>n = Products.length</span> и <span>m =
+                searchWord.length</span>.
+            Это будет стоить нам
+            O(n⋅k), чтобы построить дерево из <span>products</span>, где
+            k — средняя длина каждого продукта, и тогда мы сможем найти все слова с совпадающими префиксами всего за
+            О(м) времени. Поскольку <span>k</span> мало, на этот раз сложность
+            O(n⋅k+m) намного лучше.
+        </p>
+
+        <p class="content">
+            Помните: каждый узел дерева представляет собой префикс, а корень представляет собой пустую строку. Мы можем
+            использовать атрибут <span>suggestions</span> для хранения трех продуктов, которые следует вернуть. Чтобы
+            соответствовать ограничениям задачи, мы ограничим размер до 3 и сохраним его в сортировке (что дешево,
+            поскольку размер ограничен 3).
+        </p>
+
+        <p class="content">
+            Как только дерево построено, мы можем обойти его, начав с корня и перебирая <span>searchWord</span>. На
+            каждом узле
+            дерево мгновенно выдает нам ответ.
+        </p>
+
+        <p class="important">
+            Код, который мы использовали для построения дерева, тот же, что и шаблон, приведенный в начале этой статьи,
+            с небольшой модификацией: у нас есть атрибут <span>suggestions</span>, которые мы поддерживаем на каждом
+            узле.
+        </p>
+
+        <div class="code">
+            class TrieNode:
+            <p class="raw1">def __init__(self):</p>
+            <p class="raw2">self.children = {}</p>
+            <p class="raw2">self.suggestions = []</p>
+            <br>
+            class Solution:
+            <p class="raw1">def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:</p>
+            <p class="raw2">root = TrieNode()</p>
+            <p class="raw2">for product in products:</p>
+            <p class="raw3">node = root</p>
+            <p class="raw3">for c in product:</p>
+            <p class="raw4">if c not in node.children:</p>
+            <p class="raw5">node.children[c] = TrieNode()</p>
+            <p class="raw4">node = node.children[c]</p>
+            <br>
+            <p class="raw4">node.suggestions.append(product)</p>
+            <p class="raw4">node.suggestions.sort()</p>
+            <p class="raw4">if len(node.suggestions) > 3:</p>
+            <p class="raw5">node.suggestions.pop()</p>
+            <br>
+            <p class="raw2">ans = []</p>
+            <p class="raw2">node = root</p>
+            <p class="raw2">for c in searchWord:</p>
+            <p class="raw3">if c in node.children:</p>
+            <p class="raw4">node = node.children[c]</p>
+            <p class="raw4">ans.append(node.suggestions)</p>
+            <p class="raw3">else:</p>
+            <p class="raw4"># deadend reached</p>
+            <p class="raw4">node.children = {}</p>
+            <p class="raw4">ans.append([])</p>
+            <br>
+            <p class="raw2">return ans</p>
+        </div>
+
+
+        <p class="content">
+            Попробуйте самостоятельно выполнить попытку решения этой предстоящей практической задачи.
+        </p>
+
+        <hr>
+
+
+    </div>
+
+</body>
+
+</html>

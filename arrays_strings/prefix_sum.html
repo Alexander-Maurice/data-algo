@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Prefix Sum</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../arrays_strings/arrays.html" class="arrays_strings">Arrays and strings</a>
+        <a href="../arrays_strings/two_pointers.html" class="two_pointers">Two pointers</a>
+        <a href="../arrays_strings/sliding_window.html" class="sliding_window">Sliding window</a>
+        <a href="../arrays_strings/prefix_sum.html" class="prefix_sum">Prefix sum</a>
+        <a href="../arrays_strings/common_patterns.html" class="common_patterns">More common patterns</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#prefix">Псведокод</a>
+        <a href="#primer1">Пример 1</a>
+        <a href="#primer2">Пример 2</a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Prefix sum
+        </h1>
+
+        <hr>
+
+        <p class="content">
+            Префиксная сумма — это метод, который можно использовать с массивами (числами). Идея состоит в том, чтобы
+            создать <span>prefix</span> массив, где <span>prefix[i]</span> — это сумма всех элементов до индекса
+            <span>i</span> (включительно). Например,
+            если <span>nums = [5, 2, 1, 6, 3, 8]</span>, у нас будет <span>prefix = [5, 7, 8, 14, 17, 25]</span>.
+        </p>
+
+        <p class="important">
+            Когда подмассив начинается с индекса <span>0</span>, он считается «префиксом» массива. Prefix sum
+            представляет собой
+            сумму всех префиксов.
+        </p>
+
+        <p class="content">
+            Префиксные суммы позволяют найти сумму любого подмассива в
+            О(1). Если нам нужна сумма подмассива от <span>i</span> до <span>j</span> (включительно), то ответ будет
+            <span>prefix[j] — prefix[i — 1]</span>
+            или <span>prefix[j] — prefix[i] + nums[i]</span>, если вы не хотите иметь дело со случаем выхода за
+            пределы, когда <span>i
+                = 0</span>.
+        </p>
+
+        <p class="content">
+            Это работает, потому что <span>prefix[i - 1]</span> — это сумма всех элементов до индекса <span>i</span>.
+            Когда вы вычитаете это из
+            суммы всех элементов до индекса <span>j</span>, у вас остается сумма всех элементов, начиная с индекса
+            <span>i</span> и
+            заканчивая
+            индексом <span>j</span>, а это именно то, что мы ищем.
+        </p>
+
+        <img src="../arrays_strings/arrays_strings_imgs/rem_4.png" alt="">
+
+        <p class="important">
+            На изображении выше мы хотим найти сумму подмассива, выделенного синим цветом.
+            <br>
+            <br>
+            Если вы возьмете все элементы до конца подмассива (зеленая линия) и вычтете все элементы до него (красная
+            линия), у вас получится подмассив.
+            <br>
+            <br>
+            Используя префиксную сумму, мы можем найти сумму зеленой линии 25 и красной линии 11 за постоянное время и
+            взять их разницу, чтобы найти сумму подмассива, равную 14.
+        </p>
+
+        <p class="content" id="prefix">
+            Построить префиксную сумму очень просто. Вот некоторый псевдокод:
+        </p>
+
+        <div class="code">
+            Given an array nums,
+            <br> <br>
+            prefix = [nums[0]] <br>
+            for (int i = 1; i < nums.length; i++) <p class="raw1">prefix.append(nums[i] + prefix[prefix.length - 1])</p>
+        </div>
+
+        <p class="content">
+            Изначально мы начинаем только с первого элемента. Затем мы выполняем итерацию с <span>i</span>, начиная с
+            индекса <span>1</span>. В
+            любой заданной точке последний элемент <span>prefix</span> будет представлять собой сумму всех элементов
+            входных данных
+            до индекса <span>i</span>, но не включая его. Таким образом, мы можем добавить это значение плюс текущее
+            значение в конец
+            <span>prefix</span> и перейти к следующему элементу.
+        </p>
+
+        <p class="content">
+            Префиксная сумма — отличный инструмент, когда проблема связана с суммами подмассива. Это стоит всего
+            O(n) для построения, но позволяет выполнять все будущие запросы к подмассиву.
+            O(1), поэтому обычно это может улучшить временную сложность алгоритма в раз.
+            O(n), где
+            n — длина массива. Давайте посмотрим на несколько примеров.
+        </p>
+
+        <p class="content">
+            Построение суммы префикса является формой предварительной обработки. Предварительная обработка — это
+            полезная стратегия в различных задачах, когда мы сохраняем предварительно вычисленные данные в структуре
+            данных перед запуском основной логики нашего алгоритма. Хотя предварительная обработка занимает некоторое
+            время, это вложение, которое сэкономит нам огромное количество времени на основных частях алгоритма.
+        </p>
+
+        <hr>
+
+        <p class="important" id="primer1">
+            Пример 1. Учитывая целочисленный массив <span>nums</span>, массив <span>queries</span>, где <span>queries[i]
+                = [x, y]</span> и целочисленный
+            <span>limit</span>, возвращают логический массив, который представляет ответ на каждый запрос. Запрос
+            является <span>true</span>,
+            если сумма подмассива от <span>x</span> до <span>y</span> меньше <span>limit</span>, или <span>false</span>
+            в противном случае.
+            <br>
+            <br>
+            Например, если задан <span>nums = [1, 6, 3, 2, 7, 2]</span>, <span>queries = [[0, 3], [2, 5], [2, 4]]</span>
+            и <span>limit = 13</span>, ответ
+            будет таким: <span>[true, false, true]</span>. Для каждого запроса суммы подмассивов равны <span>[12, 14,
+                12]</span>.
+        </p>
+
+        <p class="content">
+            давайте построим сумму префиксов, а затем воспользуемся описанным выше методом для ответа на каждый запрос в
+            О(1).
+        </p>
+
+
+        <div class="code">
+            def answer_queries(nums, queries, limit):
+            <p class="raw1">prefix = [nums[0]]</p>
+            <p class="raw1">for i in range(1, len(nums)):</p>
+            <p class="raw2">prefix.append(nums[i] + prefix[-1])</p>
+            <br>
+            <p class="raw1">ans = []</p>
+            <p class="raw1">for x, y in queries:</p>
+            <p class="raw2">curr = prefix[y] - prefix[x] + nums[x]</p>
+            <p class="raw2">ans.append(curr < limit)</p>
+                    <br>
+                    <p class="raw1">return ans</p>
+        </div>
+
+        <p class="content">
+            Без суммы префикса ответ на каждый запрос был бы
+            O(n) в худшем случае, где
+            n — длина <span>nums</span>. Если <span>m = query.length</span>, это даст временную сложность
+            О(n∗m). С префиксной суммой это стоит
+            O(n) для построения, но затем ответ на каждый запрос
+            О(1). Это дает гораздо лучшую временную сложность
+            О(n+m). Мы используем
+            O(n) пространство для построения суммы префикса.
+        </p>
+
+        <hr>
+
+        <p class="important" id="primer2">
+            <a href="https://leetcode.com/problems/number-of-ways-to-split-array/">Example 2: 2270. Number of Ways to
+                Split Array</a>
+            <br>
+            <br>
+            Учитывая целочисленный массив <span>nums</span>, найдите количество способов разделить массив на две части
+            так, чтобы
+            сумма первой части была больше или равна сумме второй части. Во втором разделе должен быть хотя бы один
+            номер.
+        </p>
+
+        <p class="content">
+            Подход грубой силы мог бы заключаться в переборе каждого индекса <span>i</span> от <span>0</span> до
+            <span>nums.length - 1</span>. Для каждого
+            индекса выполните итерацию от <span>0</span> до <span>i</span>, чтобы найти сумму левого раздела, а затем
+            повторите от <span>i + 1</span> до конца
+            массив, чтобы найти сумму правильного раздела. Этот алгоритм будет иметь временную сложность
+            O(n<sup>2</sup>).
+        </p>
+
+        <p class="content">
+            Если мы сначала построим сумму префикса, а затем пройдемся по каждому индексу, мы сможем вычислить суммы
+            левого и правого разделов в
+            O(1), что улучшит временную сложность
+            О(n).
+        </p>
+
+        <details>
+            <summary>Нажмите для подробного объяснения</summary>
+            <p class="content">
+                Когда мы разделяем массив на две части, у нас остаются два смежных подмассива. Нам нужно найти суммы
+                этих подмассивов и сравнить их.
+            </p>
+
+            <p class="content">
+                Есть
+                n−1 способов разбить массив (правая часть не может быть пустой). Для каждого из этих разделений это
+                будет стоить
+                O(n) для перебора двух подмассивов и нахождения их сумм.
+            </p>
+
+            <p class="content">
+                Вместо этого мы можем потратить
+                O(n) один раз, чтобы построить префиксную сумму перед попыткой разделения. Затем мы можем использовать
+                префиксную сумму для выполнения каждого из
+                n−1 разделений на
+                O(1) время. Как мы знаем, с помощью префиксной суммы мы можем вычислить сумму любого подмассива в
+                О(1).
+            </p>
+
+            <p class="content">
+                Допустим, мы разделяемся по индексу <span>i</span>. Левый раздел содержит все элементы массива до
+                индекса <span>i</span>, поэтому
+                он имеет сумму <span>prefix[i]</span>. Правый раздел начинается с индекса <span>i + 1</span> и
+                заканчивается конечным
+                индексом <span>n - 1</span>. Это означает, что он имеет сумму <span>prefix[n - 1] - prefix[i]</span>.
+            </p>
+        </details>
+
+
+        <div class="code">
+            def waysToSplitArray(nums: List[int]) -> int:
+            <p class="raw1">n = len(nums)</p>
+            <br>
+            <p class="raw1">prefix = [nums[0]]</p>
+            <p class="raw1">for i in range(1, n):</p>
+            <p class="raw2">prefix.append(nums[i] + prefix[-1])</p>
+            <br>
+            <p class="raw1">ans = 0</p>
+            <p class="raw1">for i in range(n - 1):</p>
+            <p class="raw2">left_section = prefix[i]</p>
+            <p class="raw2">right_section = prefix[-1] - prefix[i]</p>
+            <p class="raw2">if left_section >= right_section:</p>
+            <p class="raw3">ans += 1</p>
+            <br>
+            <p class="raw1">return ans</p>
+        </div>
+
+
+        <h4>
+            Нужен ли нам массив?
+        </h4>
+
+        <p class="content">
+            В этой задаче порядок доступа к <span>prefix</span> является инкрементным: чтобы найти
+            <span>leftSection</span>, мы выполняем
+            <span>prefix[i]</span>, поскольку <span>i</span> увеличивается на <span>1</span> на каждой итерации.
+        </p>
+
+        <p class="content">
+            Таким образом, для вычисления <span>leftSection</span> нам фактически не нужен массив. Мы можем просто
+            инициализировать
+            <span>leftSection = 0</span>, а затем вычислять его на лету, добавляя к нему текущий элемент на каждой
+            итерации.
+        </p>
+
+        <p class="content">
+            А как насчет <span>rightSection</span>? По определению правый раздел содержит все числа массива, которых нет
+            в левом
+            разделе. Следовательно, мы можем предварительно вычислить сумму всех входных данных как общую, а затем
+            вычислить <span>rightSection</span> как общую сумму — <span>leftSection</span>.
+        </p>
+
+        <p class="content">
+            Мы по-прежнему используем концепцию суммы префикса, поскольку каждое значение <span>leftSection</span>
+            представляет собой
+            сумму префикса. Мы просто воспроизвели функциональность, используя целое число вместо массива.
+        </p>
+
+        <div class="code">
+            def waysToSplitArray(nums: List[int]) -> int:
+            <p class="raw1">ans = left_section = 0</p>
+            <p class="raw1">total = sum(nums)</p>
+            <br>
+            <p class="raw1">for i in range(len(nums) - 1):</p>
+            <p class="raw2">left_section += nums[i]</p>
+            <p class="raw2">right_section = total - left_section</p>
+            <p class="raw2">if left_section >= right_section:</p>
+            <p class="raw3">ans += 1</p>
+            <br>
+            <p class="raw1">return ans</p>
+        </div>
+
+
+        <p class="content">
+            Мы улучшили сложность пространства до
+            O(1), что является большим улучшением.
+        </p>
+
+        <hr>
+
+        <h4>
+            Заключительные замечания
+        </h4>
+
+        <p class="content">
+            Это последний основной шаблон, который мы будем рассматривать для массивов и строк. В следующей статье мы
+            рассмотрим еще несколько распространенных приемов и закономерностей, а затем завершим главу тестом, прежде
+            чем двигаться дальше. Перед этим попробуйте применить изученные здесь понятия в следующей задаче.
+        </p>
+
+        <hr>
+
+
+
+    </div>
+
+</body>
+
+</html>

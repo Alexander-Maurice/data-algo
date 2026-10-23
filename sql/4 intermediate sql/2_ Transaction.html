@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Transaction
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../1 sql data structure/1_Schema.html">SQL Data Structure</a>
+            <a href="../2 sql syntax/1_select_insert_update_delete.html">SQL Syntax</a>
+            <a href="../3 sql relationship/1_ Relationships.html">SQL Relationship</a>
+            <a href="../4 intermediate sql/1_Foreign Key.html">Intermediate SQL</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="./1_Foreign Key.html" class="">Foreign Key</a>
+        <a href="./2_ Transaction.html" class="">Transactions</a>
+        <a href="./3_ACID.html" class="">ACID</a>
+        <a href="./4_ Index.html" class="">Index</a>
+        <a href="./5_User Privilege.html" class="">User Privilege</a>
+    </div>
+
+    <!-- <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div> -->
+
+    <div class="container">
+        <h1>Transaction</h1>
+
+        <hr>
+        <h2>
+            Чему вы научитесь
+        </h2>
+
+        <ol>
+            <li>Какие проблемные транзакции можно решить и насколько они важны.</li>
+            <li>Использование транзакции в нормальных условиях.</li>
+            <li>Использование транзакции в ненормальных условиях.</li>
+        </ol>
+
+        <p class="content">
+            Транзакции — это основная функция поддержания согласованности данных в мире SQL. По сути, все основные
+            реляционные базы данных поддерживают функцию транзакций, и даже некоторые программы для нереляционных баз
+            данных могут поддерживать функцию транзакций (например, Mongo DB — Transaction). Вы можете себе представить
+            его важность в практических системах.
+        </p>
+
+        <p class="content">
+            Транзакции важны, потому что есть некоторые утверждения, что мы хотим полностью добиться успеха или
+            полностью потерпеть неудачу, но частичный успех невозможен. Пример – перевод денег в банк.
+        </p>
+
+        <p class="content">
+            Поэтому мы настоятельно рекомендуем вам хорошо усвоить это понятие!
+        </p>
+
+        <h2>
+            Sample table
+        </h2>
+        <p class="content">
+            <b>products</b>
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>price</td>
+                <td>title</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>10</td>
+                <td>chair</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>100</td>
+                <td>desk</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>200</td>
+                <td>bike</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>200</td>
+                <td>motorcycle</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>300</td>
+                <td>headphone</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>300</td>
+                <td>phone</td>
+            </tr>
+        </table>
+
+        <h2>
+            Concept
+        </h2>
+
+        <p class="content">
+            Использование синтаксиса транзакций несколько отличается от другого синтаксиса SQL. Грамматика, которую мы
+            изучили в прошлом, предусматривала одноразовое выполнение, а результат реализации прост: либо успех, либо
+            неудача.
+        </p>
+
+        <p class="content">
+            Использование транзакции похоже на коробку, в которую можно поместить множество операторов SQL и выполнить
+            их вместе.
+        </p>
+
+        <p class="content">
+            Транзакция имеет состояние. Когда мы выполняем транзакцию, все операторы SQL в транзакции будут помечены как
+            запросы, принадлежащие состоянию транзакции. С помощью последующих логических суждений вы можете решить, что
+            результаты этих запросов действительно сохранены, или восстановить результаты, вызванные этими запросами.
+        </p>
+
+        <h2>Basic Statement</h2>
+
+        <p class="content">
+            Прежде всего, давайте посмотрим, как установить состояние транзакции для нашей базы данных:
+        </p>
+
+        <div class="code">
+            --First Query <br>
+            START TRANSACTION; <br> <br>
+
+            -- Second Queries <br>
+            UPDATE `new_schema`.`products` SET `price` = '500' WHERE id = 5; <br>
+            UPDATE `new_schema`.`products` SET `price` = '500' WHERE id = 6;
+        </div>
+
+        <p class="content">
+            Прежде чем начать, обратите внимание, что этот пример разделен на две части, которые выполняются в разное
+            время. Первая часть — <span>START TRANSACTION</span>, а вторая часть состоит из двух операторов
+            <span>UPDATE</span>.
+        </p>
+
+        <p class="content">
+            Сначала давайте рассмотрим ключевое слово <span>START TRANSACTION</span>. Когда этот оператор будет
+            выполнен, SQL,
+            который мы выполним позже, перейдет в состояние транзакции. То есть, когда мы выполняем инструкции
+            <span>UPDATE</span>,
+            которые обновляют цену продукта с идентификаторами <span>id = 5</span> и <span>id = 6</span> до 500, это
+            будет отмечено как состояние
+            транзакции.
+        </p>
+
+        <p class="content">
+            Когда оператор SQL помечен как транзакционный, это означает, что результат его выполнения не будет сохранен
+            до тех пор, пока не будет выполнена команда COMMIT.
+        </p>
+
+        <p class="content">
+            Итак, полная команда с COMMIT будет выглядеть следующим образом:
+        </p>
+
+        <div class="code">
+            -- First Query <br>
+            START TRANSACTION; <br> <br>
+
+            -- Second Queries <br>
+            UPDATE `new_schema`.`products` SET `price` = '500' WHERE id = 5; <br>
+            UPDATE `new_schema`.`products` SET `price` = '500' WHERE id = 6; <br> <br>
+
+            -- Third Query <br>
+            COMMIT;
+        </div>
+
+        <div class="important">
+            В MySQL, если вы используете MySQL Workbench для моделирования наших образцов, по умолчанию он будет
+            использовать режим автоматической фиксации. Это означает, что по умолчанию фиксация будет выполняться в
+            фоновом режиме, что повлияет на результаты теста запроса, которые не включают «START TRASACTION». Для тех,
+            кто хочет узнать больше, пожалуйста, обратитесь к: Описание MySQL Autocommit.
+        </div>
+
+        <h2>
+            Restore Statement
+        </h2>
+
+        <p class="content">
+            Реальная жизнь всегда полна сюрпризов, и вероятность встретить ошибки в коде очень велика. Таким образом,
+            существует транзакционный механизм решения этой проблемы.
+        </p>
+
+        <p class="content">
+            Возьмем предыдущий пример и предположим, что ошибка возникает, когда мы выполнили только половину запросов
+            на обновление цены. В этом случае весь пакет обновлений должен быть отброшен. Чтобы отменить изменения,
+            вызванные этими запросами, нам нужно использовать ключевое слово <span>ROLLBACK</span>.
+        </p>
+
+        <p class="content">
+            Вот пример использования <span>ROLLBACK</span>:
+        </p>
+
+        <div class="code">
+            -- First Query <br>
+            START TRANSACTION; <br> <br>
+
+            -- Second Queries <br>
+            UPDATE `new_schema`.`products` SET `price` = '500' WHERE id = 5; <br>
+            .. <br>
+            -- error happened here! <br>
+            .. <br>
+            UPDATE `new_schema`.`products` SET `price` = '500' WHERE id = 6; <br> <br>
+
+            -- Third Query <br>
+            ROLLBACK;
+        </div>
+
+        <p class="content">
+            Обратите внимание, как мы расположили утверждения. Если в разделе <span>Second Queries</span> возникает
+            ошибка в
+            середине, мы пропустим второй оператор <span>UPDATE</span> и сразу перейдем к третьему разделу
+            (<span>ROLLBACK</span>). Это
+            восстановит все результаты до того состояния, которое было до начала транзакции.
+        </p>
+
+        <p class="content">
+            Выполнив откат при обнаружении ошибки, мы можем избежать несоответствий в данных (цены на некоторые продукты
+            были обновлены, а на другие все еще сохраняются исходные цены).
+        </p>
+
+        <p class="content">
+            В большинстве проектов транзакции, фиксации и откаты будут контролироваться приложениями на других языках
+            программирования. Однако в некоторых крупных проектах можно использовать операторы транзакций, которые
+            полностью контролируются SQL. В это время другие функции SQL обычно используются следующим образом:
+        </p>
+
+        <div class="code">
+            START TRANSACTION; <br><br>
+
+            SELECT `new_schema`.`products` WHERE id = 5; <br>
+            UPDATE `new_schema`.`products` SET `price` = '500' WHERE id = 5; <br> <br>
+
+            IF (@correct) THEN <br>
+            COMMIT; <br>
+            ELSE <br>
+            ROLLBACK; <br>
+            END IF;
+        </div>
+
+        <p class="content">
+            Логика этого кода такова: если ошибок нет, то фиксируем, иначе — откатываемся.
+        </p>
+
+        <p class="content">
+            Он имеет относительно более сложную структуру, чем обычный оператор SQL. Заинтересованные читатели могут
+            обратиться к MySQL Compound Statement о процессе управления в SQL.
+        </p>
+
+        <p class="important">
+            <span>@correct</span> — переменная SQL, ссылка: пользовательские переменные MySQL.
+        </p>
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>

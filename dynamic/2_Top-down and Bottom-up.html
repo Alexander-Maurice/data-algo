@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Top-down and Bottom-up</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../dynamic/dynamic_programming.html" class="dynamic_programming">Dynamic Programming</a>
+        <a href="../dynamic/framework_for_dp.html" class="framework_for_dp">Framework for DP</a>
+        <a href="../dynamic/1d_problems.html" class="1d_problems">1D Problems</a>
+        <a href="../dynamic/multi_dimensional_problems.html" class="multi_dimensional_problems">Multi-dimensional
+            Problems</a>
+        <a href="../dynamic/matrix_dp.html" class="matrix_dp">Matrix DP</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Longest Common Subsequence</a>
+        <a href="#ex2">#2 Best Time to Buy and Sell Stock IV </a>
+        <a href="#ex3">#3 Maximum Value of K Coins From Piles </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Top-down and Bottom-up
+        </h1>
+        <hr>
+
+        <p class="content">
+            Существует два способа реализации алгоритма DP:
+        </p>
+
+        <ol>
+            <li>Восходящий метод, также известный как табуляция.</li>
+            <li>Сверху вниз, также известное как мемоизация.</li>
+        </ol>
+
+        <p class="content">
+            Давайте кратко рассмотрим каждый метод.
+        </p>
+
+        <h2>
+            Bottom-up (Tabulation)
+        </h2>
+
+        <p class="content">
+            Восходящий метод реализуется с помощью итераций и начинается с базовых случаев. Давайте снова используем
+            последовательность Фибоначчи в качестве примера. Базовые случаи последовательности Фибоначчи:
+            F(0)=0 и
+            Ф(1)=1. При восходящем подходе мы будем использовать эти базовые случаи для расчета
+            F(2), а затем использовать этот результат для вычисления
+            F(3) и так далее до
+            F(n).
+        </p>
+
+        <div class="code">
+            // Pseudocode example for bottom-up <br> <br>
+
+            F = array of length (n + 1)<br>
+            F[0] = 0<br>
+            F[1] = 1<br>
+            for i from 2 to n:<br>
+            <p class="raw1">F[i] = F[i - 1] + F[i - 2]</p>
+        </div>
+
+        <h2>
+            Top-down (Memoization)
+        </h2>
+        <p class="content">
+            Сверху вниз реализуется с помощью рекурсии и становится более эффективным благодаря мемоизации. Если мы
+            хотим найти n-е число Фибоначчи F(n), мы пытаемся вычислить его, находя F(n−1) и F(n−2). Это определяет
+            рекурсивный шаблон, который будет продолжаться до тех пор, пока мы не достигнем базовых случаев.
+            F(0)=F(1)=1. Проблема с простой рекурсивной реализацией заключается в том, что возникает масса ненужных
+            повторяющихся вычислений. Взгляните на дерево рекурсии, если мы хотим найти F(5):
+        </p>
+
+        <img src="../dynamic/dynamic_imgs/C1A2_1.png" alt="">
+
+        <p class="content">
+            Обратите внимание, что нам нужно вычислить F(2) три раза. Это может показаться не таким уж большим делом, но
+            если бы нам пришлось вычислить F(6), все это изображение было бы всего лишь одним дочерним элементом корня.
+            Представьте себе, если бы мы хотели найти F(100) — объем вычислений экспоненциален и быстро возрастет.
+            Решение этой проблемы — запомнить результаты.
+        </p>
+
+        <p class="important">
+            Запоминание результата означает сохранение результата вызова функции, обычно в хэш-карте или массиве, чтобы
+            при повторном вызове той же функции мы могли просто вернуть запомненный результат вместо пересчета
+            результата.
+        </p>
+
+        <p class="content">
+            После того, как мы вычислим F(2), давайте сохраним его где-нибудь (обычно в хэш-карте), чтобы в будущем,
+            когда нам понадобится найти F(2), мы могли просто обратиться к уже вычисленному значению вместо того, чтобы
+            проходить через все дерево снова. Ниже приведен пример того, как выглядит дерево рекурсии для поиска F(6) с
+            мемоизацией и без нее:
+        </p>
+
+        <div class="code">
+            // Pseudocode example for top-down <br><br>
+
+            memo = hashmap<br>
+            Function F(integer i):<br>
+            <p class="raw1">if i is 0 or 1:</p>
+            <p class="raw2">return i</p>
+            <p class="raw1">if i doesn't exist in memo:</p>
+            <p class="raw2">memo[i] = F(i - 1) + F(i - 2)</p>
+            <p class="raw1">return memo[i]</p>
+        </div>
+
+        <h2>
+            Which is better?
+        </h2>
+
+        <p class="content">
+            Любой алгоритм DP можно реализовать любым методом, и есть причины предпочесть любой из них. Однако у каждого
+            метода есть одно главное преимущество:
+        </p>
+
+        <ul>
+            <li>Время выполнения восходящей реализации обычно быстрее, поскольку итерация не требует накладных расходов,
+                которые есть при рекурсии.</li>
+            <li>Реализация сверху вниз обычно гораздо проще написать. Это связано с тем, что при рекурсии порядок
+                подзадач не имеет значения, тогда как при табулировании нам необходимо пройти логический порядок решения
+                подзадач.</li>
+        </ul>
+
+        <p class="important">
+            Мы будем говорить подробнее об этих двух вариантах на протяжении всей карты. На данный момент все, что вам
+            нужно знать, это то, что сверху вниз используется рекурсия, а снизу вверх — итерация.
+        </p>
+
+        <hr>
+
+    </div>
+
+</body>
+
+</html>

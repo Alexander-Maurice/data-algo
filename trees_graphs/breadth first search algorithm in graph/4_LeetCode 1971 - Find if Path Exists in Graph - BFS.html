@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>LeetCode 1971 - Find if Path Exists in Graph - BFS
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/dynamic_programming.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../trees_graphs.html" class="binary_trees">Binary trees</a>
+        <a href="../binary_trees_dfs.html" class="binary_trees_dfs">Binary trees DFS</a>
+        <a href="../binary_trees_bfs.html" class="binary_trees_bfs">Binary trees BFS</a>
+        <a href="../binary_search_trees.html" class="binary_search_trees">Binary search trees</a>
+        <a href="../graphs.html" class="graphs">Graphs</a>
+        <a href="../graphs_dfs.html" class="graphs_dfs">Graphs DFS</a>
+        <a href="../graphs_bfs.html" class="graphs_bfs">Graphs BFS</a>
+        <a href="../implicit_graphs.html" class="implicit_graphs">Implicit graphs</a>
+        <a href="../premium_graphs.html" class="premium_graphs">Premium graphs</a>
+        <a href="../disjoint_set/1_disjoint_set.html" class="disjoint_set">Disjoint set</a>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div>
+
+    <div class="container">
+        <h1>LeetCode 1971 - Find if Path Exists in Graph - BFS</h1>
+
+        <hr>
+        <h2>
+            Video Solution
+        </h2>
+        <hr>
+
+        <p class="content">
+            В этом видеорешении мы будем использовать подход BFS для решения проблемы определения существования пути от
+            исходной вершины к целевой вершине в неориентированном графе.
+        </p>
+
+        <p class="content">
+            Video: FindIfPathExistsBFS Export_1080p
+        </p>
+
+        <h2>
+            Implementation
+        </h2>
+
+        <div class="code">
+            def validPath(n: int, edges: List[List[int]], start: int, end: int) -> bool: <br>
+            <p class="raw1">adjacency_list = [[] for _ in range(n)]</p>
+            <p class="raw1">for a, b in edges:</p>
+            <p class="raw2">adjacency_list[a].append(b)</p>
+            <p class="raw2">adjacency_list[b].append(a)</p>
+            <br>
+            <p class="raw1">queue = collections.deque([start])</p>
+            <p class="raw1">seen = set([start])</p>
+            <br>
+            <p class="raw1">while queue:</p>
+            <p class="raw2"># Get the current node.</p>
+            <p class="raw2">node = queue.popleft()</p>
+            <br>
+            <p class="raw2"># Check if we have reached the target node.</p>
+            <p class="raw2">if node == end:</p>
+            <p class="raw3">return True</p>
+            <br>
+            <p class="raw2"># Add all neighbors to the queue.</p>
+            <p class="raw2">for neighbor in adjacency_list[node]:</p>
+            <p class="raw3"># Check if neighbor has been added to the queue before.</p>
+            <p class="raw3">if neighbor not in seen:</p>
+            <p class="raw4">seen.add(neighbor)</p>
+            <p class="raw4">queue.append(neighbor)</p>
+            <br>
+            <p class="raw1"># Our queue is empty and we did not reach the end node.</p>
+            <p class="raw1">return False</p>
+        </div>
+
+        <h2>
+            Complexity Analysis
+        </h2>
+        <hr>
+
+        <ul>
+            <li>
+                Временная сложность:
+                О(В+Е). Здесь,
+                V представляет количество вершин и
+                E представляет количество ребер.
+                <ul>
+                    <li>Чтобы создать список смежности, мы должны перебрать каждый из
+                        Е-края.</li>
+                    <li>В цикле while мы посетим вершину максимум один раз.</li>
+                    <li>Цикл for внутри цикла while будет иметь совокупную сумму не более
+                        E итераций, поскольку он будет перебирать всех соседей узла для каждого узла.</li>
+                </ul>
+            </li>
+            <li>Пространственная сложность:
+                О(В+Е).
+                <ul>
+                    <li>Список смежности будет содержать
+                        O(V+E) элементов.</li>
+                    <li>Очередь также будет содержать
+                        O(V) элементы.</li>
+                    <li>Видимый набор будет использовать
+                        O(V) пространство для хранения посещенных узлов.</li>
+                </ul>
+            </li>
+        </ul>
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>

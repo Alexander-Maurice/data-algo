@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Intervals</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../bonus/bonus.html">Difference array</a>
+        <a href="../bonus/tries.html">Tries</a>
+        <a href="../bonus/bit_manipulation.html">Bit manipulation</a>
+        <a href="../bonus/intervals.html">Intervals</a>
+        <a href="../bonus/modular_arithmetic.html">Modular arithmetic</a>
+        <a href="../bonus/dijkstra.html">Dijkstra</a>
+
+    </div>
+
+
+    <div class="container">
+        <h1>
+            Intervals
+        </h1>
+
+        <hr>
+
+        <p class="content">
+            Другая распространенная закономерность — проблемы, связанные с интервалами <span>[начало, конец]</span>.
+            Обычно эти
+            проблемы можно решить, сначала отсортировав входные данные, а затем пройдя по ним и сравнивая соседние
+            интервалы. Давайте посмотрим на несколько примеров.
+        </p>
+
+
+        <hr>
+
+        <p class="important">
+            <a href="https://leetcode.com/problems/meeting-rooms/">Example 1: 252. Meeting Rooms</a>
+            <br>
+            <br>
+            Дан массив <span>intervals</span> времени встреч, где <span>intervals[i] = [start, end]</span> указывает,
+            что
+            i-я встреча начинается с <span>[start, end]</span>, определить, может ли один человек присутствовать на всех
+            встречах.
+            <br>
+            <br>
+            Например, для заданных интервалов = <span>[[0, 30], [5, 10], [15, 20]]</span> возвращается
+            <span>false</span>. Если вы посетите
+            встречу <span>[0, 30]</span>, то вы не сможете присутствовать на двух других.
+        </p>
+
+        <p class="content">
+            Подход «грубой силы» заключался бы в том, чтобы просмотреть каждую пару встреч и проверить, нет ли
+            совпадений, что потребовало бы O(n<sup>2</sup>), где
+            n — количество встреч. Мы можем улучшить эту ситуацию, заметив, что в случае конфликта конфликтующие встречи
+            будут соседними, если мы отсортируем входные данные.
+        </p>
+
+
+        <p class="content">
+            Если мы отсортируем встречи по времени их начала, то встречи будут расположены в том порядке, в котором их
+            следует посещать. Если
+            i-я встреча начинается до конца (i - 1)<sup>th</sup>
+            встречи, то возникает конфликт, потому что вам придется покинуть
+            (i - 1)<sup>th</sup>
+            встречи пораньше, чтобы успеть на
+            i<sup>th</sup>
+            встречи.
+        </p>
+
+
+        <div class="code">
+            def canAttendMeetings(intervals):
+            <p class="raw1">intervals.sort()</p>
+            <p class="raw1">for i in range(1, len(intervals)):</p>
+            <p class="raw2">if intervals[i][0] < intervals[i - 1][1]:</p>
+                    <p class="raw3">return False</p>
+                    <br>
+                    <p class="raw1">return True</p>
+        </div>
+
+
+        <p class="content">
+            Из-за сортировки временная сложность этого алгоритма равна
+            О(n⋅logn). Это всё равно намного лучше, чем грубая сила
+            О(п<sup>2</sup>). Объем используемого пространства зависит от используемого языка. Например, Python
+            реализует временную
+            сортировку, которая использует до
+            O(n) пространство, но язык, использующий быструю сортировку, использует
+            O(log) пространство.
+        </p>
+
+        <hr>
+
+        <p class="important">
+            <a href="https://leetcode.com/problems/merge-intervals/">Example 2: 56. Merge Intervals</a>
+            <br>
+            <br>
+            Учитывая массив интервалов, где <span>intervals[i] = [start, end]</span>, объедините все перекрывающиеся
+            интервалы и
+            верните массив непересекающихся интервалов, охватывающих все интервалы во входных данных.
+            <br>
+            <br>
+            Например, заданные <span>intervals = [[1, 3], [2, 6], [8, 10], [15, 18]]</span>, верните <span>[[[1, 6], [8,
+                10], [15, 18]]]</span>.
+            Первые два интервала сливаются, образуя <span>[1, 6]</span>, а затем следующие два интервала не
+            перекрываются.
+        </p>
+
+        <p class="content">
+            В предыдущей задаче мы отсортировали интервалы по времени их начала, а затем сравнили соседние интервалы,
+            чтобы проверить на перекрытие. Мы можем использовать тот же процесс здесь. Допустим, у нас есть два
+            перекрывающихся интервала — <span>[a, b]</span> и <span>[c, d]</span>. Объединенный интервал должен быть
+            <span>[min(a, c), max(b, d)]</span>.
+        </p>
+
+
+        <p class="content">
+            Давайте отсортируем входные данные по времени начала и построим массив <span>ans</span> по одному интервалу
+            за раз.
+            Если в любом заданном интервале мы обнаружим, что <span>start</span> меньше или равно времени окончания
+            предыдущего
+            интервала, это означает перекрытие, и мы должны объединить интервалы. Поскольку мы сортируем по времени
+            начала, <span>start</span> предыдущего интервала всегда будет меньше, поэтому мы можем игнорировать часть
+            <span>min(a, c)</span> из
+            предыдущего абзаца. Нам просто нужно изменить новый конец с помощью <span>max(b, d)</span>.
+        </p>
+
+
+        <div class="code">
+            def merge(intervals: List[List[int]]) -> List[List[int]]:
+            <p class="raw1">intervals.sort()</p>
+            <p class="raw1">ans = []</p>
+            <br>
+            <p class="raw1">for start, end in intervals:</p>
+            <p class="raw2">if ans and start <= ans[-1][1]:</p>
+                    <p class="raw3">ans[-1][1] = max(ans[-1][1], end)</p>
+                    <p class="raw2">else:</p>
+                    <p class="raw3">ans.append([start, end])</p>
+                    <br>
+                    <p class="raw1">return ans</p>
+        </div>
+
+
+        <p class="content">
+            Как и в предыдущем примере, стоимость сортировки
+            O(n⋅logn), где
+            n — количество интервалов. Если мы не считаем ответ дополнительным пространством, то этот алгоритм
+            использует то же пространство, что и предыдущий, что зависит от реализации сортировки.
+        </p>
+
+        <p class="content">
+            Попробуйте решить следующую практическую задачу самостоятельно.
+        </p>
+
+        <hr>
+
+
+
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Counting DP
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../../dynamic/dynamic_programming.html" class="dynamic_programming">Dynamic Programming</a>
+        <a href="../../dynamic/framework_for_dp.html" class="framework_for_dp">Framework for DP</a>
+        <a href="../../dynamic/1d_problems.html" class="1d_problems">1D Problems</a>
+        <a href="../../dynamic/multi_dimensional_problems.html" class="multi_dimensional_problems">Multi-dimensional
+            Problems</a>
+        <a href="../../dynamic/matrix_dp.html" class="matrix_dp">Matrix DP</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Longest Common Subsequence</a>
+        <a href="#ex2">#2 Best Time to Buy and Sell Stock IV </a>
+        <a href="#ex3">#3 Maximum Value of K Coins From Piles </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Counting DP
+        </h1>
+        <hr>
+
+        <p class="content">
+            Most of the problems we have looked at in earlier chapters ask for either the maximum, minimum, or longest
+            of something. However, it is also very common for a DP problem to ask for the number of distinct ways to do
+            something. In fact, one of the first examples we looked at did this - recall that Climbing Stairs asked us
+            to find the number of ways to climb to the top of the stairs.
+        </p>
+        <p class="important">
+            Another term used to describe this class of problems is "counting DP".
+        </p>
+        <p class="content">
+            What are the differences with counting DP? With the maximum/minimum problems, the recurrence relation
+            typically involves a
+            max()
+            max() or
+            min()
+            min() function. This is true for all types of problems we have looked at - iteration, multi-dimensional,
+            etc. With counting DP, the recurrence relation typically just sums the results of multiple states together.
+            For example, in Climbing Stairs, the recurrence relation was
+            dp(i) = dp(i - 1) + dp(i - 2)
+            dp(i) = dp(i - 1) + dp(i - 2). There is no
+            max()
+            max() or
+            min()
+            min(), just addition.
+        </p>
+        <p class="content">
+            Another difference is in the base cases. In most of the problems we have looked at, if the state goes out of
+            bounds, the base case equals
+            0
+            0. For example, in the Best Time to Buy and Sell Stock questions, when we ran out of transactions or ran out
+            of days to trade, we returned
+            0
+            0 because we can't make any more profit. In Longest Common Subsequence, when we run out of characters for
+            either string, we return
+            0
+            0 because the longest common subsequence of any string and an empty string is
+            0
+            0. With counting DP, the base cases are often not set to
+            0
+            0. This is because the recurrence relation usually only involves addition terms with other states, so if the
+            base case was set to
+            0
+            0 then you would only ever add
+            0
+            0 to itself. Finding these base cases involves some logical thinking - for example, when we looked at
+            Climbing Stairs - we reasoned that there is
+            1
+            1 way to climb to the first step and
+            2
+            2 ways to climb to the second step.
+        </p>
+
+
+
+
+
+
+    </div>
+
+</body>
+
+</html>

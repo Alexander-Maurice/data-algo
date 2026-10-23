@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Example 139. Word Break</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../../dynamic/dynamic_programming.html" class="dynamic_programming">Dynamic Programming</a>
+        <a href="../../dynamic/framework_for_dp.html" class="framework_for_dp">Framework for DP</a>
+        <a href="../../dynamic/1d_problems.html" class="1d_problems">1D Problems</a>
+        <a href="../../dynamic/multi_dimensional_problems.html" class="multi_dimensional_problems">Multi-dimensional
+            Problems</a>
+        <a href="../../dynamic/matrix_dp.html" class="matrix_dp">Matrix DP</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Longest Common Subsequence</a>
+        <a href="#ex2">#2 Best Time to Buy and Sell Stock IV </a>
+        <a href="#ex3">#3 Maximum Value of K Coins From Piles </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Example 139. Word Break
+        </h1>
+        <hr>
+
+        <p class="content">
+            In this article, we'll use the framework to solve Word Break. So far, in this card, this is the most unique
+            and perhaps the most difficult problem to see that dynamic programming is a viable approach. This is
+            because, unlike all of the previous problems, we will not be working with numbers at all. When a question
+            asks, "is it possible to do..." it isn't necessarily a dead giveaway that it should be solved with DP.
+            However, we can see that in this question, the order in which we choose words from
+            wordDict is important, and a greedy strategy will not work.
+        </p>
+
+        <p class="important">
+            Recall back in the first chapter, we said that a good way to check if a problem should be solved with DP or
+            greedy is to first assume that it can be solved greedily, then try to think of a counterexample.
+        </p>
+
+        <p class="content">
+            Let's say that we had s= "abcdef" and wordDict = [ "abcde", "ef", "abc", "a", "d"]. A greedy algorithm
+            (picking the longest substring available) will not be able to determine that picking
+            "abcde" here is the wrong decision. Likewise, a greedy algorithm (picking the shortest substring available)
+            will not be able to determine that picking "a" first is the wrong decision.
+        </p>
+
+        <p class="content">
+            With that being said, let's develop a DP algorithm using our framework:
+        </p>
+
+        <p class="important">
+            For this problem, we'll look at bottom-up first.
+        </p>
+
+        <p class="content">
+            1. <b>An array</b> that answers the problem for a given state
+        </p>
+
+        <p class="content">
+            Despite this problem being unlike the ones we have seen so far, we should still stick to the ideas of the
+            framework. In the article where we learned about multi-dimensional dynamic programming, we talked about how
+            an index variable, usually denoted i is typically used in DP problems where the input is an array or string.
+            All the problems that we have
+            looked at up to this point reflect this.
+        </p>
+
+        <ul>
+            <li>With this in mind, let's use a state variable
+                i, which keeps track of which index we are currently at in
+                s</li>
+            <li>Do we need any other state variables? The other input is wordDict - however, it says in the problem that
+                we can reuse words from wordDict as much as we want. Therefore, a state variable isn't necessary because
+                wordDict and what we can do with it never changes. If the problem was changed so that we can only use a
+                word once, or say k times, then we would need extra state variables to know what words we are allowed to
+                use at each state
+            </li>
+        </ul>
+
+        <p class="content">
+            In all the past problems, we had a function
+            dp return the answer to the original problem for some state. We should try to do the same thing here. The
+            problem is asking, is it possible to create
+            s by combining words in
+            wordDict. So, let's have an array
+            dp where
+            dp[i] represents if it is possible to build the string
+            s up to index
+            i from
+            wordDict. To answer the original problem, we can return
+            dp[s.length - 1] after populating
+            dp.
+        </p>
+
+        <p class="content">
+            2. <b>A recurrence relation</b> to transition between states
+        </p>
+
+        <p class="content">
+            At each index
+            i, what criteria determines if
+            dp[i] is true? First, a word from
+            wordDict needs to be able to end at index
+            i. In terms of code, this means that there is some
+            word from
+            wordDict that matches the substring of
+            s that starts at index
+            i - word.length + 1 and ends at index
+            i.
+        </p>
+
+        <p class="content">
+            We can iterate through all states of
+            i from
+            0 up to but not including
+            s.length, and at each state, check all the words in
+            wordDict for this criteria. For each
+            word in
+            wordDict, if
+            s from index
+            i - word.length + 1 to
+            i is equal to
+            word, that means
+            word ends at
+            i. However, this is not the sole criteria.
+        </p>
+
+        <p class="content">
+            Remember, we are forming
+            s
+            s by adding words together. That means, if a
+            word
+            word meets the first criteria and we want to use it in a solution, we would add it on top of another string.
+            We need to make sure that the string before it is also formable. If
+            word
+            word meets the first criteria, it starts at index
+            i - word.length + 1
+            i - word.length + 1. The index before that is
+            i - word.length
+            i - word.length, and the second criteria is that
+            s
+            s up to this index is also formable from
+            wordDict
+            wordDict. This gives us our recurrence relation:
+        </p>
+
+        <p class="content">
+            dp(i) = true if s.substring(i - word.length + 1, i + 1) == word and dp[i - word.length] == true for any word
+            in wordDict, otherwise false
+        </p>
+
+        <img src="../../dynamic/dynamic_imgs/C3A3_1_cropped.png" alt="">
+        <img src="../../dynamic/dynamic_imgs/C3A3_2_cropped.png" alt="">
+        <img src="../../dynamic/dynamic_imgs/C3A3_3_cropped.png" alt="">
+
+        <p class="content">
+            In summary, the criteria is:
+        </p>
+
+        <ol>
+            <li>A
+                word
+                word from
+                wordDict
+                wordDict can end at the current index
+                i
+                i.</li>
+            <li>If that
+                word
+                word is to end at index
+                i
+                i, then it starts at index
+                i - word.length + 1
+                i - word.length + 1. The index before that
+                i - word.length
+                i - word.length should also be formable from
+                wordDict
+                wordDict.</li>
+        </ol>
+
+        <p class="content">
+            3. <b>Base cases</b>
+        </p>
+
+        <p class="content">
+            The base case for this problem is another simple one. The first word used from
+            wordDict
+            wordDict starts at index
+            0
+            0, which means we would need to check
+            dp[-1]
+            dp[-1] for the second criteria, which is out of bounds. To fix this, we say that the second criteria can
+            also be satisfied by
+            i == word.length - 1
+            i == word.length - 1.
+        </p>
+
+        <h2>
+            Bottom-up Implementation
+        </h2>
+
+        <div class="code">
+            def wordBreak(s: str, wordDict: List[str]) -> bool: <br>
+            <p class="raw1">dp = [False] * len(s)</p>
+            <p class="raw1">for i in range(len(s)):</p>
+            <p class="raw2">for word in wordDict:</p>
+            <p class="raw3"># Make sure to stay in bounds while checking criteria</p>
+            <p class="raw3">if i >= len(word) - 1 and (i == len(word) - 1 or dp[i - len(word)]):</p>
+            <p class="raw4">if s[i - len(word) + 1 : i + 1] == word:</p>
+            <p class="raw5">dp[i] = True</p>
+            <p class="raw5">break</p>
+            <br>
+            <p class="raw1">return dp[-1]</p>
+        </div>
+
+        <h2>
+            Top-down Implementation
+        </h2>
+
+        <p class="content">
+            In the top-down approach, we can check for the base case by returning
+            true
+            true if i less 0. In Java, we will memoize by using a -1 -1 to indicate that the state is unvisited, 0 0 to
+            indicate false false, and 1 1 to indicate true true. </p>
+
+        <div class="code">
+            def wordBreak(s: str, wordDict: List[str]) -> bool: <br>
+            <p class="raw1">@lru_cache(None)</p>
+            <p class="raw1">def dp(i):</p>
+            <p class="raw2">if i < 0:</p>
+                    <p class="raw3">return True</p>
+                    <p class="raw2">for word in wordDict:</p>
+                    <p class="raw3">if (i >= len(word) - 1) and dp(i - len(word)):</p>
+                    <p class="raw4">if s[i - len(word) + 1 : i + 1] == word:</p>
+                    <p class="raw5">return True</p>
+                    <br>
+                    <p class="raw2">return False</p>
+                    <br>
+                    <p class="raw1">return dp(len(s) - 1)</p>
+        </div>
+
+        <p class="content">
+            Let's say that
+            n = s.length
+            n = s.length,
+            k = wordDict.length
+            k = wordDict.length, and
+            L
+            L is the average length of the words in
+            wordDict
+            wordDict. While the space complexity for this problem is the same as the number of states
+            n
+            n, the time complexity is much worse. At each state
+            i
+            i, we iterate through
+            wordDict
+            wordDict and splice
+            s
+            s to a new string with average length
+            L
+            L. This gives us a time complexity of
+            𝑂
+            (
+            𝑛
+            ⋅
+            𝑘
+            ⋅
+            𝐿
+            )
+            O(n⋅k⋅L).
+        </p>
+
+        <hr>
+
+
+
+
+    </div>
+
+</body>
+
+</html>

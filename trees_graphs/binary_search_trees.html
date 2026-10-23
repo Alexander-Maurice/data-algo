@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Binary search trees</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+    <div class="box">
+        <a href="trees_graphs.html" class="binary_trees">Binary trees</a>
+        <a href="binary_trees_dfs.html" class="binary_trees_dfs">Binary trees DFS</a>
+        <a href="binary_trees_bfs.html" class="binary_trees_bfs">Binary trees BFS</a>
+        <a href="binary_search_trees.html" class="binary_search_trees">Binary search trees</a>
+        <a href="graphs.html" class="graphs">Graphs</a>
+        <a href="graphs_dfs.html" class="graphs_dfs">Graphs DFS</a>
+        <a href="graphs_bfs.html" class="graphs_bfs">Graphs BFS</a>
+        <a href="implicit_graphs.html" class="implicit_graphs">Implicit graphs</a>
+        <a href="premium_graphs.html" class="premium_graphs">Premium graphs</a>
+        <a href="disjoint_set/1_disjoint_set.html" class="disjoint_set">Disjoint set</a>
+        <a href="dejkstra.html" class="dejkstra">Dejkstra</a>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Сумма диапазона BST </a>
+        <a href="#ex2">#2 Минимальная абсолютная разница в BST </a>
+        <a href="#ex3">#3 Проверка двоичного дерева поиска </a>
+
+    </div>
+
+
+    <div class="container">
+        <h1>
+            Binary search trees
+        </h1>
+
+        <hr>
+        <p class="content">
+            Бинарное дерево поиска (BST) — это тип двоичного дерева. BST обладает следующим свойством:
+        </p>
+
+        <p class="content">
+            Для каждого узла все значения в его левом поддереве меньше значения в узле, а все значения в его правом
+            поддереве больше значения в узле.
+        </p>
+
+        <p class="content">
+
+            Ниже приведен пример BST:
+        </p>
+
+        <img src="../trees_graphs/tree_graphs_imgs/28_1.png" alt="" srcset="">
+
+        <p class="content">
+            С помощью двоичного дерева поиска такие операции, как поиск, добавление и удаление, можно выполнять в
+            O(log n) время в среднем, где n — количество узлов в дереве, полученное с помощью так называемого двоичного
+            поиска, которому посвящена следующая глава.
+        </p>
+
+        <p class="content">
+            Допустим, у вас есть указанное выше дерево, и вы хотите проверить, существует ли значение <span>20</span>.
+            Начиная с
+            корня, мы видим, что <span>23 > 20</span>. Это означает, что мы можем игнорировать правое поддерево,
+            поскольку каждое
+            значение в поддереве также будет больше <span>20</span>. Мы начинаем поиск в левом поддереве. На следующем
+            шаге <span>20 > 8</span>,
+            так что теперь мы можем игнорировать левое поддерево и двигаться вправо. Далее <span>20 > 17</span>, поэтому
+            мы снова
+            можем игнорировать левое поддерево. Наконец, мы находим цифру <span>20</span>, снова двигаясь вправо.
+        </p>
+
+        <p class="content">
+            Этот процесс имеет среднюю временную сложность О(log n). В худшем случае, скажем, с деревом, у которого не
+            было правильных дочерних элементов и которое представляло собой просто прямую линию (по сути, связанный
+            список), временная сложность будет равна O(n). Давайте рассмотрим некоторые вопросы, специфичные для BST.
+        </p>
+
+        <p class="important">
+
+            Интересный факт: inorder обход DFS с приоритетом слева перед правом на BST будет обрабатывать узлы в
+            отсортированном порядке.
+        </p>
+
+        <hr>
+        <p class="important" id="ex1">
+            Пример 1: <a href="https://leetcode.com/problems/range-sum-of-bst/">Сумма диапазона BST</a>
+            <br>
+            <br>
+            Дан <span>root</span> двоичного дерева поиска и два целых числа, <span>low</span> и <span>high</span>,
+            верните сумму значений всех узлов
+            со значением в включающем диапазоне [low, high].
+        </p>
+
+        <p class="content">
+            Тривиальным подходом было бы выполнить обычную BFS или DFS, посетить каждый узел и добавить в сумму только
+            те узлы, значения которых находятся между <span>low</span> и <span>high</span>. Однако мы можем использовать
+            свойство BST для
+            разработки более эффективного алгоритма. В BST каждый узел имеет значение больше, чем все узлы в левом
+            поддереве, и значение меньше, чем все узлы в правом поддереве. Следовательно, если значение текущего узла
+            меньше <span>low</span>, мы знаем, что бессмысленно проверять левое поддерево, поскольку все узлы в левом
+            поддереве будут вне диапазона. Аналогично, если значение текущего узла больше <span>high</span>,
+            бессмысленно проверять
+            правое поддерево. Эта оптимизация может сэкономить потенциально огромное количество вычислений.
+        </p>
+
+        <div class="code">
+            <pre>
+                class Solution:
+                    def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
+                        if not root:
+                            return 0
+
+                        ans = 0
+                        if low <= root.val <= high:
+                            ans += root.val
+                        if low < root.val:
+                            ans += self.rangeSumBST(root.left, low, high)
+                        if root.val < high:
+                            ans += self.rangeSumBST(root.right, low, high)
+
+                        return ans
+            </pre>
+        </div>
+
+        <p class="content">
+            Итеративная версия:
+        </p>
+
+        <div class="code">
+            <pre>
+                class Solution:
+                    def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
+                        stack = [root]
+                        ans = 0
+                        while stack:
+                            node = stack.pop()
+                            if low <= node.val <= high:
+                                ans += node.val
+                            if node.left and low < node.val:
+                                stack.append(node.left)
+                            if node.right and node.val < high:
+                                stack.append(node.right)
+                            
+                        return ans
+            </pre>
+        </div>
+
+        <p class="content">
+            Хотя временная сложность все еще O(n) для случая, когда все узлы в дереве находятся между <span>low</span> и
+            <span>high</span>,
+            в среднем этот алгоритм будет
+            работать лучше, чем простой поиск всех узлов. Например, если у вас было полное дерево с миллионом узлов, а
+            значение корня было больше <span>high</span>, то вы можете немедленно сохранить <span>500 000</span>
+            посещений, основываясь на
+            логике, что все узлы в правом поддереве больше, чем значение <span>root</span>, которое уже вне диапазона.
+        </p>
+
+        <p class="content">
+
+            Пространственная сложность
+            O(n) для стека вызовов/стека рекурсии.
+        </p>
+
+        <p class="important" id="ex2">
+            Пример 2: <a href="https://leetcode.com/problems/minimum-absolute-difference-in-bst/">
+                Минимальная абсолютная разница в BST</a>
+            <br>
+            <br>
+            Дан <span>root</span> BST, верните минимальную абсолютную разницу между значениями любых двух разных узлов в
+            дереве.
+        </p>
+
+        <p class="content">
+            Один из подходов — пройтись по дереву и поместить все значения в массив, а затем перебрать все пары массива,
+            чтобы найти минимальную разницу. Это было бы O(n*2). Лучшим подходом было бы отсортировать массив, а затем
+            перебрать соседние элементы. Ответ должен
+            находиться между соседними элементами отсортированного массива, поэтому это снижает временную сложность
+            O(n⋅logn) из-за сортировки. Можем ли мы добиться большего?
+        </p>
+
+        <p class="content">
+            Как кратко упоминалось ранее в этой статье, если вы выполняете inorder обход BST, вы будете посещать узлы
+            в отсортированном порядке. Следовательно, если мы выполним inorder DFS, мы сможем получить узлы в
+            отсортированном порядке без
+            O(n⋅logn) сортировки, в результате чего общая временная сложность равна O(n).
+        </p>
+
+        <p class="content">
+            Мы передадим массив <span>values</span> в нашу функцию dfs. Чтобы выполнить обход inorder, мы сначала
+            вызываем
+            левый дочерний элемент, затем добавляем текущее значение к <span>values</span>, а затем вызываем правый
+            дочерний
+            элемент. Это добавит значения в отсортированном порядке.
+        </p>
+
+        <div class="code">
+            <pre>
+                class Solution:
+                    def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
+                        def dfs(node):
+                            if not node:
+                                return
+                            
+                            left = dfs(node.left)
+                            values.append(node.val)
+                            right = dfs(node.right)
+
+                        values = []
+                        dfs(root)
+                        ans = float("inf")
+                        for i in range(1, len(values)):
+                            ans = min(ans, values[i] - values[i - 1])
+                        
+                        return ans
+            </pre>
+        </div>
+
+        <p class="content">
+
+            Ранее мы упоминали, что для итеративной DFS preorder выполняется легко, а два других
+            сложнее. Вот итеративное решение, которое включает в себя обход inorder:
+        </p>
+
+        <div class="code">
+            <pre>
+                class Solution:
+                    def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
+                        def iterative_inorder(root):
+                            stack = []
+                            values = []
+                            curr = root
+
+                            while stack or curr:
+                                if curr:
+                                    stack.append(curr)
+                                    curr = curr.left
+                                else:
+                                    curr = stack.pop()
+                                    values.append(curr.val)
+                                    curr = curr.right
+                            
+                            return values
+                        
+                        values = iterative_inorder(root)
+                        ans = float("inf")
+                        for i in range(1, len(values)):
+                            ans = min(ans, values[i] - values[i - 1])
+                        
+                        return ans
+            </pre>
+        </div>
+
+        <p class="content">
+            Как видите, inorder DFS гораздо сложнее реализовать итеративно, чем рекурсивно. Таким образом, если
+            когда-либо будет предоставлена ​​такая возможность, вам следует придерживаться рекурсии. На собеседовании
+            вас могут попросить применить оба подхода, поэтому, возможно, стоит запомнить процесс итеративного порядка,
+            но это встречается редко.
+        </p>
+
+        <p class="content">
+            Временная и пространственная сложность этого подхода O(n). Мы можем получить значения в отсортированном
+            порядке за линейное время, воспользовавшись свойством BST.
+        </p>
+
+        <hr>
+
+        <p class="important" id="ex3">
+            Пример 3: <a href="https://leetcode.com/problems/validate-binary-search-tree/">Проверка двоичного дерева
+                поиска</a>
+            <br>
+            <br>
+            Дан root двоичного дерева, определите, является ли оно допустимым BST.
+        </p>
+
+        <p class="content">
+            Используя рекурсию, мы можем построить функцию <span>dfs</span>, которая принимает <span>node</span> и
+            возвращает true,
+            если дерево с
+            корнем в <span>node</span> является BST. Во-первых, какие аргументы нам нужно передать (кроме узла)? В BST
+            корневой узел
+            может иметь любое значение, поскольку он не является дочерним элементом какого-либо узла, но каждый узел в
+            левом поддереве должен быть меньше его, а каждый узел в правом поддереве должен быть больше его. Чтобы
+            обеспечить это, мы можем использовать два целочисленных аргумента <span>small</span> и <span>large</span> и
+            убедиться, что <span>small < node.val < large </span> сохраняется. </p>
+
+        <p class="content">
+            Если мы определяем <span>(small, large)</span> интервал допустимых значений, как нам обновить их, чтобы
+            сохранить
+            свойство BST? В каждом <span>node</span> узлы левого поддерева должны быть меньше <span>node.val</span>,
+            чтобы мы могли обновить <span>large = node.val</span>. Правые узлы поддерева должны быть больше, чем
+            <span>node.val</span>,
+            чтобы мы могли обновить <span>small = node.val</span>.
+            Для корневого узла мы можем инициализировать <span>small = -infinity</span> и <span>large = infinity</span>
+            — корнем может быть любое значение, поскольку у него нет родителя.
+        </p>
+
+        <p class="content">
+            Помните определение BST: «Предположим, в BST в любом заданном узле ваши данные равны <span>val</span>. Все
+            данные в левом
+            поддереве меньше <span>val</span>, а все данные в правом поддереве больше <span>val»</span>. Поскольку «в
+            любом заданном узле» это
+            означает, что в BST все поддеревья также являются BST. Следовательно, учитывая входной <span>node</span>,
+            нам нужно
+            убедиться, что <span>node.left</span> и <span>node.right</span> также являются BST.
+        </p>
+
+        <p class="important">
+            Что такое базовый случай? Пустое дерево (без узлов) технически является BST. Следовательно, мы можем вернуть
+            true, когда текущий узел равен <span>null</span>.
+        </p>
+
+        <details>
+            <summary>Нажмите для детального объяснения</summary>
+            <p class="content">
+                Вспомним более ранний пример задачи, в которой нам нужно было определить, являются ли два дерева одним и
+                тем же деревом. В этой задаче мы определили, что если узлы <span>p</span> и <span>q</span> представляют
+                одно и то же дерево,
+                то их левое и правое поддеревья также должны быть идентичны друг другу. Если дерево с корнем в
+                <span>node</span>
+                является двоичным деревом поиска, то <span>node.left</span> и <span>node.right</span> также должны быть
+                двоичными деревьями
+                поиска. Поскольку реализуемая нами функция <span>isValidBST</span> определяет, является ли дерево
+                двоичным деревом
+                поиска, у нас есть рекурсивный способ рассмотрения проблемы. <span>isValidBST(node.left) &&
+                    isValidBST(node.right)</span> должно иметь значение true, а также значение текущего узла не должно
+                нарушать
+                свойство BST. Чтобы определить, нарушает ли значение узла свойство BST, мы можем использовать два
+                аргумента <span>small</span> и <span>large</span>. Они представляют собой (эксклюзивный) диапазон
+                <span>[small, large]</span>, в который должно попадать значение узла. Если значение узла не находится в
+                этом диапазоне, то
+                оно нарушает свойство BST, и мы можем <span>return False</span>. Корневой узел может иметь любое
+                значение, поэтому
+                мы инициализируем <span>small = -infinity</span> и <span>large = infinity</span>. Каждый узел в левом
+                поддереве корня должен
+                быть меньше, чем <span>root.val</span>, поэтому, когда мы вызываем левое поддерево, мы можем передать
+                <span>big = root.val</span>.
+                Каждый узел в правом поддереве корня должен быть больше, чем <span>root.val</span>, поэтому, когда мы
+                вызываем правое
+                поддерево, мы можем передать <span>small = root.val</span>. Обновляя <span>small</span> и
+                <span>large</span> таким образом, мы гарантируем,
+                что ограничение, определяющее приемлемость значения узла, всегда будет точным, поскольку рекурсия будет
+                сохранять копию <span>small</span> и <span>large</span> для каждого узла. В базовом случае, когда мы
+                сталкиваемся с пустым
+                деревом, мы возвращаем true. Опять же, подумайте о случае, когда входное дерево представляет собой один
+                узел. Любой узел сам по себе является двоичным деревом поиска по определению, поэтому нам потребуются
+                как <span>isValidBST(root.left)</span>, так и <span>isValidBST(root.right)</span>, чтобы return True,
+                поэтому нам нужно
+                пустое дерево, чтобы return True.
+            </p>
+        </details>
+
+        <div class="code">
+            <pre>
+                class Solution:
+                    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+                        def dfs(node, small, large):
+                            if not node:
+                                return True
+                            
+                            if not (small < node.val < large):
+                                return False
+
+                            left = dfs(node.left, small, node.val)
+                            right = dfs(node.right, node.val, large)
+
+                            # tree is a BST if left and right subtrees are also BSTs
+                            return left and right
+
+                        return dfs(root, float("-inf"), float("inf"))
+            </pre>
+        </div>
+        <p class="content">
+            Условием возврата в нашей функции является <span>AND</span>, т.е. все поддеревья также должны быть BST.
+            <br>
+            <br>
+            Итеративная версия:
+        </p>
+
+        <div class="code">
+            <pre>
+                class Solution:
+                    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+                        stack = [(root, float("-inf"), float("inf"))]
+                        while stack:
+                            node, small, large = stack.pop()
+                            if not (small < node.val < large):
+                                return False
+                            
+                            if node.left:
+                                stack.append((node.left, small, node.val))
+                            if node.right:
+                                stack.append((node.right, node.val, large))
+                        
+                        return True
+            </pre>
+        </div>
+        <p class="content">
+            Сложность времени и пространства
+            O(n) по тем же причинам, что и все остальные примеры.
+        </p>
+        <hr>
+    </div>
+
+
+
+</body>
+
+</html>

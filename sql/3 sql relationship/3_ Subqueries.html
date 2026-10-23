@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Subqueries
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../1 sql data structure/1_Schema.html">SQL Data Structure</a>
+            <a href="../2 sql syntax/1_select_insert_update_delete.html">SQL Syntax</a>
+            <a href="../3 sql relationship/1_ Relationships.html">SQL Relationship</a>
+            <a href="../4 intermediate sql/1_Foreign Key.html">Intermediate SQL</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="./1_ Relationships.html" class="">Relationships</a>
+        <a href="./2_ JOIN.html" class="">JOIN</a>
+        <a href="./3_ Subqueries.html" class="">Subqueries</a>
+    </div>
+
+    <!-- <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div> -->
+
+    <div class="container">
+        <h1>Subqueries</h1>
+
+        <hr>
+        <h2>
+            Чему вы научитесь
+        </h2>
+
+        <ol>
+            <li>Как использовать подзапрос для условий равенства и содержания.</li>
+            <li>Как не допустить типичных ошибок при написании подзапроса.</li>
+        </ol>
+
+        <h2>
+            Примеры таблиц
+        </h2>
+
+        <p class="content">
+            <b>users</b>
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>40</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>30</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Jack</td>
+                <td>22</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            <b>orders</b>
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>user_id</td>
+                <td>note</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>some information</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>2</td>
+                <td>some information</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>2</td>
+                <td>no comments</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>3</td>
+                <td>more comments</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            <span>Subquery</span> — это метод, используемый для упрощения операторов SQL, и это первый порог для
+            расширенного
+            синтаксиса SQL. В реальной системе баз данных таблица часто содержит десятки столбцов. Если
+            <span>JOIN</span>
+            используется для объединения таблиц в соответствии с определенными условиями, это может привести к выборке
+            многих избыточных столбцов.
+        </p>
+
+        <p class="content">
+            Рассмотрим ситуацию: предположим, мы хотим найти все записи заказов для пользователя с именем «Джон», но я
+            не хочу получать столбцы таблицы <span>users</span> и не хочу использовать <span>SELECT</span> для
+            определения столбцы
+            отображаются один за другим, что мне делать?
+        </p>
+
+        <p class="content">
+            На этом этапе подзапрос станет для вас отличным инструментом.
+        </p>
+
+        <h2>
+            Равное состояние
+        </h2>
+
+        <p class="content">
+            Прежде всего, давайте взглянем на оператор SQL, используемый для решения вышеуказанной ситуации:
+        </p>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`orders` <br>
+            WHERE user_id = ( <br>
+            SELECT id FROM `new_schema`.`users` <br>
+            WHERE name = 'John' <br>
+            );
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>user_id</td>
+                <td>note</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>some information</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Особой частью этого SQL является условие запроса ключевого слова <span>WHERE</span>. Его состояние является
+            результатом
+            другого оператора SQL. Это метод подзапроса, который использует вложенные операторы запроса для выполнения
+            условного запроса.
+        </p>
+
+        <p class="content">
+            Итак, если мы хотим проанализировать этот оператор SQL, мы можем сначала посмотреть на оператор SQL
+            подзапроса независимо:
+        </p>
+
+        <div class="code">
+            SELECT id FROM `new_schema`.`users` <br>
+            WHERE name = 'john';
+        </div>
+
+        <p class="content">
+            Его результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>
+                    id
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    1
+                </td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Поскольку полученные данные очень просты и содержат только одну запись, исходный оператор SQL можно
+            преобразовать в следующий оператор поиска с помощью оператора "=":
+        </p>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`orders` <br>
+            WHERE user_id = 1;
+        </div>
+
+        <h2>Содержать условие</h2>
+
+        <p class="content">
+            Помимо определения равенства, мы также можем преобразовать SQL в оператор, который может решить условие,
+            содержащее много данных. Для этого нам нужно обновить оператор <span>=</span> на <span>IN</span>. Причина в
+            том, что мы можем
+            использовать ключевое слово <span>IN</span> для фильтрации данных с несколькими условиями.
+        </p>
+
+        <p class="content">
+            Предположим, что наша ситуация такова: нам нужно найти все записи заказов для пользователя, имя которого
+            содержит букву «j».
+        </p>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`orders` <br>
+            WHERE user_id IN ( <br>
+            SELECT id FROM `new_schema`.`users` <br>
+            WHERE name LIKE '%j%' <br>
+            );
+        </div>
+
+        <p class="content">
+            Как и в предыдущем аналогичном примере, мы можем сначала разделить приведенный выше оператор SQL на:
+        </p>
+
+        <div class="code">
+            SELECT id FROM `new_schema`.`users` <br>
+            WHERE name LIKE '%j%'
+        </div>
+
+        <p class="content">
+            Это дает нам следующий результат:
+        </p>
+
+        <table>
+            <tr>id</tr>
+            <tr>1</tr>
+            <tr>3</tr>
+        </table>
+
+        <p class="content">
+            В результате весь наш SQL может быть преобразован в:
+        </p>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`orders` <br>
+            WHERE user_id IN (1, 3);
+        </div>
+
+        <p class="content">
+            И результат выполнения:
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>user_id</td>
+                <td>note</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>some information</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>3</td>
+                <td>more comments</td>
+            </tr>
+        </table>
+
+        <h2>
+            Распространенные ошибки
+        </h2>
+
+        <h3>
+            Singular and Plural problem
+        </h3>
+
+        <p class="content">
+            В предыдущих примерах, в которых используются слова «равно» и «содержать», важно отметить, что оба могут
+            использоваться, когда подзапросом извлекается только одна запись. Но если извлекается несколько записей, мы
+            можем использовать только метод contains. Причина в том, что если мы используем оператор <span>=</span>,
+            принимается
+            только одно значение. То есть следующий SQL вызовет ошибку выполнения, если подзапрос имеет несколько
+            записей:
+        </p>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`orders` <br>
+            WHERE user_id = ( <br>
+            SELECT id FROM `new_schema`.`users` <br>
+            WHERE name LIKE '%j%' <br>
+            );
+        </div>
+
+        <p class="content">
+            Поэтому нам следует обновить заявление следующим образом:
+        </p>
+
+        <div class="code">
+            SELECT * FROM `new_schema`.`orders` <br>
+            WHERE user_id IN ( <br>
+            SELECT id FROM `new_schema`.`users` <br>
+            WHERE name LIKE '%j%' <br>
+            );
+        </div>
+
+        <h3>
+            Избыточные столбцы в подзапросах
+        </h3>
+
+        <p class="content">
+            Другая распространенная ошибка — использование подзапросов, которые неправильно используют
+            <span>SELECT</span> для
+            получения соответствующих столбцов. Как было продемонстрировано ранее, <span>SELECT *</span> может помочь
+            нам избежать
+            записи всех столбцов один за другим, но также может привести к тому, что мы забудем записать их, когда нам
+            нужно только несколько конкретных столбцов.
+        </p>
+
+        <p class="content">
+            Например, в примере, использованном в этой статье, нашему подзапросу нужен только столбец <span>id</span>.
+            Предположим,
+            что он записан как <span>*</span>, поэтому все столбцы <span>name</span>, <span>age</span> и другие
+            извлекаются. Это приведет к ошибке выполнения:
+        </p>
+
+        <p class="content">
+            SELECT * FROM `new_schema`.`orders` <br>
+            WHERE user_id IN ( <br>
+            SELECT * FROM `new_schema`.`users` <br>
+            WHERE name LIKE '%j%' <br>
+            );
+        </p>
+
+        <p class="content">
+            Эти две ошибки очень распространены при первом обучении использованию подзапросов. Мы хотим поделиться ими с
+            вами и надеемся, что вы сможете без проблем использовать их в будущем!
+        </p>
+
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>

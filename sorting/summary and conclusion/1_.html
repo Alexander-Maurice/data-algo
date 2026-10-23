@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title> Sorting Algorithm Summary
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../../dynamic/dynamic_programming.html" class="dynamic_programming">Dynamic Programming</a>
+        <a href="../../dynamic/framework_for_dp.html" class="framework_for_dp">Framework for DP</a>
+        <a href="../../dynamic/1d_problems.html" class="1d_problems">1D Problems</a>
+        <a href="../../dynamic/multi_dimensional_problems.html" class="multi_dimensional_problems">Multi-dimensional
+            Problems</a>
+        <a href="../../dynamic/matrix_dp.html" class="matrix_dp">Matrix DP</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Longest Common Subsequence</a>
+        <a href="#ex2">#2 Best Time to Buy and Sell Stock IV </a>
+        <a href="#ex3">#3 Maximum Value of K Coins From Piles </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Sorting Algorithm Summary
+        </h1>
+        <hr>
+
+        <table>
+            <tr>
+                <td>Sorting Algorithm</td>
+                <td>Time Complexity</td>
+                <td>Space Complexity</td>
+                <td>Stable?</td>
+            </tr>
+            <tr>
+                <td>Bubble Sort</td>
+                <td>O(N<sup>2</sup>)</td>
+                <td>O(1)</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>Insertion Sort</td>
+                <td>O(N<sup>2</sup>)</td>
+                <td>O(1)</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>Selection Sort</td>
+                <td>O(N<sup>2</sup>)</td>
+                <td>O(1)</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>Heap Sort</td>
+                <td>O(NlogN)</td>
+                <td>O(1)</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>Counting Sort</td>
+                <td>O(N+K)</td>
+                <td>O(N+K)</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>Radix Sort</td>
+                <td>O(WN+WK)</td>
+                <td>O(N+K)</td>
+                <td>Yes</td>
+            </tr>
+            <tr>
+                <td>Bucket Sort</td>
+                <td>O(N<sup>2</sup>) -- O(N + K) average</td>
+                <td>O(N+K)</td>
+                <td>Yes</td>
+            </tr>
+        </table>
+
+        <p class="content">Note: For radix sort,
+            𝑊
+            W is the maximum number of characters/numbers of each element in the array, and
+            𝐾
+            K is the maximum alphabet size. For counting sort, assuming non-negative integers,
+            𝐾
+            K is the maximum element in the input. For all sorting methods,
+            𝑁
+            N is the size of the input array.</p>
+        <p class="content">
+            In this explore card, we learned about the intricacies of a variety of sorting algorithms. We dived into
+            comparison sorts and non-comparison based sorts. All sorts have tradeoffs, whether its for simplicity or
+            efficiency, so the most important aspect of sorting to really understand is what sort of tradeoffs were made
+            in the algorithm. There are a lot of good sorting algorithms out there, but there is no perfect algorithm.
+            Depending on the situation, a sort that may be less efficient may actually be the best sort (e.g. insertion
+            sort for almost sorted arrays). And other times, a non-comparison sort may be the best approach for an
+            input. But there may also be situations where even though non-comparison sorts theoretically perform better,
+            a comparison-based sort with less memory footprint may be a better choice. Being able to understand the
+            advantages and disadvantages of a variety of sorts in various contexts is the most important lesson to take
+            away from this explore card.
+        </p>
+
+
+
+
+    </div>
+
+</body>
+
+</html>

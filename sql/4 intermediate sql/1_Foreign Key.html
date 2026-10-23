@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Foreign Key
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../1 sql data structure/1_Schema.html">SQL Data Structure</a>
+            <a href="../2 sql syntax/1_select_insert_update_delete.html">SQL Syntax</a>
+            <a href="../3 sql relationship/1_ Relationships.html">SQL Relationship</a>
+            <a href="../4 intermediate sql/1_Foreign Key.html">Intermediate SQL</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="./1_Foreign Key.html" class="">Foreign Key</a>
+        <a href="./2_ Transaction.html" class="">Transactions</a>
+        <a href="./3_ACID.html" class="">ACID</a>
+        <a href="./4_ Index.html" class="">Index</a>
+        <a href="./5_User Privilege.html" class="">User Privilege</a>
+    </div>
+    <!-- 
+    <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div> -->
+
+    <div class="container">
+        <h1>Foreign Key</h1>
+
+        <hr>
+        <h2>
+            Чему вы научитесь
+        </h2>
+
+        <ol>
+            <li>Что такое внешний ключ и для чего он используется.</li>
+            <li>Как настроить различные механизмы защиты данных внешним ключом.</li>
+        </ol>
+
+        <h2>
+            Какие проблемы могут решить внешние ключи?
+        </h2>
+
+        <p class="content">
+            Поздравляем с переходом в более продвинутые главы!
+        </p>
+
+        <p class="content">
+            В первой главе будет интерпретироваться концепция <span>FOREIGN KEY</span>, о которой мы упоминали в
+            предыдущих
+            главах. Фактически внешний ключ — это столбец привязки внешних данных, таких как <span>user_id</span>,
+            <span>order_id</span>, который
+            мы установили в прошлом.
+        </p>
+
+        <p class="content">
+            Раньше мы записывали данные в относительных столбцах и использовали свой мозг, чтобы определить, связаны ли
+            они. Но на практике мы можем установить <span>CONSTRAINT</span> для внешнего ключа через SQL, чтобы помочь
+            нам выполнять
+            автоматические проверки и защищать безопасность данных.
+        </p>
+
+        <p class="content">
+            Что такое безопасность данных? Давайте представим ситуацию, когда у клиента есть большой объем данных о
+            заказе, но однажды инженер по ошибке удаляет данные о заказе клиента. Таким образом, если кому-то
+            понадобится узнать об истории заказов клиента в будущем, он не будет знать, что удаленные заказы принадлежат
+            этому клиенту. Это катастрофа в бизнесе.
+        </p>
+
+        <p class="content">
+            К счастью, с помощью <span>FOREIGN KEY</span> мы можем автоматически и эффективно избежать таких проблем.
+            Давайте
+            посмотрим, как его использовать!
+        </p>
+
+        <h2>Sample table</h2>
+        <p class="content">
+            <b>users</b>
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>40</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>30</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Jack</td>
+                <td>22</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            <b>orders</b>
+        </p>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>user_id</td>
+                <td>note</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>some information</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>2</td>
+                <td>some comments</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>2</td>
+                <td>no comments</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>3</td>
+                <td>more comments</td>
+            </tr>
+        </table>
+
+        <h2>
+            Основной синтаксис и использование
+        </h2>
+
+        <p class="content">
+            Для таблицы необходимо настроить внешний ключ, поэтому ключевые слова <span>ALTER TABLE</span> необходимо
+            использовать
+            следующим образом:
+        </p>
+
+        <div class="code">
+            ALTER TABLE `new_schema`.`orders` <br>
+            ADD CONSTRAINT `orders_user_id_key` <br>
+            FOREIGN KEY (`user_id`) <br>
+            REFERENCES `new_schema`.`users` (`id`);
+        </div>
+
+        <p class="content">
+            Здесь мы можем разделить его на четыре части: <br>
+            1. <span>ALTER TABLE</span>: Мы уже использовали этот оператор несколько
+            раз; этот оператор указывает, какую таблицу установить. <br>
+            2. <span>ADD CONSTRAINT</span>: оно указывается перед
+            именем ограничения, которое вы хотите добавить. Мы устанавливаем <span>order_user_id_key</span> в качестве
+            имени
+            ограничения. <br>
+            3. <span>FOREIGN KEY</span>: относится к внешнему ключу, который вы хотите связать. Мы устанавливаем
+            <span>user_id</span> в этой таблице в качестве нашего внешнего ключа. <br>
+            4. <span>REFERENCES</span>: Укажите таблицу внешних данных, к
+            которой привязан внешний ключ. Мы устанавливаем его в столбец <span>id</span> в таблице <span>users</span>.
+        </p>
+
+        <h2>
+            Защита от УДАЛЕНИЯ
+        </h2>
+
+        <p class="content">
+            Если после выполнения предыдущего оператора мы попытаемся выполнить оператор удаления для удаления
+            пользователя:
+        </p>
+
+        <div class="code">
+            DELETE FROM `new_schema`.`users` WHERE (`id` = '1');
+        </div>
+
+        <p class="content">
+            Если мы попытаемся выполнить эту команду, появится подобное сообщение об ошибке, которое не позволит нам
+            удалить пользователя:
+        </p>
+
+        <div class="code">
+            ERROR 1451: 1451: Cannot delete or update a parent row: a foreign key constraint fails
+        </div>
+
+        <p class="content">
+            Причина этого сообщения в том, что пользователь с идентификатором 1 был привязан к столбцу
+            <span>user_id</span> некоторых
+            записей в таблице <span>orders</span>. Это выполнение запускает механизм защиты, предотвращая тем самым
+            проблему
+            отсутствия данных.
+        </p>
+
+        <h2>
+            Protection from UPDATE
+        </h2>
+
+        <p class="content">
+            Другой сценарий, предполагающий, что мы не удаляем данные, а обновляем внешний ключ исходных данных
+            <span>users</span>, также активирует ограничение, имеющее механизм защиты данных. Например:
+        </p>
+
+        <div class="code">
+            UPDATE `new_schema`.`users` SET `id` = '6' WHERE (`id` = '1');
+        </div>
+
+        <p class="content">
+            Мы получим то же сообщение об ошибке:
+        </p>
+
+        <div class="code">
+            ERROR 1451: 1451: Cannot delete or update a parent row: a foreign key constraint fails
+        </div>
+
+        <p class="content">
+            Причина ошибки заключается в том, что мы хотим изменить пользователя с идентификатором 1 и обновить его
+            идентификатор до 6, что приведет к тому, что соответствующие записи заказа найдут неподходящего пользователя
+            и выдадут ошибку. Итак, наши ограничения срабатывают, чтобы спасти нас.
+        </p>
+
+        <p class="content">
+            Однако если мы выполним следующие инструкции, ошибки выполнения не возникнет:
+        </p>
+
+        <div class="code">
+            UPDATE `new_schema`.`users` SET `name` = 'Tony' WHERE (`id` = '1'); <br>
+            UPDATE `new_schema`.`orders` SET `user_id` = '3' WHERE (`id` = '1');
+
+        </div>
+
+        <p class="content">
+            Причина в том, что выполненный нами SQL не нарушает логическую корректность ограничения. Мы изменяем только
+            значение в других столбцах, таких как <span>name</span>, или обновляем запись относительного
+            <span>users</span> на другую,
+            например <span>Jack</span>.
+        </p>
+
+        <h2>
+            Remove a Constraint
+        </h2>
+
+        <p class="content">
+            Поскольку мы можем создать ограничение, мы также должны иметь возможность его удалить. Синтаксис удаления
+            следующий:
+        </p>
+
+        <div class="code">
+            ALTER TABLE `new_schema`.`orders` <br>
+            DROP FOREIGN KEY `orders_user_id_key`;
+        </div>
+
+        <p class="content">
+            Стоит отметить, что если вы хотите обновить ограничение, вам необходимо сначала удалить ограничение, а затем
+            добавить новое ограничение. Относительного оператора обновления нет.
+        </p>
+
+        <h2>Разнообразные ограничения</h2>
+
+        <p class="content">
+            В SQL существуют различные режимы ограничений, и мы можем устанавливать ограничения индивидуально для
+            действий <span>UPDATE</span> и <span>DELETE</span>.
+        </p>
+
+        <p class="content">
+            Помимо настроек различного поведения, вы также можете установить режимы. Как и в предыдущем примере, если вы
+            не укажете режим при создании ограничения, режимом по умолчанию будет NO ACTION.
+        </p>
+
+        <p class="content">
+            NO ACTION эквивалентен режиму RESTRICT в MySQL. Как мы заметили, этот режим защищает данные, запрещая
+            реализацию <span>UPDATE</span> и <span>DELETE</span>, когда команда не подчиняется ограничению. Если вы
+            знакомы с другими системами
+            баз данных SQL, рекомендуем проверить подробности в соответствующих официальных документах! Но обычно эти
+            функции одинаковы для каждой системы баз данных.
+        </p>
+
+        <h2>
+            Синтаксис
+        </h2>
+
+        <p class="content">
+            В синтаксической части вы можете установить режимы различного поведения следующим образом:
+        </p>
+
+        <div class="code">
+            ALTER TABLE `new_schema`.`orders` <br>
+            ADD CONSTRAINT `orders_user_id_key` <br>
+            FOREIGN KEY (`user_id`) <br>
+            REFERENCES `new_schema`.`users` (`id`) <br>
+            ON DELETE NO ACTION <br>
+            ON UPDATE RESTRICT;
+        </div>
+
+        <p class="content">
+            Вы можете сосредоточиться на двух новых фразах <span>ON DELETE</span> и <span>ON UPDATE</span>. С помощью
+            этих двух фраз можно
+            установить режим для <span>DELETE</span> и <span>UPDATE</span>, а название режима можно добавить
+            непосредственно после фраз.
+        </p>
+
+
+        <h2>
+            Ссылочные действия
+        </h2>
+
+        <p class="content">
+            В ограничении официальное название <span>NO ACTION</span> & <span>RESTRICT</span> называется «Ссылочные
+            действия», и эти действия
+            широко используются. В дополнение к этому SQL обычно предоставляет следующие два других режима:
+        </p>
+
+        <ol>
+            <li><span>CASCADE</span>: динамическая настройка внешнего ключа другой таблицы при срабатывании ограничения.
+                Например,
+                если идентификатор пользователя изменен на 6, <span>user_id</span> соответствующих записей заказа также
+                будет
+                обновлен до 6 вместе.</li>
+            <li><span>SET NULL</span>: вы можете динамически устанавливать для внешнего ключа другой таблицы значение
+                NULL при
+                возникновении такого поведения. Например, если идентификатор пользователя изменен на 6,
+                <span>user_id</span>,
+                соответствующий записям заказов, будет изменен на ноль.
+            </li>
+        </ol>
+
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>

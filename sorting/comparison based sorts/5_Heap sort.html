@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Heap Sort</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../../dynamic/dynamic_programming.html" class="dynamic_programming">Dynamic Programming</a>
+        <a href="../../dynamic/framework_for_dp.html" class="framework_for_dp">Framework for DP</a>
+        <a href="../../dynamic/1d_problems.html" class="1d_problems">1D Problems</a>
+        <a href="../../dynamic/multi_dimensional_problems.html" class="multi_dimensional_problems">Multi-dimensional
+            Problems</a>
+        <a href="../../dynamic/matrix_dp.html" class="matrix_dp">Matrix DP</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Longest Common Subsequence</a>
+        <a href="#ex2">#2 Best Time to Buy and Sell Stock IV </a>
+        <a href="#ex3">#3 Maximum Value of K Coins From Piles </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Heap Sort
+        </h1>
+        <hr>
+
+        <p class="content">When we discussed selection sort, the basic principle involved finding the minimum element
+            and moving it to the front. We repeated this continuously until we sorted the entire list. But as we saw,
+            selection sort has a running time of
+
+            O(n<sup>2</sup>
+            ), since for every iteration, we need to find the minimum element in the list which takes
+            𝑂
+            (
+            𝑛
+            )
+            O(n) time. We can improve upon this by using a special data structure called a heap.</p>
+        <p class="content">
+            To review the basics of the heap data structure, you can visit the Heap Explore Card. The core concept of
+            the heap sort involves constructing a heap from our input and repeatedly removing the minimum/maximum
+            element to sort the array. A naive approach to heapsort would start with creating a new array and adding
+            elements one by one into the new array. As with previous sorting algorithms, this sorting algorithm can also
+            be performed in place, so no extra memory is used in terms of space complexity.
+        </p>
+        <p class="content">
+            The key idea for in-place heapsort involves a balance of two central ideas:
+        </p>
+        <p class="content">
+            (a) Building a heap from an unsorted array through a “bottom-up heapification” process, and
+            (b) Using the heap to sort the input array.
+        </p>
+        <p class="content">
+            Heapsort traditionally uses a max-heap to sort the array, although a min-heap also works, but its
+            implementation is a little less elegant.
+        </p>
+        <p class="content">Algorithm for “bottom-up heapification” of input into max-heap. Given an input array, we can
+            represent it as a binary tree. If the parent node is stored at index i, the left child will be stored at
+            index 2i + 1 and the right child at index 2i + 2 (assuming the indexing starts at 0).</p>
+        <p class="content">
+            To convert it to a max-heap, we proceed with the following steps:
+        </p>
+
+        <ol>
+            <li>Start from the end of the array (bottom of the binary tree)</li>
+            <li>
+                There are two cases for a node
+                <ul>
+                    <li>It is greater than its left child and right child (if any).
+                        <ul>
+                            <li>
+                                In this case, proceed to next node (one index before current array index)
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        There exists a child node that is greater than the current node
+                        <ul>
+                            <li>In this case, swap the current node with the child node. This fixes a violation of the
+                                max-heap property</li>
+                            <li>Repeat the process with the node until the max-heap property is no longer violated</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>Repeat step 2 on every node in the binary tree from bottom-up.
+            </li>
+        </ol>
+
+        <p class="content">
+            A key property of this method is that by processing the nodes from the bottom-up, once we are at a specific
+            node in our heap, it is guaranteed that all child nodes are also heaps. Once we have “heapified” the input,
+            we can begin using the max-heap to sort the list. To do so, we will:
+        </p>
+
+        <ol>
+            <li>
+                Take the maximum element at index 0 (we know this is the maximum element because of the max-heap
+                property) and swap it with the last element in the array (this element's proper place).
+
+            </li>
+            <li>
+                We now have sorted an element (the last element). We can now ignore this element and decrease heap size
+                by 1, thereby omitting the max element from the heap while keeping it in the array
+            </li>
+            <li>
+                Treat the remaining elements as a new heap. There are two cases:
+                <ul>
+                    <li>
+                        The root element violates the max-heap property
+                        <ul>
+                            <li>
+                                Sink this node into the heap until it no longer violates the max-heap property. Here the
+                                concept of "sinking" a node refers to swapping the node with one of its children until
+                                the heap property is no longer violated.
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        The root element does not violate the max-heap property
+                        <ul>
+                            <li>
+                                Proceed to step (4)
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                Repeat step 1 on the remaining unsorted elements. Continue until all elements are sorted
+            </li>
+        </ol>
+
+        <p class="content">The key aspect that makes heapsort better than selection sort is the running time of the
+            algorithm is now
+            𝑂
+            (
+            𝑁
+            log
+            ⁡
+            𝑁
+            )
+            O(NlogN). This is a result of the fact that removing the max element from the heap, which is the central
+            operation in the sort is a
+            𝑂
+            (
+            log
+            ⁡
+            𝑁
+            )
+            O(logN) operation, which has to be performed in the worst case
+            𝑁
+            −
+            1
+            N−1 times. Note that in-place heapification is an
+            𝑂
+            (
+            𝑁
+            )
+            O(N) operation, so it has no impact on the worst-case time complexity of heapsort.</p>
+        <p class="content">
+            In terms of space complexity, since we are treating the input array as a heap and creating no extra space
+            (all operations are in-place), heapsort is
+            𝑂
+            (
+            1
+            )
+            O(1).
+        </p>
+        <p class="content">
+            The best way to understand heapsort is by seeing it in action. Below is an animation of heapsort:
+        </p>
+
+        <p class="content">
+            Video: HeapSort_1080p
+        </p>
+
+        <p class="content">
+            Implementation of heapsort
+        </p>
+
+        <div class="code">
+            def heap_sort(self, lst: List[int]) -> None: <br>
+            <p class="raw1">"""Mutates elements in lst by utilizing the heap data structure"""</p>
+            <p class="raw1">def max_heapify(heap_size, index):</p>
+            <p class="raw2">left, right = 2 * index + 1, 2 * index + 2</p>
+            <p class="raw2">largest = index</p>
+            <p class="raw2">if left &lt; heap_size and lst[left] > lst[largest]:</p>
+            <p class="raw3">largest = left</p>
+            <p class="raw2">if right &lt; heap_size and lst[right]> lst[largest]:</p>
+            <p class="raw3">largest = right</p>
+            <p class="raw2">if largest != index:</p>
+            <p class="raw3">lst[index], lst[largest] = lst[largest], lst[index]</p>
+            <p class="raw3">max_heapify(heap_size, largest)</p>
+            <br>
+            <p class="raw1"># heapify original lst</p>
+            <p class="raw1">for i in range(len(lst) // 2 - 1, -1, -1):</p>
+            <p class="raw2">max_heapify(len(lst), i)</p>
+            <br>
+            <p class="raw1"># use heap to sort elements</p>
+            <p class="raw1">for i in range(len(lst) - 1, 0, -1):</p>
+            <p class="raw2"># swap last element with first element</p>
+            <p class="raw2">lst[i], lst[0] = lst[0], lst[i]</p>
+            <p class="raw2"># note that we reduce the heap size by 1 every iteration</p>
+            <p class="raw2">max_heapify(i, 0)</p>
+        </div>
+
+        <p class="content">
+            The main advantage of heapsort is it's generally much faster than the other comparison based sorts on
+            sufficiently large inputs as a consequence of the running time. However, there are a few undesirable
+            qualities in the algorithm. For one, it is not a stable sort. It also turns out that in practice, this
+            algorithm performs worse than other
+            𝑂
+            (
+            𝑁
+            log
+            ⁡
+            𝑁
+            )
+            O(NlogN) sorts as a result of bad cache locality properties. Heapsort swaps elements based on locations in
+            heaps, which can cause many read operations to access indices in a seemingly random order, causing many
+            cache misses, which will result in practical performance hits.
+        </p>
+
+
+
+    </div>
+
+</body>
+
+</html>

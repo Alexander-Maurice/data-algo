@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Queues</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../stacks_queues/stacks_queues.html" class="stacks_queues">Stacks</a>
+        <a href="../stacks_queues/string_problems.html" class="string_problems">String problems</a>
+        <a href="../stacks_queues/queues.html" class="queues">Queues</a>
+        <a href="../stacks_queues/monotonic.html" class="monotonic">Monotonic</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#interface">Interface</a>
+        <a href="#ex1">#1 Number of Recent Calls</a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Queues
+        </h1>
+
+        <hr>
+
+        <p class="content">
+            В то время как стек следовал шаблону LIFO, очередь следует FIFO (первым пришел — первым ушел). В стеке
+            элементы добавляются и удаляются с одной и той же стороны. В очереди элементы добавляются и удаляются с
+            противоположных сторон. Как и в случае со стеком, существует несколько способов реализации очереди, но
+            главное, что ее определяет, — это абстрактный интерфейс добавления и удаления с противоположных сторон.
+        </p>
+
+        <p class="content">
+            Примером очереди в физическом мире является очередь в ресторане быстрого питания. Люди покидают очередь,
+            когда заканчивают делать заказ (спереди), а люди входят в очередь сзади (с противоположных концов). Первые
+            люди, которые войдут в очередь, будут первыми, кто ее покинет (FIFO). Примером очереди в практическом мире
+            программного обеспечения может быть любая система, которая обрабатывает задание в порядке очереди —
+            например, если несколько человек пытаются использовать принтер одновременно.
+        </p>
+
+        <p class="content">
+            Очереди сложнее реализовать, чем стеки, если вы хотите поддерживать хорошую производительность. Как и в
+            случае со стеком, вы можете просто использовать динамический массив, но операции в начале массива
+            (добавление или удаление)
+            O(n), где
+            n — размер массива. Добавление в очередь называется постановкой в очередь, а удаление — удалением из
+            очереди. Если вы хотите, чтобы эти операции были
+            O(1), вам понадобится более сложная реализация.
+        </p>
+
+        <p class="content">
+            Одним из способов реализации эффективной очереди является использование двусвязного списка. Напомним, что в
+            двусвязном списке, если у вас есть указатель на узел, вы можете добавлять или удалять его в этом месте.
+            О(1). Двусвязный список, который поддерживает указатели на начало и конец (оба конца, обычно со сторожевыми
+            узлами), может реализовать эффективную очередь.
+        </p>
+
+        <p class="important">
+            Существует также структура данных, называемая deque, сокращение от двусторонней очереди и произносится как
+            «колода». В двухсторонней очереди вы можете добавлять или удалять элементы с обоих концов. Обычная очередь
+            обозначает добавление на один конец и удаление на другой конец.
+        </p>
+
+        <p class="content">
+            В алгоритмических задачах очереди встречаются реже, чем стеки, и задачи обычно более сложны. Чаще всего
+            очередь используется для реализации алгоритма поиска в ширину (BFS), о котором мы узнаем в следующей главе.
+            За пределами BFS, в отличие от стека, не так уж много задач, в которых основное внимание уделяется очереди —
+            мы все равно рассмотрим несколько примеров, но имейте в виду, что очередь в основном используется для
+            реализации BFS.
+        </p>
+
+        <hr>
+
+        <h2 id="interface">
+            Interface guide
+        </h2>
+
+        <p class="content">
+            Вот краткое описание интерфейса очереди на основных языках:
+        </p>
+
+        <div class="code">
+            # Declaration: we will use deque from the collections module <br>
+            import collections <br>
+            queue = collections.deque() <br> <br>
+
+            # If you want to initialize it with some initial values: <br>
+            queue = collections.deque([1, 2, 3]) <br> <br>
+
+            # Enqueueing/adding elements: <br>
+            queue.append(4) <br>
+            queue.append(5) <br> <br>
+
+            # Dequeuing/removing elements: <br>
+            queue.popleft() # 1 <br>
+            queue.popleft() # 2 <br> <br>
+
+            # Check element at front of queue (next element to be removed) <br>
+            queue[0] # 3 <br> <br>
+
+            # Get size <br>
+            len(queue) # 3
+        </div>
+
+        <hr>
+
+        <p class="important" id="ex1">
+            <a href="https://leetcode.com/problems/number-of-recent-calls/">Example: 933. Number of Recent Calls</a>
+            <br>
+            <br>
+            Реализуйте класс <span>RecentCounter</span>. Он должен поддерживать <span>ping(int t)</span>, который
+            записывает вызов в момент
+            времени <span>t</span>, а затем возвращает целое число, представляющее количество произошедших вызовов в
+            диапазоне <span>[t -
+                3000, t]</span>. Вызовы <span>ping</span> будут иметь возрастающий <span>t</span>.
+        </p>
+
+        <p class="content">
+            У нас есть поток возрастающих целых чисел, и каждый раз, когда мы добавляем целое число в поток, нам нужно
+            найти, сколько чисел в потоке в пределах <span>3000</span>. Метод грубой силы будет состоять в том, чтобы
+            поместить все
+            целые числа в массив и выполнить итерацию. по массиву каждый раз подсчитывать, сколько целых чисел находится
+            в пределах <span>3000</span>. Это было бы очень неэффективно — допустим, у нас есть значение <span>x</span>.
+            Как только <span>t</span> превысит <span>x +
+                3000</span>, каждый будущий вызов <span>ping</span> должен будет перебирать <span>x</span>, хотя мы уже
+            знаем, что <span>x</span> не будет включен. Мы
+            должны избавиться от <span>x</span>, как только он устареет.
+        </p>
+
+        <p class="content">
+            Чтобы сделать это с динамическим массивом, мы могли бы просто удалить значения меньше <span>t - 3000</span>
+            спереди.
+            Однако это по-прежнему неэффективно, поскольку удаление из начала массива
+            O(n), где n — размер массива. Если вместо этого мы используем эффективную очередь, тогда эти удаления станут
+            O(1)! Давайте использовать очередь для хранения чисел и при каждом вызове <span>t</span> удалять все
+            устаревшие элементы
+            перед возвратом счетчика.
+        </p>
+
+        <details>
+            <summary>Нажмите для подробного объяснения</summary>
+            <p class="content">
+                Наша цель — сохранить в очереди все вызовы, произошедшие за последние <span>3000</span> единиц времени.
+            </p>
+
+            <p class="content">
+                Поскольку вызовы поступают с увеличением <span>t</span>, когда мы добавляем временные метки в нашу
+                очередь, она будет
+                отсортирована. Это означает, что первый элемент всегда будет самым старым вызовом.
+            </p>
+
+            <p class="content">
+                Когда мы обнаруживаем, что самый старый вызов произошел более <span>3000</span> назад, мы сохраняем
+                очередь, удаляя ее.
+            </p>
+
+            <p class="content">
+                После удаления старых звонков ответом является длина очереди.
+            </p>
+        </details>
+
+        <div class="code">
+            from collections import deque <br> <br>
+
+            class RecentCounter:
+            <p class="raw1">def __init__(self):</p>
+            <p class="raw2">self.queue = deque()</p>
+            <br>
+            <p class="raw1">def ping(self, t: int) -> int:</p>
+            <p class="raw2">while self.queue and self.queue[0] < t - 3000:</p>
+                    <p class="raw3">self.queue.popleft()</p>
+                    <br>
+                    <p class="raw2">self.queue.append(t)</p>
+                    <p class="raw2">return len(self.queue)</p>
+
+                    <br> <br>
+                    # Your RecentCounter object will be instantiated and called as such: <br>
+                    # obj = RecentCounter() <br>
+                    # param_1 = obj.ping(t)
+        </div>
+
+        <p class="content">
+            В Python мы используем Collections.deque для реализации очереди. Эта структура данных позволяет нам
+            выполнять операции удаления из очереди спереди.
+            О(1).
+        </p>
+
+        <p class="important">
+            Не так уж много проблем возникает, когда очередь работает сама по себе, поэтому эта статья не слишком
+            примечательна. Не волнуйтесь, в главе о деревьях и графах вы увидите, как очереди используются для
+            реализации BFS — чрезвычайно мощного алгоритма.
+        </p>
+
+        <p class="content">
+            Следующий шаблон, монотонный, применим как к стекам, так и к очередям. Там мы рассмотрим еще несколько
+            проблем с очередями.
+        </p>
+
+        <hr>
+
+
+
+    </div>
+
+</body>
+
+</html>

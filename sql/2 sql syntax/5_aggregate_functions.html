@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Aggregate Functions
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../1 sql data structure/1_Schema.html">SQL Data Structure</a>
+            <a href="../2 sql syntax/1_select_insert_update_delete.html">SQL Syntax</a>
+            <a href="../3 sql relationship/1_ Relationships.html">SQL Relationship</a>
+            <a href="../4 intermediate sql/1_Foreign Key.html">Intermediate SQL</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="./1_select_insert_update_delete.html" class="">Select, Insert, Update, Delete</a>
+        <a href="./2_where.html" class="">Where</a>
+        <a href="./3_json_in_sql.html" class="">JSON in SQL</a>
+        <a href="./4_Auxiliary SELECT Statements.html" class="">Auxiliare Select Statements</a>
+        <a href="./5_aggregate_functions.html" class="">Aggregate functions</a>
+    </div>
+
+    <!-- <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div> -->
+
+    <div class="container">
+        <h1>Aggregate Functions</h1>
+
+        <hr>
+        <h2>
+            Чему вы научитесь
+        </h2>
+
+        <ol>
+            <li>Общие ключевые слова SQL для статистики, такие как COUNT, SUM, AVG и другие.</li>
+            <li>Использование общих функций SQL и практические соображения.</li>
+        </ol>
+
+        <h2>
+            Tips: What is the function?
+        </h2>
+
+        <p class="content">
+            Функция — это метод, обычно используемый в языках программирования. Его цель — обернуть сложные логические
+            операции и заменить их одним словом или фразой. Обычно он также может включать в себя набор круглых скобок,
+            внутри которых содержатся данные, которые будут использоваться для сложных операций.
+        </p>
+
+        <p class="content">
+            Например, предположим, что существует функция <span>eat()</span>, детали которой могут включать в себя
+            жевание, глотание,
+            переваривание и т. д., но нам не нужно знать подробности того, как она работает, просто знайте, что мы можем
+            вызвать <span>eat(cake)</span>, <span>eat(noodles)</span>, чтобы быстро завершить сложную логику.
+        </p>
+
+        <p class="content">
+            Таким образом, мы можем обнаружить, что слово, которое мы использовали для вызова ключевого слова, например
+            <b>JSON_EXTRACT</b>, на самом деле является функцией.
+        </p>
+
+        <h2>
+            Overview
+        </h2>
+
+        <p class="content">
+            Я думаю, что в предыдущих главах у вас сложилось впечатление о ключевом слове <span>COUNT()</span>, с
+            помощью которого
+            можно составить простую статистику в SQL, и такие ключевые слова в SQL называются агрегатными функциями.
+            Агрегатные функции SQL, конечно, представляют собой нечто большее, чем просто <span>COUNT()</span>. Эта
+            глава познакомит
+            вас с некоторыми распространенными агрегатными функциями.
+        </p>
+
+        <h3>Sample data</h3>
+
+        <table>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>age</td>
+                <td>height</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>40</td>
+                <td>150</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>May</td>
+                <td>30</td>
+                <td>140</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Tim</td>
+                <td>25</td>
+                <td>180</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Jay</td>
+                <td>40</td>
+                <td>160</td>
+            </tr>
+        </table>
+
+        <h2>Counting: COUNT</h2>
+
+        <p class="content">
+            Первый, который мы представим, — самый знакомый для разогрева. <span>COUNT()</span> может помочь нам
+            выполнить простой
+            расчет того, сколько частей подходящих записей данных существует:
+        </p>
+
+        <div class="code">
+            SELECT COUNT(*) AS `user_count` FROM `new_schema`.`users` WHERE id > 1;
+
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>user_count</td>
+            </tr>
+            <tr>
+                <td>3</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Это говорит нам о том, что есть 3 пользователя с идентификатором больше 1. В частности, Мэй, Тим и Джей.
+        </p>
+
+        <h2>
+            Total: SUM
+        </h2>
+
+        <p class="content">
+            <span>SUM</span> может помочь нам агрегировать окончательные результаты определенного столбца. Это очень
+            распространенная функция. На практике он будет использоваться для агрегирования различных данных, таких как
+            цена заказа, пользовательские баллы и т. д.
+        </p>
+
+        <div class="code">
+            SELECT SUM(`age`) AS `sum_of_user_ages` FROM `new_schema`.`users`;
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>sum_of_user_ages</td>
+            </tr>
+            <tr>
+                <td>135</td>
+            </tr>
+        </table>
+
+        <h2>
+            Average: AVG
+        </h2>
+
+        <p class="content">
+            Поскольку есть совокупность, то, конечно, будет и среднее. Среднее значение часто используется в различных
+            статистических отчетах, а также является очень распространенной агрегатной функцией SQL.
+        </p>
+
+        <div class="code">
+            SELECT AVG(`height`) AS `avg_user_height` FROM `new_schema`.`users`;
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>avg_user_height</td>
+            </tr>
+            <tr>
+                <td>157.5</td>
+            </tr>
+        </table>
+
+        <h2>
+            Minimum & Maximum: MIN & MAX
+
+        </h2>
+
+        <p class="content">
+            Поскольку существуют счетчик, сумма и среднее значение, то, конечно, необходимы минимум и максимум. После
+            изучения предыдущих агрегатных функций язык, используемый для получения минимальных и максимальных значений
+            определенного столбца, станет естественным:
+        </p>
+
+        <div class="code">
+            SELECT MIN(`height`) AS `user_min` FROM `new_schema`.`users`;
+
+        </div>
+
+        <p class="content">
+            Результат:
+        </p>
+
+        <table>
+            <tr>
+                <td>user_min</td>
+            </tr>
+            <tr>
+                <td>140</td>
+            </tr>
+        </table>
+
+        <div class="code">
+            SELECT MAX(`height`) AS `user_max` FROM `new_schema`.`users`;
+
+        </div>
+
+        <p class="content">
+            Result:
+        </p>
+
+        <table>
+            <tr>
+                <td>user_max</td>
+            </tr>
+            <tr>
+                <td>180</td>
+            </tr>
+        </table>
+
+        <h2>Other Functions
+        </h2>
+
+        <p class="content">
+            Помимо агрегатных функций, часто используемых в статистическом анализе, SQL предлагает множество функций для
+            удобного манипулирования данными. Одной из часто используемых функций является <span>CONCAT()</span>,
+            которая позволяет
+            объединять значения столбцов в одну строку. Вот как вы можете его использовать:
+        </p>
+
+        <div class="code">
+            SELECT CONCAT(`id`, '-', `name`) AS `identification`, `age` <br>
+            FROM `new_schema`.`users`;
+        </div>
+
+        <p class="content">
+            Result:
+        </p>
+
+        <table>
+            <tr>
+                <td>identification</td>
+                <td>age</td>
+            </tr>
+            <tr>
+                <td>1-John</td>
+                <td>40</td>
+            </tr>
+            <tr>
+                <td>2-May</td>
+                <td>30</td>
+            </tr>
+            <tr>
+                <td>3-Tim</td>
+                <td>25</td>
+            </tr>
+            <tr>
+                <td>4-Jay</td>
+                <td>40</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            На этом этапе вы можете задаться вопросом: можем ли мы использовать такое условие, как <span>WHERE
+                identification
+                LIKE '%J%'</span>, для фильтрации данных на основе только что созданного идентификационного столбца?
+        </p>
+
+        <p class="content">
+            Технически нет; но с обходным путем, да.
+        </p>
+
+        <p class="content">
+            <b>Почему это напрямую невозможно?</b>
+        </p>
+
+        <p class="content">
+            Предложение <span>WHERE</span> в SQL работает с существующими столбцами таблицы. Поскольку столбец
+            <span>identification</span> является
+            результатом объединения, выполненного в инструкции <span>SELECT</span>, он не существует как отдельный
+            столбец в таблице.
+            Таким образом, вы не можете напрямую использовать <span>WHERE</span> для фильтрации по этому динамически
+            создаваемому
+            столбцу.
+        </p>
+
+        <p class="content">
+            Это ограничение часто встречается в SQL, особенно при работе со сложными запросами в устаревших системах.
+        </p>
+
+        <p class="content">
+            <b>Как мы можем сделать это возможным?</b>
+        </p>
+
+        <p class="content">
+            SQL предоставляет предложение <span>HAVING</span>, которое позволяет фильтровать вычисляемые или
+            агрегированные столбцы.
+            Однако важно отметить, что прямое использование <span>HAVING</span> без <span>GROUP BY</span> является
+            неправильным использованием
+            синтаксиса SQL. Правильный подход предполагает использование подзапроса или общего табличного выражения
+            (CTE) для первого определения вычисляемого столбца, а затем применение предложения <span>WHERE</span> к
+            этому результату.
+            Вот как:
+        </p>
+
+        <p class="content">
+            Использование подзапроса:
+        </p>
+
+        <div class="code">
+            SELECT * FROM ( <br>
+            SELECT CONCAT(`id`, '-', `name`) AS `identification`, `age` <br>
+            FROM `new_schema`.`users` <br>
+            ) AS subquery <br>
+            WHERE `identification` LIKE '%J%';
+        </div>
+
+        <p class="content">
+            Или используя CTE:
+        </p>
+
+        <div class="code">
+            WITH CTE_Users AS ( <br>
+            SELECT CONCAT(`id`, '-', `name`) AS `identification`, `age` <br>
+            FROM `new_schema`.`users` <br>
+            ) <br>
+            SELECT * FROM CTE_Users <br>
+            WHERE `identification` LIKE '%J%';
+        </div>
+
+        <p class="content">
+            <b>Распространенное недоразумение</b>
+        </p>
+
+        <p class="content">
+            Некоторые могут подумать, что <span>WHERE</span> и <span>HAVING</span> могут использоваться как
+            взаимозаменяемые слова. Однако
+            чрезмерная зависимость от <span>HAVING</span> может привести к проблемам с производительностью по мере роста
+            объема
+            данных. Это связано с тем, что <span>HAVING</span> предназначен для фильтрации агрегатных функций или
+            результатов
+            вычислений, выполненных в запросе, и его неправильное использование может повлиять на эффективность базы
+            данных.
+        </p>
+
+        <p class="content">
+            <b>Вопросы производительности</b>
+        </p>
+
+        <p class="content">
+            Разница в производительности между <span>WHERE</span> и <span>HAVING</span> связана с тем, как базы данных
+            SQL индексируют и извлекают
+            данные. <span>WHERE</span> применяется перед группировкой данных, что делает его более эффективным для
+            первоначальной
+            фильтрации данных. <span>HAVING</span>, с другой стороны, применяется после, что делает его менее
+            эффективным для
+            начальной фильтрации. Понимание и эффективное использование индексов будет обсуждаться в будущей главе под
+            названием «SQL в бизнесе: индекс»!
+        </p>
+
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>

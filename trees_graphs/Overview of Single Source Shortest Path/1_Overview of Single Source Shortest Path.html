@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Overview of Single Source Shortest Path
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/dynamic_programming.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../trees_graphs.html" class="binary_trees">Binary trees</a>
+        <a href="../binary_trees_dfs.html" class="binary_trees_dfs">Binary trees DFS</a>
+        <a href="../binary_trees_bfs.html" class="binary_trees_bfs">Binary trees BFS</a>
+        <a href="../binary_search_trees.html" class="binary_search_trees">Binary search trees</a>
+        <a href="../graphs.html" class="graphs">Graphs</a>
+        <a href="../graphs_dfs.html" class="graphs_dfs">Graphs DFS</a>
+        <a href="../graphs_bfs.html" class="graphs_bfs">Graphs BFS</a>
+        <a href="../implicit_graphs.html" class="implicit_graphs">Implicit graphs</a>
+        <a href="../premium_graphs.html" class="premium_graphs">Premium graphs</a>
+        <a href="../disjoint_set/1_disjoint_set.html" class="disjoint_set">Disjoint set</a>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div>
+
+    <div class="container">
+        <h1>Overview of Single Source Shortest Path</h1>
+
+        <hr>
+        <p class="content">
+            Ранее мы использовали алгоритм «поиска в ширину», чтобы найти «кратчайший путь» между двумя вершинами.
+            Однако алгоритм «поиска в ширину» может решить проблему «кратчайшего пути» только в «невзвешенных графах».
+            Но в реальной жизни нам часто нужно найти «кратчайший путь» во «взвешенном графе».
+        </p>
+        <p class="content">
+            Например, может существовать множество маршрутов от вашего дома до целевого места, например автовокзала, и
+            время, необходимое для прохождения каждого маршрута, может быть разным. Маршрут с кратчайшим расстоянием
+            может оказаться не таким, который потребует наименьшего количества времени из-за ограничения скорости и
+            пробок. Итак, если мы хотим найти маршрут, который займет наименьшее время от дома до определенной
+            автобусной остановки, то весами должно быть время, а не расстояние. Имея это в виду, как мы можем решить
+            задачу о «кратчайшем пути» с двумя вершинами во «взвешенном графе»?
+        </p>
+        <p class="content">
+            Основное внимание в этой главе уделяется решению таких задач «кратчайшего пути с одним источником». Учитывая
+            начальную вершину, найдите «кратчайший путь» к любой из вершин взвешенного графа. Как только мы решим эту
+            проблему, мы сможем легко найти кратчайшие пути между начальной вершиной и заданной целевой вершиной.
+        </p>
+
+        <h2>
+            Edge Relaxation
+        </h2>
+        <hr>
+
+        <p class="content">
+            В следующем видео мы поговорим об операции релаксации краев, которая является ключевым элементом в решении
+            проблемы «кратчайшего пути с одним источником».
+        </p>
+
+        <p class="content">
+            Video: Single Source Shortest Path Edge Relaxation_1080p
+        </p>
+
+        <p class="content">
+            Альтернативный способ понять, почему этот процесс называется «релаксацией», — это представить, что каждый
+            путь представляет собой резиновую ленту длиной 1. Исходный путь от A до D имеет длину 3, поэтому резиновая
+            лента была растянута в 3 раза по сравнению с исходной. длина. Когда мы ослабляем путь до длины 2, сначала
+            посетив C, резинка теперь растягивается только в два раза, поэтому вы можете представить себе, что резинка
+            расслабляется, отсюда и термин «релаксация края».
+        </p>
+
+        <p class="content">
+            В этой главе мы изучим два алгоритма «кратчайшего пути с одним источником»:
+        </p>
+
+        <ol>
+            <li>Dijkstra’s algorithm</li>
+            <li>Bellman-Ford algorithm</li>
+        </ol>
+
+
+        <p class="content">
+            «Алгоритм Дейкстры» можно использовать только для решения задачи «кратчайшего пути из одного источника» в
+            графе с неотрицательными весами.
+        </p>
+
+        <p class="content">
+            С другой стороны, «алгоритм Беллмана-Форда» может найти «кратчайший путь с одним источником» во взвешенном
+            ориентированном графе с любыми весами, включая, конечно, отрицательные веса.
+        </p>
+
+
+
+    </div>
+
+
+</body>
+
+</html>

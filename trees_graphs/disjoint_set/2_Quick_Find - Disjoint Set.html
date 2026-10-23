@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Quick Find - Disjoint Set</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/dynamic_programming.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../trees_graphs.html" class="binary_trees">Binary trees</a>
+        <a href="../binary_trees_dfs.html" class="binary_trees_dfs">Binary trees DFS</a>
+        <a href="../binary_trees_bfs.html" class="binary_trees_bfs">Binary trees BFS</a>
+        <a href="../binary_search_trees.html" class="binary_search_trees">Binary search trees</a>
+        <a href="../graphs.html" class="graphs">Graphs</a>
+        <a href="../graphs_dfs.html" class="graphs_dfs">Graphs DFS</a>
+        <a href="../graphs_bfs.html" class="graphs_bfs">Graphs BFS</a>
+        <a href="../implicit_graphs.html" class="implicit_graphs">Implicit graphs</a>
+        <a href="../premium_graphs.html" class="premium_graphs">Premium graphs</a>
+        <a href="1_disjoint_set.html" class="disjoint_set">Disjoint set</a>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div>
+
+    <div class="container">
+        <h1>Quick Find - Disjoint Set</h1>
+
+        <hr>
+
+        <h2>
+            Explanation of Quick Find
+        </h2>
+
+        <hr>
+
+        <p class="content">
+            В этом видео мы поговорим о реализации быстрого поиска непересекающегося набора и рассмотрим две его
+            основные операции, а также их сложность: поиск и объединение.
+        </p>
+
+        <p class="content">
+            Video: Explanation of Quick Find Export v1_1080p
+        </p>
+
+
+        <h2>
+            Algorithm
+        </h2>
+        <hr>
+
+        <p class="content">
+            Вот пример реализации быстрого поиска Disjoint Set.
+        </p>
+
+        <div class="code">
+            # UnionFind class <br>
+            class UnionFind:
+            <p class="raw1">def __init__(self, size):</p>
+            <p class="raw2">self.root = [i for i in range(size)]</p>
+            <br>
+            <p class="raw1">def find(self, x):</p>
+            <p class="raw2">return self.root[x]</p>
+            <br>
+            <p class="raw1">def union(self, x, y):</p>
+            <p class="raw2">rootX = self.find(x)</p>
+            <p class="raw2">rootY = self.find(y)</p>
+            <p class="raw2">if rootX != rootY:</p>
+            <p class="raw3">for i in range(len(self.root)):</p>
+            <p class="raw4">if self.root[i] == rootY:</p>
+            <p class="raw5">self.root[i] = rootX</p>
+            <br>
+            <p class="raw1">def connected(self, x, y):</p>
+            <p class="raw2">return self.find(x) == self.find(y)</p>
+            <br><br><br>
+
+            # Test Case <br>
+            uf = UnionFind(10) <br>
+            # 1-2-5-6-7 3-8-9 4 <br>
+            uf.union(1, 2) <br>
+            uf.union(2, 5) <br>
+            uf.union(5, 6) <br>
+            uf.union(6, 7) <br>
+            uf.union(3, 8) <br>
+            uf.union(8, 9) <br>
+            print(uf.connected(1, 5)) # true <br>
+            print(uf.connected(5, 7)) # true <br>
+            print(uf.connected(4, 9)) # false <br>
+            # 1-2-5-6-7 3-8-9-4 <br>
+            uf.union(9, 4) <br>
+            print(uf.connected(4, 9)) # true
+        </div>
+
+
+        <h2>
+            Time Complexity
+        </h2>
+        <hr>
+
+        <table border="1px">
+            <tr>
+                <td></td>
+                <td>Union-find Constructor</td>
+                <td>Find</td>
+                <td>Union</td>
+                <td>Connected</td>
+            </tr>
+            <tr>
+                <td>Time Complexity</td>
+                <td>O(N)</td>
+                <td>O(1)</td>
+                <td>O(N)</td>
+                <td>O(1)</td>
+            </tr>
+        </table>
+
+        <p class="content">
+            Примечание:
+            N — количество вершин в графе.
+        </p>
+
+        <ul>
+            <li>При инициализации <span>union-find constructor</span> нам нужно создать массив размером
+                N со значениями, равными соответствующим индексам массива; для этого требуется линейное время.</li>
+            <li>Каждый вызов для <span>find</span> потребует
+                Время O(1), поскольку мы просто получаем доступ к элементу массива по заданному индексу.</li>
+            <li>Каждый вызов <span>union</span> потребует
+                Время O(N), потому что нам нужно пройти через весь массив и обновить корневые вершины для всех вершин
+                набора, который будет объединен с другим набором.</li>
+            <li><span>Connected</span> операция занимает
+                Время O(1), поскольку оно включает в себя два вызова поиска и операцию проверки равенства.</li>
+        </ul>
+
+
+        <h2>
+            Space Complexity
+        </h2>
+        <hr>
+        <p class="content">
+            Нам нужно
+            O(N) пространство для хранения массива размером
+            𝑁
+        </p>
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>

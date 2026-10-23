@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Code Templates</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#two_pointers">Two pointers</a>
+        <a href="#sliding_window">Sliding window</a>
+        <a href="#string_building">Efficient string building</a>
+        <a href="#linked_list">Linked list</a>
+        <a href="#num_subs">Find number of subarrays that fit an exact criteria</a>
+        <a href="#monotonic">Monotonic increasing stack</a>
+        <a href="#binary_tree">Binary Tree</a>
+        <a href="#graph">Graph</a>
+        <a href="#heap">Heap</a>
+        <a href="#binary_search">Binary search</a>
+        <a href="#backtracking">Backtracking</a>
+        <a href="#dynamic">Dynamic programming</a>
+        <a href="#build_trie">Build a trie</a>
+        <a href="#dijkstra">Dijkstra</a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Code templates
+        </h1>
+        <hr>
+
+        <p class="content">
+            Вот шаблоны кода для общих шаблонов для всех структур данных и алгоритмов, рассматриваемых в LICC.
+        </p>
+
+        <h4 id="two_pointers">
+            Two pointers: one input, opposite ends
+        </h4>
+
+        <div class="code">
+            def fn(arr):
+            <p class="raw1">left = ans = 0</p>
+            <p class="raw1">right = len(arr) - 1</p>
+            <br>
+            <p class="raw1">while left < right:</p>
+                    <p class="raw2"># do some logic here with left and right</p>
+                    <p class="raw2">if CONDITION:</p>
+                    <p class="raw3">left += 1</p>
+                    <p class="raw2">else:</p>
+                    <p class="raw3">right -= 1</p>
+                    <br>
+                    <p class="raw1">return ans</p>
+        </div>
+        <hr>
+        <h4>
+            Two pointers: two inputs, exhaust both
+        </h4>
+
+        <div class="code">
+            def fn(arr1, arr2):
+            <p class="raw1">i = j = ans = 0</p>
+            <br>
+            <p class="raw1">while i < len(arr1) and j < len(arr2):</p>
+                    <p class="raw2"># do some logic here</p>
+                    <p class="raw2">if CONDITION:</p>
+                    <p class="raw3">i += 1</p>
+                    <p class="raw2">else:</p>
+                    <p class="raw3">j += 1</p>
+                    <br>
+                    <p class="raw1">while i < len(arr1):</p>
+                            <p class="raw2"># do logic</p>
+                            <p class="raw2">i += 1</p>
+                            <br>
+                            <p class="raw1">while j < len(arr2):</p>
+                                    <p class="raw2"># do logic</p>
+                                    <p class="raw2">j += 1</p>
+                                    <br>
+                                    <p class="raw1">return ans</p>
+        </div>
+
+        <hr>
+        <h4 id="sliding_window">
+            Sliding window
+        </h4>
+
+        <div class="code">
+            def fn(arr):
+            <p class="raw1">left = ans = curr = 0</p>
+            <br>
+            <p class="raw1">for right in range(len(arr)):</p>
+            <p class="raw2"># do logic here to add arr[right] to curr</p>
+            <br>
+            <p class="raw2">while WINDOW_CONDITION_BROKEN:</p>
+            <p class="raw3"># remove arr[left] from curr</p>
+            <p class="raw3">left += 1</p>
+            <br>
+            <p class="raw2"># update ans</p>
+            <br>
+            <p class="raw1">return ans</p>
+        </div>
+
+        <hr>
+        <h4>
+            Build a prefix sum
+        </h4>
+
+        <div class="code">
+            def fn(arr):
+            <p class="raw1">prefix = [arr[0]]</p>
+            <p class="raw1">for i in range(1, len(arr)):</p>
+            <p class="raw2">prefix.append(prefix[-1] + arr[i])</p>
+            <br>
+            <p class="raw1">return prefix</p>
+        </div>
+
+        <hr>
+
+        <h4 id="string_building">
+            Efficient string building
+        </h4>
+
+        <div class="code">
+            # arr is a list of characters
+            def fn(arr):
+            <p class="raw1">ans = []</p>
+            <p class="raw1">for c in arr:</p>
+            <p class="raw2">ans.append(c)</p>
+            <br>
+            <p class="raw1">return "".join(ans)</p>
+        </div>
+
+        <hr>
+
+        <h4 id="linked_list">
+            Linked list: fast and slow pointer
+        </h4>
+
+        <div class="code">
+            def fn(head):
+            <p class="raw1">slow = head</p>
+            <p class="raw1">fast = head</p>
+            <p class="raw1">ans = 0</p>
+            <br>
+            <p class="raw1">while fast and fast.next:</p>
+            <p class="raw2"># do logic</p>
+            <p class="raw2">slow = slow.next</p>
+            <p class="raw2">fast = fast.next.next</p>
+            <br>
+            <p class="raw1">return ans</p>
+        </div>
+
+        <hr>
+
+        <h4>
+            Reversing a linked list
+        </h4>
+
+        <div class="code">
+            def fn(head):
+            <p class="raw1">curr = head</p>
+            <p class="raw1">prev = None</p>
+            <p class="raw1">while curr:</p>
+            <p class="raw2">next_node = curr.next</p>
+            <p class="raw2">curr.next = prev</p>
+            <p class="raw2">prev = curr</p>
+            <p class="raw2">curr = next_node</p>
+            <br>
+            <p class="raw1">return prev</p>
+        </div>
+
+        <hr>
+
+        <h4 id="num_subs">
+            Find number of subarrays that fit an exact criteria
+        </h4>
+
+        <div class="code">
+            from collections import defaultdict
+            <br><br>
+            def fn(arr, k):
+            <p class="raw1">counts = defaultdict(int)</p>
+            <p class="raw1">counts[0] = 1</p>
+            <p class="raw1">ans = curr = 0</p>
+            <br>
+            <p class="raw1">for num in arr:</p>
+            <p class="raw2"># do logic to change curr</p>
+            <p class="raw2">ans += counts[curr - k]</p>
+            <p class="raw2">counts[curr] += 1</p>
+            <br>
+            <p class="raw1">return ans</p>
+        </div>
+
+        <hr>
+
+        <h4 id="monotonic">
+            Monotonic increasing stack
+        </h4>
+
+        <div class="code">
+            def fn(arr):
+            <p class="raw1">stack = []</p>
+            <p class="raw1">ans = 0</p>
+            <br>
+            <p class="raw1">for num in arr:</p>
+            <p class="raw2"># for monotonic decreasing, just flip the > to << /p>
+                    <p class="raw2">while stack and stack[-1] > num:</p>
+                    <p class="raw3"># do logic</p>
+                    <p class="raw3">stack.pop()</p>
+                    <p class="raw2">stack.append(num)</p>
+                    <br>
+                    <p class="raw1">return ans</p>
+        </div>
+
+        <hr>
+        <h4 id="binary_tree">
+            Binary tree: DFS (recursive)
+        </h4>
+
+        <div class="code">
+            def dfs(root):
+            <p class="raw1">if not root:</p>
+            <p class="raw2">return</p>
+            <br>
+            <p class="raw1">ans = 0</p>
+            <br>
+            <p class="raw1"># do logic</p>
+            <p class="raw1">dfs(root.left)</p>
+            <p class="raw1">dfs(root.right)</p>
+            <p class="raw1">return ans</p>
+        </div>
+
+        <hr>
+
+        <h4>
+            Binary tree: DFS (iterative)
+        </h4>
+
+        <div class="code">
+            def dfs(root):
+            <p class="raw1">stack = [root]</p>
+            <p class="raw1">ans = 0</p>
+            <br>
+            <p class="raw1">while stack:</p>
+            <p class="raw2">node = stack.pop()</p>
+            <p class="raw2"># do logic</p>
+            <p class="raw2">if node.left:</p>
+            <p class="raw3">stack.append(node.left)</p>
+            <p class="raw2">if node.right:</p>
+            <p class="raw3">stack.append(node.right)</p>
+            <br>
+            <p class="raw1">return ans</p>
+        </div>
+
+        <hr>
+
+        <h4>
+            Binary tree: BFS
+        </h4>
+        <div class="code">
+            from collections import deque
+            <br> <br>
+            def fn(root):
+            <p class="raw1">queue = deque([root])</p>
+            <p class="raw1">ans = 0</p>
+            <br>
+            <p class="raw1">while queue:</p>
+            <p class="raw2">current_length = len(queue)</p>
+            <p class="raw2"># do logic for current level</p>
+            <br>
+            <p class="raw2">for _ in range(current_length):</p>
+            <p class="raw3">node = queue.popleft()</p>
+            <p class="raw3"># do logic</p>
+            <p class="raw3">if node.left:</p>
+            <p class="raw4">queue.append(node.left)</p>
+            <p class="raw3">if node.right:</p>
+            <p class="raw4">queue.append(node.right)</p>
+            <br>
+            <p class="raw1">return ans</p>
+        </div>
+
+        <hr>
+
+        <h4 id="graph">
+            Graph: DFS (recursive)
+        </h4>
+        <p class="content">
+            Для шаблонов графов предположим, что узлы пронумерованы от 0 до n – 1, а граф представлен в виде списка
+            смежности. В зависимости от проблемы вам может потребоваться преобразовать входные данные в эквивалентный
+            список смежности перед использованием шаблонов.
+        </p>
+
+        <div class="code">
+            def fn(graph):
+            <p class="raw1">def dfs(node):</p>
+            <p class="raw2">ans = 0</p>
+            <p class="raw2"># do some logic</p>
+            <p class="raw2">for neighbor in graph[node]:</p>
+            <p class="raw3">if neighbor not in seen:</p>
+            <p class="raw4">seen.add(neighbor)</p>
+            <p class="raw4">ans += dfs(neighbor)</p>
+            <br>
+            <p class="raw2">return ans</p>
+            <br>
+            <p class="raw1">seen = {START_NODE}</p>
+            <p class="raw1">return dfs(START_NODE)</p>
+        </div>
+
+        <hr>
+
+        <h4>
+            Graph: DFS (iterative)
+        </h4>
+        <div class="code">
+            def fn(graph):
+            <p class="raw1">stack = [START_NODE]</p>
+            <p class="raw1">seen = {START_NODE}</p>
+            <p class="raw1">ans = 0</p>
+            <br>
+            <p class="raw1">while stack:</p>
+            <p class="raw2">node = stack.pop()</p>
+            <p class="raw2"># do some logic</p>
+            <p class="raw2">for neighbor in graph[node]:</p>
+            <p class="raw3">if neighbor not in seen:</p>
+            <p class="raw4">seen.add(neighbor)</p>
+            <p class="raw4">stack.append(neighbor)</p>
+            <br>
+            <p class="raw1">return ans</p>
+        </div>
+
+        <hr>
+
+        <h4>
+            Graph: BFS
+        </h4>
+        <div class="code">
+            from collections import deque
+            <br> <br>
+            def fn(graph):
+            <p class="raw1">queue = deque([START_NODE])</p>
+            <p class="raw1">seen = {START_NODE}</p>
+            <p class="raw1">ans = 0</p>
+            <br>
+            <p class="raw1">while queue:</p>
+            <p class="raw2">node = queue.popleft()</p>
+            <p class="raw2"># do some logic</p>
+            <p class="raw2">for neighbor in graph[node]:</p>
+            <p class="raw3">if neighbor not in seen:</p>
+            <p class="raw4">seen.add(neighbor)</p>
+            <p class="raw4">queue.append(neighbor)</p>
+            <br>
+            <p class="raw1">return ans</p>
+        </div>
+
+        <hr>
+        <h4 id="heap">
+            Find top k elements with heap
+        </h4>
+        <div class="code">
+            import heapq
+            <br> <br>
+            def fn(arr, k):
+            <p class="raw1">heap = []</p>
+            <p class="raw1">for num in arr:</p>
+            <p class="raw2"># do some logic to push onto heap according to problem's criteria</p>
+            <p class="raw2">heapq.heappush(heap, (CRITERIA, num))</p>
+            <p class="raw2">if len(heap) > k:</p>
+            <p class="raw3">heapq.heappop(heap)</p>
+            <br>
+            <p class="raw1">return [num for num in heap]</p>
+        </div>
+
+        <hr>
+        <h4 id="binary_search">
+            Binary search
+        </h4>
+        <div class="code">
+            def fn(arr, target):
+            <p class="raw1">left = 0</p>
+            <p class="raw1">right = len(arr) - 1</p>
+            <p class="raw1">while left <= right:</p>
+                    <p class="raw2">mid = (left + right) // 2</p>
+                    <p class="raw2">if arr[mid] == target:</p>
+                    <p class="raw3"># do something</p>
+                    <p class="raw3">return</p>
+                    <p class="raw2">if arr[mid] > target:</p>
+                    <p class="raw3">right = mid - 1</p>
+                    <p class="raw2">else:</p>
+                    <p class="raw3">left = mid + 1</p>
+                    <br>
+                    <p class="raw1"># left is the insertion point</p>
+                    <p class="raw1">return left</p>
+        </div>
+
+        <hr>
+        <h4>
+            Binary search: duplicate elements, left-most insertion point
+        </h4>
+        <div class="code">
+            def fn(arr, target):
+            <p class="raw1">left = 0</p>
+            <p class="raw1">right = len(arr)</p>
+            <p class="raw1">while left < right:</p>
+                    <p class="raw2">mid = (left + right) // 2</p>
+                    <p class="raw2">if arr[mid] >= target:</p>
+                    <p class="raw3">right = mid</p>
+                    <p class="raw2">else:</p>
+                    <p class="raw3">left = mid + 1</p>
+                    <br>
+                    <p class="raw1">return left</p>
+        </div>
+
+        <hr>
+        <h4>
+            Binary search: duplicate elements, right-most insertion point
+        </h4>
+        <div class="code">
+            def fn(arr, target):
+            <p class="raw1">left = 0</p>
+            <p class="raw1">right = len(arr)</p>
+            <p class="raw1">while left < right:</p>
+                    <p class="raw2">mid = (left + right) // 2</p>
+                    <p class="raw2">if arr[mid] > target:</p>
+                    <p class="raw3">right = mid</p>
+                    <p class="raw2">else:</p>
+                    <p class="raw3">left = mid + 1</p>
+                    <br>
+                    <p class="raw1">return left</p>
+        </div>
+
+        <hr>
+        <h4>
+            Binary search: for greedy problems
+        </h4>
+        <p class="content">
+            If looking for a minimum:
+        </p>
+        <div class="code">
+            def fn(arr):
+            <p class="raw1">def check(x):</p>
+            <p class="raw2"># this function is implemented depending on the problem</p>
+            <p class="raw2">return BOOLEAN</p>
+            <br>
+            <p class="raw1">left = MINIMUM_POSSIBLE_ANSWER</p>
+            <p class="raw1">right = MAXIMUM_POSSIBLE_ANSWER</p>
+            <p class="raw1">while left <= right:</p>
+                    <p class="raw2">mid = (left + right) // 2</p>
+                    <p class="raw2">if check(mid):</p>
+                    <p class="raw3">right = mid - 1</p>
+                    <p class="raw2">else:</p>
+                    <p class="raw3">left = mid + 1</p>
+                    <br>
+                    <p class="raw1">return left</p>
+        </div>
+
+        <p class="content">
+            If looking for a maximum:
+        </p>
+
+        <div class="code">
+            def fn(arr):
+            <p class="raw1">def check(x):</p>
+            <p class="raw2"># this function is implemented depending on the problem</p>
+            <p class="raw2">return BOOLEAN</p>
+            <br>
+            <p class="raw1">left = MINIMUM_POSSIBLE_ANSWER</p>
+            <p class="raw1">right = MAXIMUM_POSSIBLE_ANSWER</p>
+            <p class="raw1">while left <= right:</p>
+                    <p class="raw2">mid = (left + right) // 2</p>
+                    <p class="raw2">if check(mid):</p>
+                    <p class="raw3">left = mid + 1</p>
+                    <p class="raw2">else:</p>
+                    <p class="raw3">right = mid - 1</p>
+                    <br>
+                    <p class="raw1">return right</p>
+        </div>
+
+        <hr>
+        <h4 id="backtracking">
+            Backtracking
+        </h4>
+
+        <div class="code">
+            def backtrack(curr, OTHER_ARGUMENTS...):
+            <p class="raw1">if (BASE_CASE):</p>
+            <p class="raw2"># modify the answer</p>
+            <p class="raw2">return</p>
+            <br>
+            <p class="raw1">ans = 0</p>
+            <p class="raw1">for (ITERATE_OVER_INPUT):</p>
+            <p class="raw2"># modify the current state</p>
+            <p class="raw2">ans += backtrack(curr, OTHER_ARGUMENTS...)</p>
+            <p class="raw2"># undo the modification of the current state</p>
+            <br>
+            <p class="raw1">return ans</p>
+        </div>
+
+        <hr>
+        <h4 id="dynamic">
+            Dynamic programming: top-down memoization
+        </h4>
+
+        <div class="code">
+            def fn(arr):
+            <p class="raw1">def dp(STATE):</p>
+            <p class="raw2">if BASE_CASE:</p>
+            <p class="raw3">return 0</p>
+            <br>
+            <p class="raw2">if STATE in memo:</p>
+            <p class="raw3">return memo[STATE]</p>
+            <br>
+            <p class="raw2">ans = RECURRENCE_RELATION(STATE)</p>
+            <p class="raw2">memo[STATE] = ans</p>
+            <p class="raw2">return ans</p>
+            <br>
+            <p class="raw1">memo = {}</p>
+            <p class="raw1">return dp(STATE_FOR_WHOLE_INPUT)</p>
+        </div>
+
+        <hr>
+        <h4 id="build_trie">
+            Build a trie
+        </h4>
+        <div class="code">
+            # note: using a class is only necessary if you want to store data at each node. <br>
+            # otherwise, you can implement a trie using only hash maps. <br>
+            class TrieNode: <br>
+            <p class="raw1">def __init__(self):</p>
+            <p class="raw2"># you can store data at nodes if you wish</p>
+            <p class="raw2">self.data = None</p>
+            <p class="raw2">self.children = {}</p>
+            <br>
+            def fn(words):
+            <p class="raw1">root = TrieNode()</p>
+            <p class="raw1">for word in words:</p>
+            <p class="raw2">curr = root</p>
+            <p class="raw2">for c in word:</p>
+            <p class="raw3">if c not in curr.children:</p>
+            <p class="raw4">curr.children[c] = TrieNode()</p>
+            <p class="raw3">curr = curr.children[c]</p>
+            <p class="raw2"># at this point, you have a full word at curr</p>
+            <p class="raw2"># you can perform more logic here to give curr an attribute if you want</p>
+            <br>
+            <p class="raw1">return root</p>
+        </div>
+
+        <hr>
+        <h4 id="dijkstra">
+            Dijkstra's algorithm
+        </h4>
+        <div class="code">
+            from math import inf <br>
+            from heapq import * <br>
+            <br>
+            distances = [inf] * n <br>
+            distances[source] = 0 <br>
+            heap = [(0, source)] <br>
+            <br>
+            while heap:
+            <p class="raw1">curr_dist, node = heappop(heap)</p>
+            <p class="raw1">if curr_dist > distances[node]:</p>
+            <p class="raw2">continue</p>
+
+            <p class="raw1">for nei, weight in graph[node]:</p>
+            <p class="raw2">dist = curr_dist + weight</p>
+            <p class="raw2">if dist < distances[nei]:</p>
+                    <p class="raw3">distances[nei] = dist</p>
+                    <p class="raw3">heappush(heap, (dist, nei))</p>
+        </div>
+
+        <hr>
+
+
+
+    </div>
+
+</body>
+
+</html>

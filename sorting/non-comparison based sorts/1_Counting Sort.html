@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Counting Sort</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../../dynamic/dynamic_programming.html" class="dynamic_programming">Dynamic Programming</a>
+        <a href="../../dynamic/framework_for_dp.html" class="framework_for_dp">Framework for DP</a>
+        <a href="../../dynamic/1d_problems.html" class="1d_problems">1D Problems</a>
+        <a href="../../dynamic/multi_dimensional_problems.html" class="multi_dimensional_problems">Multi-dimensional
+            Problems</a>
+        <a href="../../dynamic/matrix_dp.html" class="matrix_dp">Matrix DP</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#ex1">#1 Longest Common Subsequence</a>
+        <a href="#ex2">#2 Best Time to Buy and Sell Stock IV </a>
+        <a href="#ex3">#3 Maximum Value of K Coins From Piles </a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Counting Sort
+        </h1>
+        <hr>
+
+        <p class="content">In the world of non-comparison based sorts, one of the simplest building blocks is counting
+            sort</p>
+        <p class="content">Let’s start with a simple example and build up to the full counting sort algorithm. Let’s
+            define an array
+            A=[1,5,0,3,6,4,2]</p>
+        <p class="content">
+            Could you come up with a clever approach to sort this special array in a single pass?
+        </p>
+        <p class="content">A special property of this array is that the maximum element is 6, the minimum element is 0,
+            and each value in between shows up exactly once in the array. So, for this specific array, a rather simple
+            algorithm can sort it in one pass:
+        </p>
+
+        <ol>
+            <li>Initialize an array
+                output
+                output of size 7</li>
+            <li>For every element
+                A[i]
+                <ul>
+                    <li>output[A[i]]=A[i]</li>
+                </ul>
+            </li>
+        </ol>
+
+        <p class="content">All we have to do is map each element
+            A[i] to index
+            A[i] in the output array. This algorithm runs in O(N) time and O(N) extra space. It is guaranteed to work
+            for any array with the following properties: 1. Each element in the array
+            𝐴
+            A is between
+            0
+            0 and
+            N−1 inclusive (
+            0 &le; A[i] &le; N−1) 2. No element is repeated 3. The array is size N (all elements from 0 to N - 1 show up
+            exactly
+            once)</p>
+        <p class="content">The above algorithm in a sense is the simplest version of counting sort. Counting sort is all
+            about using a predefined range of “keys” (in the above example, the keys map one-to-one to an index) to
+            construct a sorted input. The above example is the basic idea, but there are some natural extensions to it.
+            1. Counting sort can handle non-unique keys (input array can have duplicate elements) 2. Counting sort can
+            handle non-consecutive keys (input array can have elements that don’t exist within the predefined range of
+            values) 3. Counting sort can handle non-numerical keys as long as they are constrained within an alphabet of
+            constrained size (e.g characters, objects with a predefined set of values)
+        </p>
+        <p class="content">
+            Suppose now that the minimum possible value of the array is set to 0 and the maximum possible value in the
+            array is K. The main idea required to handle steps (1) and (2) is to track the frequency of each value in
+            the range 0 to K.
+        </p>
+        <p class="content">
+            Suppose the input array was
+            A=[5,4,5,5,1,1,3]
+        </p>
+        <p class="content">
+            As we did earlier, we can initialize a new array
+            counts
+            counts of size equal to the
+            max
+            ⁡
+            (
+            𝐴
+            )
+            +
+            1
+            max(A)+1. Then, the core concept involves mapping each index
+            𝑖
+            i of the
+            counts
+            counts array to the number of occurrences of
+            𝑖
+            i in the original array
+            𝐴
+            A.
+        </p>
+        <p class="content">
+            In this example, the
+            counts
+            counts array would be
+            [0, 2, 0, 1, 1, 3, 0]
+            [0, 2, 0, 1, 1, 3, 0]
+        </p>
+        <p class="content">
+            From this
+            counts
+            counts array, we can determine the starting index for each element in the original array. The starting
+            indices can be found by calculating the cumulative sum of our previous counts array (index
+            𝑖
+            i is the sum of all preceding indices).
+            startingIndices=[0,0,2,2,3,4,7]
+        </p>
+        <p class="content">
+            An easy interpretation of this array is to take any element in the original input
+            𝐴
+            A and find its index in
+            startingIndices
+            startingIndices. That index is where the first instance of that element should be placed. Couple of examples
+            below:
+        </p>
+
+        <ol>
+            <li>The first instance of element 1 should be placed at index 0 (which makes sense because it is the minimum
+                element).</li>
+            <li>The first instance of element 5 should be placed at index 4. This must be true since, when sorted, there
+                are three total instances of 5's, so the starting index of the first instance of 5 should be at index 4.
+                On every iteration, we will increment the index as we process elements. So the second and third
+                instances of element 5 will be placed at indices 5 and 6, respectively.</li>
+        </ol>
+
+        <p class="content">
+            Below is an animation of counting sort:
+        </p>
+
+        <p class="content">
+            Video: CountingSort_1080p
+        </p>
+
+        <p class="content">In the actual implementation of this algorithm, we will overwrite the original counts array
+            with the
+            startingIndices
+            startingIndices array to reduce the amount of additional space used.</p>
+        <p class="content">
+            With this intuition in hand, below is the algorithm for counting sort on a set of integers from 0 to K (not
+            all values have to be present and some values can be duplicated).
+        </p>
+
+        <div class="code">
+            def counting_sort(self, lst) -> None: <br>
+            <p class="raw1">"""Sorts a list of integers where minimum value is 0 and maximum value is K"""</p>
+            <p class="raw1">K = max(lst)</p>
+            <p class="raw1">counts = [0] * (K + 1)</p>
+            <p class="raw1">for elem in lst:</p>
+            <p class="raw2">counts[elem] += 1</p>
+            <br>
+            <p class="raw1"># we now overwrite our original counts with the starting index</p>
+            <p class="raw1"># of each element in the final sorted array</p>
+            <br>
+            <p class="raw1">starting_index = 0</p>
+            <p class="raw1">for i, count in enumerate(counts):</p>
+            <p class="raw2">counts[i] = starting_index</p>
+            <p class="raw2">starting_index += count</p>
+            <br>
+            <p class="raw1">sorted_lst = [0] * len(lst)</p>
+            <br>
+            <p class="raw1">for elem in lst:</p>
+            <p class="raw2">sorted_lst[counts[elem]] = elem</p>
+            <p class="raw2"># since we have placed an item in index counts[elem], we need to</p>
+            <p class="raw2"># increment counts[elem] index by 1 so the next duplicate element</p>
+            <p class="raw2"># is placed in appropriate index</p>
+            <p class="raw2">counts[elem] += 1</p>
+            <br>
+            <p class="raw1"># common practice to copy over sorted list into original lst</p>
+            <p class="raw1"># it's fine to just return the sorted_lst at this point as well</p>
+            <p class="raw1">for i in range(len(lst)):</p>
+            <p class="raw2">lst[i] = sorted_lst[i]</p>
+        </div>
+
+        <p class="content">
+            The time complexity of counting sort is
+            𝑂
+            (
+            𝑁
+            +
+            𝐾
+            )
+            O(N+K) where
+            𝑁
+            N is the size of the input array and
+            𝐾
+            K is the maximum value in the array. Again, a key assumption in the above version of counting sort is that
+            the minimum possible value in the array is 0 (no negative numbers) and the maximum value is some positive
+            integer K. If this is not the case, it's possible to perform a mapping step at the beginning and then remap
+            the values to the original array at the end. For example, an array with values between -5 and 10 can be
+            mapped to values between 0 and 15, perform counting sort, and then remap to the original -5 to 10 range.
+        </p>
+        <p class="content">
+            Below is a slight modification to counting sort to handle shifting of values when values are between a range
+            of two general integers.
+        </p>
+
+        <div class="code">
+            def counting_sort(self, lst: List[int]) -> None: <br>
+            <p class="raw1">"""Sorts a list of integers (handles shifting of integers to range 0 to K)"""</p>
+            <p class="raw1">shift = min(lst)</p>
+            <p class="raw1">K = max(lst) - shift</p>
+            <p class="raw1">counts = [0] * (K + 1)</p>
+            <p class="raw1">for elem in lst:</p>
+            <p class="raw2">counts[elem - shift] += 1</p>
+            <br>
+            <p class="raw1"># we now overwrite our original counts with the starting index</p>
+            <p class="raw1"># of each element in the final sorted array</p>
+            <p class="raw1">starting_index = 0</p>
+            <p class="raw1">for i, count in enumerate(counts):</p>
+            <p class="raw2">counts[i] = starting_index</p>
+            <p class="raw2">starting_index += count</p>
+            <br>
+            <p class="raw1">sorted_lst = [0] * len(lst)</p>
+            <p class="raw1">for elem in lst:</p>
+            <p class="raw2">sorted_lst[counts[elem - shift]] = elem</p>
+            <p class="raw2"># since we have placed an item in index counts[elem], we need to</p>
+            <p class="raw2"># increment counts[elem] index by 1 so the next duplicate element</p>
+            <p class="raw2"># is placed in appropriate index</p>
+            <p class="raw2">counts[elem - shift] += 1</p>
+            <br>
+            <p class="raw1"># common practice to copy over sorted list into original lst</p>
+            <p class="raw1"># it's fine to just return the sorted_lst at this point as well</p>
+            <p class="raw1">for i in range(len(lst)):</p>
+            <p class="raw2">lst[i] = sorted_lst[i]</p>
+            <p class="raw1">return lst</p>
+        </div>
+
+        <p class="content">The space complexity of counting sort is also
+            𝑂
+            (
+            𝑁
+            +
+            𝐾
+            )
+            O(N+K) since we have to initialize a new array of size
+            𝑁
+            N and a counts array of size
+            𝐾
+            +
+            1
+            K+1.</p>
+        <p class="content">
+            Another important constraint is that counting sort is only viable on inputs that have a fixed size (integers
+            in a range, characters, etc.). If the possible set of inputs is an array of strings, counting sort is not a
+            viable option.
+        </p>
+        <p class="content">
+            Advantages of using counting sort: 1. It is a stable sort. 2. It can be significantly faster than other
+            comparison based sorts on larger collections of integers with a relatively small range of values.
+        </p>
+        <p class="content">
+            Disadvantages of using counting sort: 1. It requires extra memory, while many comparison sorts can be
+            implemented without requiring any extra memory. 2. When the range of possible values K is large compared to
+            N, counting sort may actually perform worse than a theoretically slower
+            𝑂
+            (
+            𝑁
+            log
+            𝑁
+            )
+            O(NlogN) sort as a result of the extra memory overhead and additional K operations that need to be
+            performed.
+        </p>
+
+
+
+
+
+    </div>
+
+</body>
+
+</html>

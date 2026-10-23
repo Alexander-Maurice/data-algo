@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Bit manipulation</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../bonus/bonus.html">Difference array</a>
+        <a href="../bonus/tries.html">Tries</a>
+        <a href="../bonus/bit_manipulation.html">Bit manipulation</a>
+        <a href="../bonus/intervals.html">Intervals</a>
+        <a href="../bonus/modular_arithmetic.html">Modular arithmetic</a>
+        <a href="../bonus/dijkstra.html">Dijkstra</a>
+
+    </div>
+
+
+    <div class="container">
+        <h1>
+            Bit manipulation
+        </h1>
+
+        <hr>
+
+        <p class="content">
+            Битовые манипуляции — это мощный инструмент, который может хитроумными способами повысить сложность
+            алгоритмов. Манипулирование битами предполагает просмотр данных в двоичной форме и манипулирование «битами»
+            в этой форме. Наиболее важные операции, которые вам необходимо знать:
+        </p>
+
+        <ol>
+            <li>OR <span>|</span>
+                <ul>
+                    <li>Если какой-либо бит равен <span>1</span>, то результат будет <span>1</span>. В противном случае
+                        результат равен <span>0</span>.</li>
+                </ul>
+            </li>
+            <li>
+                AND <span>&</span>
+                <ul>
+                    <li>Если все биты равны <span>1</span>, то результат будет <span>1</span>. В противном случае
+                        результат равен <span>0</span>.</li>
+                </ul>
+            </li>
+            <li>
+                XOR <span>^</span>
+                <ul>
+                    <li>Если количество битов <span>1</span> нечетное, то результатом будет <span>1</span>. В противном
+                        случае результатом будет <span>0</span>.</li>
+                </ul>
+            </li>
+            <li>
+                Left and right shifts: <span>
+                    << </span>, <span>>></span>
+                        <ul>
+                            <li>Сдвиги перемещают все биты на одно место в соответствующем направлении. Если первый бит
+                                перевернут, сдвиг вправо «удалит» его.</li>
+                            <li>Сдвиги соответствуют умножению или делению числа на 2. (Сдвиг влево = умножение на 2,
+                                сдвиг вправо = деление floor на 2)</li>
+                        </ul>
+            </li>
+        </ol>
+
+
+        <p class="content">
+            Допустим, мы выполняем битовые манипуляции с целыми числами и у нас есть два целых числа: <span>x, y</span>.
+            Если мы
+            выполним эти операции над <span>x</span> и <span>y</span>, то операция будет применена к каждому биту.
+            Например, даны
+        </p>
+
+        <p class="content">
+            <span>x = 15</span> и <span>y = 12</span>, тогда в двоичном формате <span>x = 1111</span> и <span>y =
+                1100</span>.
+        </p>
+
+        <p class="content">
+            <span>x | y = 1111 = 15</span>
+        </p>
+
+        <p class="content">
+            <span>x & y = 1100 = 12</span>
+        </p>
+
+        <p class="content">
+            <span>x ^ y = 0011 = 3</span>
+        </p>
+
+        <p class="content">
+            <span>x << 1=11110=30</span>
+        </p>
+
+        <p class="content">
+            <span>x >> 1 = 111 = 7</span>
+        </p>
+
+        <p class="content">
+            Иногда нам хочется сосредоточиться на конкретных битах, а не на каждом бите числа. Для этого мы можем
+            использовать так называемую битовую маску, также называемую просто маской. Маску с одним перевернутым битом
+            можно использовать для проверки отдельных битов других чисел. Например, предположим, что нас интересовал
+            только второй бит (0, индексированный справа, то есть бит, представляющий десятичное число <span>4</span>)
+            числа <span>x</span>.
+        </p>
+
+
+        <p class="content">
+            Мы можем взять целочисленную <span>mask = 1</span>, дважды сдвинуть ее влево, чтобы она оказалась на 2-й
+            позиции (<span>100</span>),
+            и теперь любые операции между <span>x</span> и <span>mask</span> будут «применяться» только ко 2-му биту.
+        </p>
+
+
+        <p class="content">
+            Если мы хотим увидеть, перевернут ли второй бит <span>x</span>, мы можем сделать <span>mask & x</span>.
+            Поскольку все биты в <span>mask</span>,
+            кроме 2-го бита, равны <span>0</span>, этот результат будет <span>0</span> тогда и только тогда, когда 2-й
+            бит в <span>x</span> не перевернут. Это
+            означает, что результат <span>mask & x</span> будет ненулевым тогда и только тогда, когда второй бит
+            инвертируется в <span>x</span>.
+        </p>
+
+        <p class="content">
+            Если мы хотим перевернуть второй бит <span>x</span>, мы можем сделать <span>mask ^ x</span>. Поскольку все
+            биты <span>mask</span> равны <span>0</span>, кроме
+            2-го бита, операция XOR не изменит никакие другие биты. Если 2-й бит в <span>x</span> равен <span>1</span>,
+            то <span>1^1 = 0</span>. Если он равен
+            <span>0</span>, <span>то 1^0 = 1</span>.
+        </p>
+
+        <p class="important">
+            Простой способ подумать о XOR: если вы выполните <span>x XOR 0</span>, то с x ничего не изменится. Если вы
+            выполняете <span>x
+                XOR 1</span>, то <span>x</span> переворачивается.
+        </p>
+
+
+        <div class="code">
+            class Solution:
+            <p class="raw1">def singleNumber(self, nums: List[int]) -> int:</p>
+            <p class="raw2">mask = 0</p>
+            <p class="raw2">for num in nums:</p>
+            <p class="raw3">mask ^= num</p>
+            <br>
+            <p class="raw2">return mask</p>
+        </div>
+
+
+        <p class="content">
+            Это дает нам алгоритм с
+            O(n) времени и
+            O(1) пространство. Говоря практическим языком, этот алгоритм даже быстрее, чем метод хеш-карты, поскольку
+            целочисленные и битовые операции выполняются очень быстро, тогда как хэш-карта требует дополнительных
+            затрат.
+        </p>
+
+        <hr>
+
+        <h4>
+            Битовые маски как хешируемые индикаторы «посещений»
+        </h4>
+
+        <p class="content">
+            В задачах с возвратом и DP мы видели проблемы, связанные с использованием элементов массива не более одного
+            раза. Когда у нас возникает подобная проблема, полезно иметь индикатор того, какие элементы мы уже
+            использовали. Мы могли бы использовать массив, где <span>arr[i]</span> — логическое значение, указывающее,
+            является ли
+            i-й элемент использованным. Проблема в том, что мы не можем хешировать массивы, поэтому это не является
+            жизнеспособным решением проблем DP, когда нам нужно запоминать состояния. Мы могли бы использовать кортежи,
+            которые можно хэшировать, но модификация кортежей при каждом изменении состояния требует больших затрат и,
+            как правило, не является чистым. Битовая маска — лучший вариант. Допустим, у вас есть целочисленная
+            <span>mask</span>, в
+            которой i-й бит инвертируется, если i-й элемент использовался. Мы можем использовать XOR для переворачивания
+            битов, когда мы «используем» элементы, и мы можем использовать AND, чтобы проверить, использовался ли
+            элемент. Давайте посмотрим на пример:
+        </p>
+
+
+        <p class="important">
+            <a href="https://leetcode.com/problems/n-queens-ii/">Example: 52. N-Queens II</a>
+            <br>
+            <br>
+            Помните эту проблему из главы о backtracking? Мы собираемся решить ее снова, используя тот же алгоритм, но
+            используя битовую маску вместо наборов, что улучшает использование пространства (а также времени, поскольку
+            наборы требуют больше накладных расходов).
+        </p>
+
+        <p class="content">
+            В нашем предыдущем решении мы использовали набор для хранения столбцов из <span>[0, n)</span>. Вместо
+            использования
+            набора для проверки того, используется ли i-й столбец, мы можем использовать целое число <span>cols</span>,
+            где i-й бит
+            равен <span>1</span>, если используется i-й столбец.
+        </p>
+
+
+        <p class="content">
+            Чтобы проверить
+            i-й бит, мы можем использовать маску <span>currCol = 1 << i</span>. Это будет двоичное число, похожее на
+                    <span>001000</span>. Потому
+                    что только i-й бит установлен, если мы выполним операцию AND против <span>cols</span>, то он будет
+                    ненулевым тогда и
+                    только тогда, когда <span>cols</span> имеет i-й бит также установлен.
+        </p>
+
+
+        <p class="content">
+            Если результат равен нулю, это означает, что у <span>cols</span> не установлен этот бит, а это значит, что
+            мы можем
+            поместить ферзя в столбец. Чтобы разместить ферзя, нам нужно изменить только i-й бит на <span>1</span>, что
+            будет
+            результатом <span>cols ^ currCol</span>. Когда мы удалим ферзя, та же операция отменит его.
+        </p>
+
+        <p class="content">
+            Мы можем использовать ту же самую логику для диагоналей и антидиагоналей. Только одно замечание: мы не можем
+            делать отрицательные битовые сдвиги, а для диагоналей <span>row - col</span> может быть отрицательным,
+            поэтому нам
+            следует добавить константу <span>n</span>, чтобы гарантировать, что она не станет отрицательной.
+        </p>
+
+        <p class="important">
+            Примечание: операции манипуляции с битами имеют низкий приоритет (например, PEMDAS/BEDMAS). Обязательно
+            используйте круглые скобки <span>()</span> для четкого определения терминов при использовании битовых
+            операций.
+        </p>
+
+        <div class="code">
+            class Solution:
+            <p class="raw1">def totalNQueens(self, n):</p>
+            <p class="raw2">def backtrack(row, diagonals, anti_diagonals, cols):</p>
+            <p class="raw3"># Base case - N queens have been placed</p>
+            <p class="raw3">if row == n:</p>
+            <p class="raw4">return 1</p>
+            <br>
+            <p class="raw3">solutions = 0</p>
+            <p class="raw3">for col in range(n):</p>
+            <p class="raw4">curr_diagonal = 1 << (row - col + n) # add n to avoid going negative</p>
+                    <p class="raw4">curr_anti_diagonal = 1 << (row + col)</p>
+                            <p class="raw4">curr_col = 1 << col</p>
+                                    <br>
+                                    <p class="raw4"># Check if bits are set</p>
+                                    <p class="raw4">if (cols & curr_col</p>
+                                    <p class="raw4">or diagonals & curr_diagonal</p>
+                                    <p class="raw4">or anti_diagonals & curr_anti_diagonal):</p>
+                                    <p class="raw5">continue</p>
+                                    <br>
+                                    <p class="raw4"># "Add" the queen to the board</p>
+                                    <p class="raw4">cols ^= curr_col</p>
+                                    <p class="raw4">diagonals ^= curr_diagonal</p>
+                                    <p class="raw4">anti_diagonals ^= curr_anti_diagonal</p>
+                                    <br>
+                                    <p class="raw4"># Move on to the next row with the updated board state</p>
+                                    <p class="raw4">solutions += backtrack(row + 1, diagonals, anti_diagonals, cols)</p>
+                                    <br>
+                                    <p class="raw4"># "Remove" the queen from the board since we have already</p>
+                                    <p class="raw4"># explored all valid paths using the above function call</p>
+                                    <p class="raw4">cols ^= curr_col</p>
+                                    <p class="raw4">diagonals ^= curr_diagonal</p>
+                                    <p class="raw4">anti_diagonals ^= curr_anti_diagonal</p>
+                                    <br>
+                                    <p class="raw3">return solutions</p>
+                                    <br>
+                                    <p class="raw2">return backtrack(0, 0, 0, 0)
+
+                                    </p>
+        </div>
+
+
+        <p class="content">
+            Теперь вместо трех наборов у нас есть три целых числа. Пространственная сложность по-прежнему
+            O(n) из-за стека вызовов, но практически мы улучшили использование пространства. Операции манипулирования
+            битами также выполняются очень быстро, тогда как наборы имеют накладные расходы, связанные с хешированием.
+        </p>
+
+
+        <p class="content">
+            Одним из огромных преимуществ использования битовой маски вместо массива или набора для обозначения
+            «посещенных» состояний является то, что целое число является неизменяемым, поэтому его можно хешировать, и,
+            следовательно, функцию можно запомнить. Это позволяет решить многие проблемы с помощью динамического
+            программирования.
+        </p>
+
+        <p class="content">
+            Предстоящие практические задачи помогут вам освоиться с битовыми операциями — попробуйте!
+        </p>
+
+        <hr>
+
+
+    </div>
+
+</body>
+
+</html>

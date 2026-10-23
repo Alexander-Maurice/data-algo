@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Overview of Kahn's Algorithm
+
+    </title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../../introduction/introduction.html">Introduction</a>
+            <a href="../../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../../hashing/hashing.html">Hashing</a>
+            <a href="../../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../../heaps/heaps.html">Heaps</a>
+            <a href="../../greedy/greedy.html">Greedy</a>
+            <a href="../../binary_search/binary_search.html">Binary Search</a>
+            <a href="../../backtracking/backtracking.html">Backtracking</a>
+            <a href="../../dynamic/dynamic_programming.html">Dynamic Programming</a>
+            <a href="../../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../trees_graphs.html" class="binary_trees">Binary trees</a>
+        <a href="../binary_trees_dfs.html" class="binary_trees_dfs">Binary trees DFS</a>
+        <a href="../binary_trees_bfs.html" class="binary_trees_bfs">Binary trees BFS</a>
+        <a href="../binary_search_trees.html" class="binary_search_trees">Binary search trees</a>
+        <a href="../graphs.html" class="graphs">Graphs</a>
+        <a href="../graphs_dfs.html" class="graphs_dfs">Graphs DFS</a>
+        <a href="../graphs_bfs.html" class="graphs_bfs">Graphs BFS</a>
+        <a href="../implicit_graphs.html" class="implicit_graphs">Implicit graphs</a>
+        <a href="../premium_graphs.html" class="premium_graphs">Premium graphs</a>
+        <a href="../disjoint_set/1_disjoint_set.html" class="disjoint_set">Disjoint set</a>
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#tree">Что такое дерево?</a>
+        <a href="#thermin">Терминология</a>
+        <a href="#code">Представление кода</a>
+
+    </div>
+
+    <div class="container">
+        <h1>Overview of Kahn's Algorithm</h1>
+
+        <hr>
+        <p class="content">
+            Выбирая курсы на следующий семестр в колледже, вы, возможно, заметили, что на некоторых курсах продвинутого
+            уровня есть предварительные условия, требующие от вас сначала пройти некоторые вводные курсы. Например, как
+            показано на рисунке 12, чтобы пройти курс C, вам необходимо сначала пройти курс B, а чтобы пройти курс B,
+            вам необходимо сначала пройти курс A. Чтобы получить ученую степень, необходимо пройти множество курсов. Вы
+            не хотите узнать в последнем семестре, что вы не прошли некоторые обязательные курсы для продвинутого курса.
+            Итак, как мы можем правильно организовать порядок курсов, учитывая эти обязательные отношения между ними?
+        </p>
+
+        <img src="../../trees_graphs/tree_graphs_imgs/Course_Relationships.png" alt="">
+
+        <p class="content">
+            Рисунок 12. Взаимосвязь обязательных условий между курсами
+        </p>
+
+        <p class="content">
+            «Топологическая сортировка» помогает решить проблему. Он обеспечивает линейную сортировку на основе
+            необходимого порядка между вершинами в ориентированных ациклических графах. Точнее, учитывая вершины
+            <span>u</span> и <span>v</span>,
+            чтобы достичь вершины <span>v</span>, мы должны сначала достичь вершины <span>u</span>. При «топологической
+            сортировке» <span>u</span> должно
+            стоять перед <span>v</span> в порядке сортировки. Самый популярный алгоритм «топологической сортировки» —
+            алгоритм Кана.
+        </p>
+
+        <h2>
+            Видео Объяснение
+        </h2>
+        <hr>
+
+        <p class="content">
+            В этом видео мы расскажем, как алгоритм Кана можно использовать для топологической сортировки.
+        </p>
+
+        <p class="content">
+            Video: Kahn's Algorithm Export v2_1080p
+        </p>
+
+
+        <p class="content">
+            Обратите внимание: для простоты представления алгоритма Кана мы перебрали все курсы и уменьшили входную
+            степень тех, для которых текущий курс является обязательным. Это требует от нас перебора всех
+            E предпосылки для всех
+            V курсы, в результате которых
+            O(V⋅E) временная сложность за счет
+            O(V) пространство для хранения степени для каждой вершины.
+        </p>
+
+        <p class="content">
+            Однако этот шаг можно выполнить более эффективно, создав список смежности, в котором
+            <span>adjacencyList[course]</span>
+            содержит список курсов, зависящих от <span>course</span>. Затем, когда каждый курс будет пройден, мы будем
+            перебирать
+            только те курсы, для которых текущий курс является обязательным условием. Это уменьшит общую временную
+            сложность до
+            O(V+E) за счет дополнительного
+            O(E) пространство для хранения списка смежности.
+        </p>
+
+        <h2>
+            Ограничение алгоритма
+        </h2>
+        <hr>
+
+        <ul>
+            <li>«Топологическая сортировка» работает только с направленными и ациклическими графами.</li>
+            <li>В «графе» должна быть хотя бы одна вершина с «внутренней степенью» 0. Если все вершины в «графе» имеют
+                ненулевую «внутреннюю степень», то всем вершинам нужна хотя бы одна вершина, поскольку предшественник. В
+                этом случае ни одна вершина не может служить начальной вершиной.</li>
+        </ul>
+
+
+        <h2>
+            Анализ сложности
+        </h2>
+        <hr>
+
+        <p class="content">
+            V представляет количество вершин, а
+            E представляет количество ребер.
+        </p>
+
+        <ul>
+            <li>Временная сложность:
+                О(V+Е).
+                <ul>
+                    <li>Сначала мы создадим список смежности. Это позволяет нам эффективно проверять, какие курсы
+                        зависят от каждого обязательного курса. Построение списка смежности займет
+                        Время O(E), так как мы должны перебирать все ребра.</li>
+                    <li>Далее мы повторно посетим каждый курс (вершину) с нулевой степенью входа и уменьшим степень
+                        входа всех курсов, у которых этот курс является обязательным условием (исходящие ребра). В
+                        худшем случае мы посетим каждую вершину и уменьшим каждое исходящее ребро один раз. Таким
+                        образом, эта часть займет
+                        Время O(V+E).</li>
+                    <li>Следовательно, общая временная сложность равна
+                        О(Е)+О(V+E)=O(V+E).</li>
+                </ul>
+            </li>
+            <li>Космическая сложность:
+                О(V+Е).
+                <ul>
+                    <li>В списке смежности используется
+                        O(E) пространство.</li>
+                    <li>Для хранения входной степени для каждой вершины требуется
+                        O(V) пространство.</li>
+                    <li>Очередь может содержать не более
+                        V узлов, поэтому очередь также требует
+                        O(V) пространство.</li>
+                </ul>
+
+            </li>
+        </ul>
+
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>

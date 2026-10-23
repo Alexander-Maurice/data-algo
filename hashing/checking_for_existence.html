@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <title>Checking for existence</title>
+</head>
+
+<body>
+    <div class="nav">
+        <div class="nav__section">
+            <a href="../introduction/introduction.html">Introduction</a>
+            <a href="../arrays_strings/arrays.html">Arrays and strings</a>
+            <a href="../hashing/hashing.html">Hashing</a>
+            <a href="../linked_lists/linked_lists.html">Linked Lists</a>
+            <a href="../stacks_queues/stacks_queues.html">Stack and queues</a>
+            <a href="../trees_graphs/trees_graphs.html">Trees and graphs</a>
+            <a href="../heaps/heaps.html">Heaps</a>
+            <a href="../greedy/greedy.html">Greedy</a>
+            <a href="../binary_search/binary_search.html">Binary Search</a>
+            <a href="../backtracking/backtracking.html">Backtracking</a>
+            <a href="../dynamic/main_dynamic.html">Dynamic Programming</a>
+            <a href="../inerviews_tools/interviews_tools.html">Interviews and tools</a>
+            <a href="../bonus/bonus.html">Bonus</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="../hashing/hashing.html" class="hashing">Hashing</a>
+        <a href="../hashing/checking_for_existence.html" class="checking_for_existence">Checking for existence</a>
+        <a href="../hashing/counting.html" class="counting">Counting</a>
+        <a href="../hashing/more_hashing_examples.html" class="more_hashing_examples">More hashing examples</a>
+
+    </div>
+
+    <div class="stick__navigation">
+        <a href="#primer1">#1 Two Sum</a>
+        <a href="#primer2">#2 First Letter to Appear Twice</a>
+        <a href="#primer3">#3 Unique digits with condition</a>
+    </div>
+
+    <div class="container">
+        <h1>
+            Checking for existence
+        </h1>
+        <hr>
+
+        <p class="content">
+            Одним из наиболее распространенных применений хеш-таблицы или набора является определение существования
+            элемента в
+            О(1). Поскольку массив нуждается
+            O(n) для этого использование хэш-карты или набора может значительно улучшить временную сложность алгоритма,
+            обычно с O(n<sup>2</sup>) до O(n). Давайте рассмотрим некоторые примеры задач.
+        </p>
+
+        <hr>
+
+        <p class="important" id="primer1">
+            <a href="https://leetcode.com/problems/two-sum/">Example 1: 1. Two Sum</a>
+            <br>
+            <br>
+            Учитывая массив целых чисел <span>nums</span> и целочисленную <span>target</span>, верните индексы двух
+            чисел так, чтобы их сумма
+            составляла <span>target</span>. Вы не можете использовать один и тот же индекс дважды.
+        </p>
+
+        <p class="content">
+            Решением грубой силы было бы использование вложенного цикла for для перебора каждой пары индексов и
+            проверки, равна ли сумма целевому <span>target</span>. Это приведет к временной сложности O(n<sup>2</sup>).
+            В решении
+            методом грубой силы первый цикл for фокусируется на числе <span>num</span>, а второй цикл for ищет
+            <span>target —
+                num</span> в массиве. С помощью массива ищем <span>target - num</span> равно
+            O(n), но с хеш-картой это
+            О(1).
+        </p>
+
+        <p class="content">
+            Мы можем построить хэш-карту, проходя по массиву, сопоставляя каждое значение с его индексом. По каждому
+            индексу <span>i</span>, где <span>num = nums[i]</span>, мы можем проверить нашу хэш-карту на предмет
+            <span>target — num</span>. Добавление пар
+            ключ-значение и проверка <span>target — num</span> все это
+            O(1), поэтому наша временная сложность улучшится до O(n).
+        </p>
+
+        <details>
+            <summary>Нажмите для подробного объяснения</summary>
+            <p class="content">
+                Мы ищем два числа, сумма которых соответствует <span>target</span>. Мы перебираем входные данные и для
+                каждого элемента <span>num</span> смотрим, можно ли соединить этот элемент с другим числом, чтобы
+                сформировать <span>target</span>.
+            </p>
+
+            <p class="content">
+                Если существует другой элемент <span>target — num</span>, то их сумма <span>num + target — num =
+                    target</span> — это то, что мы
+                ищем.
+            </p>
+
+            <p class="content">
+                Поэтому, перебирая входные данные, мы помещаем элементы в хеш-карту. Затем в будущем мы сможем
+                проверить, видели ли мы <span>target-num</span> для каждого <span>num</span> в
+                О(1). Задача состоит в том, чтобы мы возвращали индексы вместо самих чисел, чтобы мы могли связать
+                каждое число с его индексом.
+            </p>
+        </details>
+
+
+        <div class="code">
+            def twoSum(nums: List[int], target: int) -> List[int]:
+            <p class="raw1">dic = {}</p>
+            <p class="raw1">for i in range(len(nums)):</p>
+            <p class="raw2">num = nums[i]</p>
+            <p class="raw2">complement = target - num</p>
+            <p class="raw2">if complement in dic: # This operation is O(1)!</p>
+            <p class="raw3">return [i, dic[complement]]</p>
+            <br>
+            <p class="raw2">dic[num] = i</p>
+            <br>
+            <p class="raw1">return [-1, -1]</p>
+        </div>
+
+
+        <p class="important">
+            Если бы вопрос требовал, чтобы мы вернули логическое значение, указывающее, существует ли пара, или вернули
+            сами числа, тогда мы могли бы просто использовать набор. Однако, поскольку ему нужны индексы чисел, нам
+            нужно использовать хеш-карту, чтобы «запомнить», под какими индексами находятся числа.
+        </p>
+
+
+        <p class="content">
+            Временная сложность равна
+            O(n), поскольку операции хеш-карты
+            О(1). В этом решении также используется
+            Пространство O(n) как количество ключей, которые хеш-карта будет хранить, масштабируется линейно в
+            зависимости от входного размера.
+        </p>
+
+
+        <hr>
+
+        <p class="important" id="primer2">
+            <a href="https://leetcode.com/problems/first-letter-to-appear-twice/">Example 2: 2351. First Letter to
+                Appear Twice</a>
+            <br>
+            <br>
+            Учитывая строку <span>s</span>, верните первый символ, который встретится дважды. Гарантируется, что ввод
+            будет иметь
+            повторяющийся символ.
+        </p>
+
+        <p class="content">
+            Решением грубой силы было бы выполнить итерацию по строке и для каждого символа <span>c</span> повторить
+            снова до <span>c</span>,
+            чтобы увидеть, есть ли какое-либо совпадение.
+        </p>
+
+        <div class="code">
+            def repeatedCharacter(s: str) -> str:
+            <p class="raw1">for i in range(len(s)):</p>
+            <p class="raw2">c = s[i]</p>
+            <p class="raw2">for j in range(i):</p>
+            <p class="raw3">if s[j] == c:</p>
+            <p class="raw4">return c</p>
+            <br>
+            <p class="raw1">return ""</p>
+        </div>
+
+        <p class="content">
+            Это O(n<sup>2</sup>) из-за вложенного цикла. Второй цикл проверяет существование <span>c</span>, что можно
+            сделать в
+            O(1) с использованием набора.
+        </p>
+
+        <div class="code">
+            def repeatedCharacter(s: str) -> str:
+            <p class="raw1">seen = set()</p>
+            <p class="raw1">for c in s:</p>
+            <p class="raw2">if c in seen:</p>
+            <p class="raw3">return c</p>
+            <p class="raw2">seen.add(c)</p>
+            <br>
+            <p class="raw1">return " "</p>
+        </div>
+
+        <p class="content">
+            Это улучшает нашу временную сложность до
+            O(n), поскольку каждая итерация цикла for теперь выполняется за постоянное время.
+        </p>
+
+        <p class="content">
+            Пространственная сложность — более интересная тема для обсуждения. Многие люди будут утверждать, что
+            сложность пространства
+            O(1), поскольку входные данные могут содержать только символы английского алфавита, который ограничен
+            константой (26). Это очень часто встречается при проблемах со строками и технически правильно. В условиях
+            собеседования это, вероятно, безопасный ответ, но вы также должны отметить, что пространственная сложность
+            может быть
+            О(м), где
+            m — количество допустимых символов во входных данных. Это более общий ответ, а также технически правильный.
+        </p>
+
+        <hr>
+
+        <p class="important" id="primer3">
+            Пример 3. Учитывая целочисленный массив <span>nums</span>, найдите все уникальные числа <span>x</span> в
+            <span>nums</span>, которые удовлетворяют
+            следующему: <span>x + 1</span> не находится в <span>nums</span>, и <span>x - 1</span> не находится в
+            <span>nums</span>.
+        </p>
+
+        <p class="content">
+            Мы можем решить эту проблему простым способом — просто перебираем <span>nums</span> и проверяем, находится
+            ли <span>x +
+                1</span> или <span>x
+                - 1</span> в <span>nums</span>. Если заранее преобразовать <span>nums</span> в набор, эти проверки будут
+            стоить
+            О(1).
+        </p>
+
+
+        <p class="content">
+            Предварительное преобразование входных данных в набор — еще один пример предварительной обработки.
+        </p>
+
+        <div class="code">
+            def find_numbers(nums):
+            <p class="raw1">ans = []</p>
+            <p class="raw1">nums = set(nums)</p>
+            <br>
+            <p class="raw1">for num in nums:</p>
+            <p class="raw2">if (num + 1 not in nums) and (num - 1 not in nums):</p>
+            <p class="raw3">ans.append(num)</p>
+            <br>
+            <p class="raw1">return ans</p>
+        </div>
+
+        <p class="content">
+            Поскольку проверки занимают
+            O(1), временная сложность равна
+            O(n), поскольку каждая итерация цикла for выполняется за постоянное время. Набор займет
+            O(n) пространство.
+        </p>
+
+        <hr>
+
+        <p class="content">
+            Каждый раз, когда вы обнаруживаете, что ваш алгоритм требует использовать <span>if ... in ...</span>,
+            рассмотрите возможность
+            использования хеш-карты или настройки хранения элементов для выполнения этих операций.
+            О(1). Попробуйте решить эти предстоящие практические задачи, используя то, что вы узнали здесь.
+        </p>
+
+
+        <hr>
+
+
+
+
+
+
+
+    </div>
+
+
+
+</body>
+
+</html>
